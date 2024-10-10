@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    status: 'checking',
+    errorMessage: undefined,
     user: {},
-    errorMessage: undefined
+    status: 'checking',
 };
 
 export const authSlice = createSlice({
@@ -21,9 +21,9 @@ export const authSlice = createSlice({
             state.errorMessage = undefined;
         },
         onLogout: (state, { payload }) => {
-            state.status = 'unauthenticated';
+            state.status = 'not-authenticated';
             state.user = {};
-            state.errorMessage = payload.errorMessage;
+            state.errorMessage = payload;
         },
         onClearErrorMessage: (state) => {
             state.errorMessage = undefined;

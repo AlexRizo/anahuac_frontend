@@ -4,17 +4,17 @@ import { HomePage } from "../admin/pages/HomePage";
 
 export const AnahuacRoutes = [
     {
-        path: '/admin',
+        path: '/',
         element: <AdminLayout/>,
         children: [
             {
-                path: '/home',
+                path: '/',
                 element: <HomePage/>
             }
         ]
     },
     {
         path: '/*',
-        element: <Navigate to="/admin"/>
+        element: <Navigate to="/"/>
     }
 ];

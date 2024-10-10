@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { LoginAdmin, LoginUser } from "../auth";
+import { LoginAdmin, LoginUser } from "../auth/pages";
 
 export const AuthRoutes = [
     {

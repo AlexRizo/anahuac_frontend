@@ -4,7 +4,7 @@ export const LoginUser = () => {
             <div className="border shadow p-6 bg-white w-[460px]">
                 <div className="text-center">
                     <h1 className="text-2xl font-medium">Examen de Admisión</h1>
-                    <h2 className="text-xl">Secundaria Anáhuac</h2>
+                    <h2 className="text-xl">Preparatoria Anáhuac</h2>
                     <p className="mt-5 text-gray-700">Ingresa con los datos entregados por tu maestro/a</p>
                 </div>
                 <form action="POST">
