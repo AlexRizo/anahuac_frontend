@@ -3,6 +3,8 @@ import { AdminLayout } from "../admin/layout/AdminLayout";
 import { HomePage } from "../admin/pages/HomePage";
 import { ApplicationsPage } from "@/admin/pages";
 
+const lastRoute = localStorage.getItem('lastRoute') || '/';
+
 export const AdminRoutes = [
     {
         path: '/',
@@ -20,6 +22,6 @@ export const AdminRoutes = [
     },
     {
         path: '/*',
-        element: <Navigate to="/"/>
+        element: <Navigate to={lastRoute}/>
     }
 ];

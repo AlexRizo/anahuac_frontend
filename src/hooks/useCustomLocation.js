@@ -5,6 +5,6 @@ export const useCustomLocation = () => {
     const location = useLocation();
 
     useEffect(() => {
-        localStorage.setItem("lastRoute", location);
+        localStorage.setItem("lastRoute", location.pathname);
     }, [location]);
 };
