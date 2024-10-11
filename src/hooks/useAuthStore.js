@@ -9,16 +9,15 @@ export const useAuthStore = () => {
     const startLogin = async (email, password) => {
         dispatch(onChecking());
 
-        console.log({ email, password });
-
         try {
-            const { data } = await anahuacApi.post("/auth/login/admin", { email, password });
+            const { data } = await anahuacApi.post("/auth/login", { email, password });
             localStorage.setItem("token", data.token); 
             localStorage.setItem("token-init-date", new Date().getTime());
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
                     name: data.user.name,
+                    role: data.user.role,
                 }
             })) 
         } catch (error) {
@@ -40,10 +39,12 @@ export const useAuthStore = () => {
             const { data } = await anahuacApi.get("/auth/renew");
             localStorage.setItem("token", data.token);
             localStorage.setItem("token-init-date", new Date().getTime());
+
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
                     name: data.user.name,
+                    role: data.user.role,
                 }
             }));
         } catch (error) {
@@ -61,6 +62,7 @@ export const useAuthStore = () => {
         
         // ? methods
         startLogin,
+        startLogout,
         checkAuthToken,
     }
 };

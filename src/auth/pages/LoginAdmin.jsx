@@ -2,9 +2,8 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuthStore } from "../../hooks";
-import { LoadingComponent } from "../../components";
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/components/ui";
+import { useAuthStore } from "../../hooks";
 import { Anahuac } from "../components";
 
 export const LoginAdmin = () => {

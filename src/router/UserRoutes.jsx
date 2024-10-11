@@ -1,11 +1,11 @@
 import { Navigate } from "react-router-dom";
-import { AdminLayout } from "../admin/layout/AdminLayout";
-import { HomePage } from "../admin/pages/HomePage";
+import { UserLayout } from "../user/layout/UserLayout";
+import { HomePage } from "../user/pages/HomePage";
 
-export const AnahuacRoutes = [
+export const UserRoutes = [
     {
         path: '/',
-        element: <AdminLayout/>,
+        element: <UserLayout/>,
         children: [
             {
                 path: '/',
