@@ -21,7 +21,11 @@ export const useAuthStore = () => {
                 }
             })) 
         } catch (error) {
-            dispatch(onLogout(error.response.data.message || Object.values(error.response.data.errors).map((error) => error.message).join(", ")));
+            const errorMessage = error?.response?.data.message ||
+                                 (error?.response?.data?.errors && Object.values(error.response.data.errors).map((err) => err.message).join(", ")) ||
+                                 "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
+
+            dispatch(onLogout(errorMessage));
         }
     }
 

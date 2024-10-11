@@ -4,3 +4,7 @@ export * from './form';
 export * from './label';
 export * from './input';
 export * from './switch';
+export * from './popover';
+export * from './calendar';
+export * from './table';
+export * from './select';

@@ -1,7 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { AdminLayout } from "../admin/layout/AdminLayout";
-import { HomePage } from "../admin/pages/HomePage";
-import { ApplicationsPage } from "@/admin/pages";
+import { HomePage, ApplicationsPage, NewApplicationPage } from "@/admin/pages";
 
 const lastRoute = localStorage.getItem('lastRoute') || '/';
 
@@ -16,12 +15,16 @@ export const AdminRoutes = [
             },
             {
                 path: '/aplicaciones',
-                element: <ApplicationsPage />
+                element: <ApplicationsPage />,
+            },
+            {
+                path:'/aplicaciones/nueva',
+                element: <NewApplicationPage />
             }
         ]
     },
     {
         path: '/*',
-        element: <Navigate to={lastRoute}/>
+        element: <Navigate to={ lastRoute }/>
     }
 ];

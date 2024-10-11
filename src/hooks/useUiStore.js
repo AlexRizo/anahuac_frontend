@@ -27,7 +27,8 @@ export const useUiStore = () => {
                 dispatch(onActiveSystem(data.systemStatus.value));
             }
         } catch (error) {
-            console.log({ error });
+            console.warn('No se ha podido comunicar con el servicio. Error: 500');
+            console.log({error});
         }
     };
     
