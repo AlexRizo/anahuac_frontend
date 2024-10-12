@@ -1,6 +1,6 @@
 import { Button, Input, Label } from "@/components/ui"
 import { CirclePlus } from "lucide-react"
-import { CustomTable, DatePicker } from "../components"
+import { AppsTable, DatePicker } from "../components"
 import { Link } from "react-router-dom"
 
 export const ApplicationsPage = () => {
@@ -28,7 +28,7 @@ export const ApplicationsPage = () => {
                         <DatePicker />
                     </div>
                 </div>
-                <CustomTable />
+                <AppsTable />
             </div>
         </main>
     )

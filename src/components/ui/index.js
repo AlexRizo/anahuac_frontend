@@ -8,3 +8,4 @@ export * from './popover';
 export * from './calendar';
 export * from './table';
 export * from './select';
+export * from './radio-group';

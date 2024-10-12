@@ -26,31 +26,38 @@ import {
     FormLabel,
     FormControl,
     FormMessage,
+    Input,
+    RadioGroup,
+    RadioGroupItem
 } from "@/components/ui";
 
 import localCustom from "../helpers/localCustom";
-import { Input } from "postcss";
+import { useAppStore } from "@/hooks";
 
 export const NewApplicationPage = () => {
+    const { startCreateApp } = useAppStore();
+    
     const zodSchema = z.object({
         date: z.date({ 
             required_error: '* Este campo es obligatorio.'
         }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
         applicator: z.string().min(1, '* El aplicador es obligatorio.'),
-        name: z.string().min(1, '* Ha ocurrido un error desconocido.')
+        origin: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
+        keys: z.preprocess((val) => Number(val), z.number().max(100, '* Sólo se permiten 100 claves por aplicación.').optional()),
     });
     
     const { control, handleSubmit, formState: { errors },  ...form } = useForm({
         defaultValues: {
             date: undefined,
             applicator: '',
-            name: ''
+            origin: 'SECUNDARIA',
+            keys: 20
         },
         resolver: zodResolver(zodSchema)
     });
 
     const onSubmit = handleSubmit((data) => {
-        console.log(data);
+        startCreateApp(data);
     });
 
 
@@ -71,21 +78,42 @@ export const NewApplicationPage = () => {
                 <CardContent>
                     <Form { ...form }>
                         <form action="POST" onSubmit={ onSubmit } className="flex flex-col gap-5">
-                            {/* <FormField
-                                name="name"
+                            <FormField
+                                name="origin"
                                 control={ control }
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Nombre de la aplicación</FormLabel>
+                                        <FormLabel>Tipo de aplicación de examen:</FormLabel>
                                         <FormControl>
-                                            <Input { ...field } placeholder="Nombre de la aplicación" />
+                                            <RadioGroup
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                                className="flex gap-10"
+                                                >
+                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                    <FormControl>
+                                                        <RadioGroupItem value="SECUNDARIA" />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal">
+                                                        Secundaria
+                                                    </FormLabel>
+                                                </FormItem>
+                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                    <FormControl>
+                                                        <RadioGroupItem value="PREPARATORIA" />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal">
+                                                        Preparatoria
+                                                    </FormLabel>
+                                                </FormItem>
+                                            </RadioGroup>
                                         </FormControl>
                                         <FormMessage >
-                                            { errors.name && errors.name.message }
+                                            { errors.origin && errors.origin.message }
                                         </FormMessage>
                                     </FormItem>
                                 )}
-                            /> */}
+                            />
                             <FormField
                                 name="date"
                                 control={ control }
@@ -153,6 +181,26 @@ export const NewApplicationPage = () => {
                                         </FormControl>
                                         <FormMessage >
                                             { errors.applicator && errors.applicator.message }
+                                        </FormMessage>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                name="keys"
+                                control={ control }
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Número de claves de admisión</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="number"
+                                                max={ 100 }
+                                                value={ field.value }
+                                                { ...field }
+                                            />
+                                        </FormControl>
+                                        <FormMessage >
+                                            { errors.keys && errors.keys.message }
                                         </FormMessage>
                                     </FormItem>
                                 )}
