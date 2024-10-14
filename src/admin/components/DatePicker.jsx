@@ -16,10 +16,6 @@ import localCustom from "../helpers/localCustom"
 export const DatePicker = () => {
     const [date, setDate] = useState({ from: new Date(), to: addDays(new Date(), 7) })
     
-    useEffect(() => {
-        console.log(date)
-    }, [date])
-    
     return (
         <Popover>
             <PopoverTrigger asChild>

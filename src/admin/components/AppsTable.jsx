@@ -15,29 +15,31 @@ export const AppsTable = () => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[5%]" >#</TableHead>
-                        <TableHead className="w-[15%]" >ID Aplicación</TableHead>
-                        <TableHead className="w-[35%]" >Fecha de Aplicación</TableHead>
-                        <TableHead className="w-[15%]" >Status</TableHead>
-                        <TableHead className="w-[10%]" >Aplicador</TableHead>
-                        <TableHead className="w-[10%] text-center" >Resultados</TableHead>
-                        <TableHead className="w-[10%] text-center" >Acciones</TableHead>
+                        <TableHead >#</TableHead>
+                        <TableHead >ID Aplicación</TableHead>
+                        <TableHead >Fecha de Aplicación</TableHead>
+                        <TableHead >Status</TableHead>
+                        <TableHead >Aplicador</TableHead>
+                        <TableHead >Keys</TableHead>
+                        <TableHead className="text-center" >Resultados</TableHead>
+                        <TableHead className="text-center" >Acciones</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {
                         applications.map((app, index) => (
-                            <TableRow>
-                                <TableCell>{ index }</TableCell>
+                            <TableRow key={ app.id }>
+                                <TableCell>{ index + 1 }</TableCell>
                                 <TableCell>{ app.name }</TableCell>
                                 <TableCell>{ app.date }</TableCell>
                                 <TableCell>{ app.status }</TableCell>
-                                <TableCell>
-                                    <div className="flex">
+                                <TableCell className="flex gap-1">
                                         <User size={20} absoluteStrokeWidth strokeWidth={1.50} />
-                                        Tere Ramos
-                                    </div>
+                                        <p className="truncate">
+                                            { app.user.name }
+                                        </p>
                                 </TableCell>
+                                <TableCell>keys</TableCell>
                                 <TableCell>
                                     <Ban className="m-auto" size={20} absoluteStrokeWidth strokeWidth={1.50}/>
                                 </TableCell>

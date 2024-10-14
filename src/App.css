@@ -1,3 +1,10 @@
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
 .login-loading-bar-animation {
   animation: login-loading-bar 1.5s infinite ease-in-out;
   top: 0;

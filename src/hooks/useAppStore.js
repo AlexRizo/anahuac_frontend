@@ -1,5 +1,6 @@
 import { onAddApplication, onLoadApplications, setLoadState } from "@/store/app/appSlice";
 import { useDispatch, useSelector } from "react-redux";
+import anahuacApi from "@/api/api";
 
 export const useAppStore = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export const useAppStore = () => {
 
         try {
             const { data } = await anahuacApi.get('/application/getapps');
-            dispatch(onLoadApplications(data));
+            dispatch(onLoadApplications(data.applications));
         } catch (error) {
             console.log(error);
             dispatch(setLoadState('loaded'));
@@ -23,7 +24,7 @@ export const useAppStore = () => {
 
         try {
             const { data } = await anahuacApi.post('/application/createapp', app);
-            dispatch(onAddApplication(data));
+            dispatch(onAddApplication(data.application));
         } catch (error) {
             console.log(error);
             dispatch(setLoadState('loaded'));
