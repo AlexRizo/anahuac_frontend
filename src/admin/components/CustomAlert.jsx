@@ -1,11 +1,16 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui"
-import { TriangleAlert } from "lucide-react"
+import { Rocket, TriangleAlert } from "lucide-react"
 
-export const CustomAlert = ({ message, variant }) => {
+export const CustomAlert = ({ title, message, variant }) => {
     return (
         <Alert variant={ variant } className="mb-4 mt-1" >
+            {
+                variant === 'success'
+                        ? <Rocket size={20} strokeWidth={1.25} absoluteStrokeWidth />
+                        : <TriangleAlert size={20} strokeWidth={1.25} absoluteStrokeWidth />
+            }
             <TriangleAlert size={20} strokeWidth={1.25} absoluteStrokeWidth />
-            <AlertTitle>Ha ocurrido un error</AlertTitle>
+            <AlertTitle>{ title }</AlertTitle>
             <AlertDescription>
                 { message }
             </AlertDescription>

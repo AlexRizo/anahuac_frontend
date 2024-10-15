@@ -1,8 +1,13 @@
 import { useAppStore } from "@/hooks";
 import { ApplicationConfirm, ApplicationForm } from "../views";
+import { useEffect } from "react";
 
 export const NewApplicationPage = () => {
-    const { ok } = useAppStore();
+    const { ok, cleanActiveApp } = useAppStore();
+    
+    useEffect(() => {
+        cleanActiveApp();
+    }, []);
     
     return (
         <main className="w-full relative">

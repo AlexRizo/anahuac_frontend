@@ -5,6 +5,11 @@ import { appSlice } from "./app/appSlice";
 import { usersSlice } from "./users/usersSlice";
 
 export const store = configureStore({
+    middleware: getDefaultMiddleware => getDefaultMiddleware(
+        {
+            serializableCheck: false
+        }
+    ),
     reducer: {
         //? Add the reducer here
         auth: authSlice.reducer,

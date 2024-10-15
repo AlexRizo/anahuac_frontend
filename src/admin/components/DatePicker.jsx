@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { addDays, format } from "date-fns"
 
 import {
@@ -13,8 +13,7 @@ import { cn } from "@/lib/utils"
 import { CalendarIcon } from "lucide-react"
 import localCustom from "../helpers/localCustom"
 
-export const DatePicker = () => {
-    const [date, setDate] = useState({ from: new Date(), to: addDays(new Date(), 7) })
+export const DatePicker = ({ date, setDate }) => {
     
     return (
         <Popover>
@@ -38,7 +37,7 @@ export const DatePicker = () => {
                         format(date.from, "dd MMMM y", { locale: localCustom })
                     )
                     ) : (
-                    <span>Pick a date</span>
+                    <span>Selecciona un rango de fechas</span>
                     )}
                 </Button>
             </PopoverTrigger>
@@ -51,6 +50,7 @@ export const DatePicker = () => {
                     onSelect={ setDate }
                     numberOfMonths={ 2 }
                     locale={ localCustom }
+                    
                 />
             </PopoverContent>
         </Popover>

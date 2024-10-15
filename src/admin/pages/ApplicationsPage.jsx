@@ -1,6 +1,6 @@
-import { Button, Input, Label } from "@/components/ui"
+import { Button } from "@/components/ui"
 import { CirclePlus } from "lucide-react"
-import { AppsTable, DatePicker } from "../components"
+import { AppsTable } from "../components"
 import { Link } from "react-router-dom"
 
 export const ApplicationsPage = () => {
@@ -19,15 +19,6 @@ export const ApplicationsPage = () => {
                 <hr />
             </div>
             <div className="px-14 py-6">
-                <div className="flex justify-between mb-5">
-                    <div>
-                        <Input type="text" placeholder="Buscar aplicación..." className="transition w-[251px] shadow-sm" />
-                    </div>
-                    <div>
-                        <Label className="mr-5">Selecciona una fecha de aplicación de examen:</Label>
-                        <DatePicker />
-                    </div>
-                </div>
                 <AppsTable />
             </div>
         </main>

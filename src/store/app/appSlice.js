@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+    activeApplication: null,
     applications: [],
     isLoading: 'loaded', // error, loading, loaded
     message: null, // null, true, false
@@ -15,6 +16,7 @@ export const appSlice = createSlice({
             state.applications = payload;
             state.isLoading = 'loaded';
             state.message = null;
+            state.activeApplication = null,
             state.ok = false;
         },
         onAddApplication: (state, { payload }) => {
@@ -22,6 +24,7 @@ export const appSlice = createSlice({
             state.isLoading = 'loaded';
             state.message = null;
             state.ok = true;
+            state.activeApplication = payload;
         },
         onRemoveApplication: (state, { payload }) => {
             state.applications = state.applications.filter(application => application.id !== payload);
@@ -46,6 +49,9 @@ export const appSlice = createSlice({
         setOk: (state, { payload }) => {
             state.ok = payload;
         },
+        setActiveApplication: (state, { payload }) => {
+            state.activeApplication = payload;
+        },
     },
 });
 
@@ -54,6 +60,7 @@ export const {
   onAddApplication,
   onUpdateApplication,
   onRemoveApplication,
+  setActiveApplication,
   setLoadState,
   setMessage,
   setOk,

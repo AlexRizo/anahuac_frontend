@@ -51,7 +51,7 @@ export const ApplicationForm = () => {
             required_error: '* Este campo es obligatorio.'
         }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
         user: z.string().min(1, '* El aplicador es obligatorio.'),
-        origin: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
+        type: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
         keys: z.preprocess((val) => Number(val), z.number().max(100, '* Sólo se permiten 100 claves por aplicación.').optional()),
     });
     
@@ -59,7 +59,7 @@ export const ApplicationForm = () => {
         defaultValues: {
             date: undefined,
             user: '',
-            origin: 'SECUNDARIA',
+            type: 'SECUNDARIA',
             keys: 20
         },
         resolver: zodResolver(zodSchema)
@@ -77,7 +77,7 @@ export const ApplicationForm = () => {
                 <Form { ...form }>
                     <form action="POST" onSubmit={ onSubmit } className="flex flex-col gap-5">
                         <FormField
-                            name="origin"
+                            name="type"
                             control={ control }
                             render={({ field }) => (
                                 <FormItem>
