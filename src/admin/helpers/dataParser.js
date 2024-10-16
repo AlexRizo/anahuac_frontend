@@ -1,11 +1,11 @@
 import { format } from "date-fns";
 import localCustom from "./localCustom";
 
-const customParseISO = (date) => {
+export const customParseISO = (date) => {
     return format(date, 'dd MMMM y', { locale: localCustom });
 };
 
-const capitalizeFirstLetter = (string) => {
+export const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };
 

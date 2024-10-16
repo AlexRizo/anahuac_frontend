@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,13 +38,9 @@ import { CustomAlert } from "../components";
 
 export const ApplicationForm = () => {
     const { startCreateApp, isLoading, message } = useAppStore();
-    const { admins, startLoadingAdmins } = useUsersStore();
+    const { admins } = useUsersStore();
 
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
-
-    useEffect(() => {
-        startLoadingAdmins();
-    }, []);
     
     const zodSchema = z.object({
         date: z.date({ 
@@ -52,7 +48,7 @@ export const ApplicationForm = () => {
         }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
         user: z.string().min(1, '* El aplicador es obligatorio.'),
         type: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
-        keys: z.preprocess((val) => Number(val), z.number().max(100, '* Sólo se permiten 100 claves por aplicación.').optional()),
+        keys: z.preprocess((val) => Number(val), z.number().max(25, '* En este momento sólo se permiten crear hasta 25 claves.').optional()),
     });
     
     const { control, handleSubmit, formState: { errors },  ...form } = useForm({
@@ -60,7 +56,7 @@ export const ApplicationForm = () => {
             date: undefined,
             user: '',
             type: 'SECUNDARIA',
-            keys: 20
+            keys: 0
         },
         resolver: zodResolver(zodSchema)
     });
@@ -69,7 +65,7 @@ export const ApplicationForm = () => {
         startCreateApp(data);
     });
     return (
-        <Card className={`w-[360px] h-min flex flex-col justify-between shadow-sm ${ isLoadingData && 'opacity-60' }`} > 
+        <Card className={`w-[360px] h-min flex flex-col justify-between shadow-sm ${ isLoadingData && 'opacity-60 pointer-events-none' }`} > 
             <CardHeader>
                 <CardTitle>Crea una aplicación de examen</CardTitle>
             </CardHeader>
@@ -194,7 +190,8 @@ export const ApplicationForm = () => {
                                     <FormControl>
                                         <Input
                                             type="number"
-                                            max={ 100 }
+                                            max={ 25 }
+                                            min={ 0 }
                                             value={ field.value }
                                             { ...field }
                                         />
@@ -208,7 +205,7 @@ export const ApplicationForm = () => {
                         <div>
                             {
                                 message && (
-                                    <CustomAlert variant='destructive' message={ message } />
+                                    <CustomAlert variant='destructive' title="Ha ocurrido un error." message={ message } />
                                 )
                             }
                             <p className="text-muted-foreground text-sm mb-3">

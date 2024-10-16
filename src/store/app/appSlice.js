@@ -20,17 +20,11 @@ export const appSlice = createSlice({
             state.ok = false;
         },
         onAddApplication: (state, { payload }) => {
-            state.applications = [...state.applications, payload];
+            state.applications = [payload, ...state.applications];
             state.isLoading = 'loaded';
             state.message = null;
             state.ok = true;
             state.activeApplication = payload;
-        },
-        onRemoveApplication: (state, { payload }) => {
-            state.applications = state.applications.filter(application => application.id !== payload);
-            state.isLoading = 'loaded';
-            state.message = null;
-            state.ok = true;
         },
         onUpdateApplication: (state, { payload }) => {
             state.applications = state.applications.map(application => 
@@ -39,6 +33,12 @@ export const appSlice = createSlice({
             state.isLoading = 'loaded';
             state.message = null;
             state.ok = true;
+        },
+        onRemoveApplication: (state, { payload }) => {
+            state.applications = state.applications.filter(application => application.id !== payload);
+            state.isLoading = 'loaded';
+            state.message = null;
+            state.ok = false;
         },
         setLoadState: (state, { payload }) => {
             state.isLoading = payload;

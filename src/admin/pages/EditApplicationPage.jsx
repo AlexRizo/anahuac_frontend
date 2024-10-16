@@ -1,21 +1,16 @@
-import { useAppStore } from "@/hooks";
-import { ApplicationConfirm, ApplicationForm } from "../views";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { ApplicationConfirm, ApplicationEdit } from "../views"
 import { CustomAlert } from "../components";
 
-export const NewApplicationPage = () => {
-    const { ok, cleanActiveApp } = useAppStore();
-    
-    useEffect(() => {
-        cleanActiveApp();
-    }, []);
+export const EditApplicationPage = () => {
+    const { ok } = useSelector( state => state.app );
     
     return (
         <main className="w-full relative">
             <div>
                 <nav className="flex items-center gap-5 px-14 py-8">
                     <h1 className="text-3xl font-semibold">Aplicaciones</h1>
-                    <p className="text-gray-400 pt-1"> / Crear nueva</p>
+                    <p className="text-gray-400 pt-1"> / Editar aplicación</p>
                 </nav>
                 <hr />
             </div>
@@ -24,14 +19,14 @@ export const NewApplicationPage = () => {
                     ok ? (
                         <div>
                             <CustomAlert
-                                title="Nueva aplicación creada"
-                                message={`Se ha creado una nueva fecha de examen de admisión exitosamente.`}
+                                title="Aplicación actualizada"
+                                message={`Se ha actualizado la aplicación corréctamente.`}
                                 variant="success"
                             />
                             <ApplicationConfirm/>
                         </div>
                     ) : (
-                        <ApplicationForm/>
+                        <ApplicationEdit />
                     )
                 }
             </div>

@@ -1,11 +1,20 @@
-import { onAddApplication, onLoadApplications, setActiveApplication, setLoadState, setMessage, setOk } from "@/store/app/appSlice";
-import { useDispatch, useSelector } from "react-redux";
-import anahuacApi from "@/api/api";
-import { dataParser } from "@/admin/helpers";
 import { addDays } from "date-fns";
+import anahuacApi from "@/api/api";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "./";
+import {
+  onAddApplication,
+  onLoadApplications,
+  onRemoveApplication,
+  setActiveApplication,
+  setLoadState,
+  setMessage,
+  setOk,
+} from "@/store/app/appSlice";
 
 export const useAppStore = () => {
     const dispatch = useDispatch();
+    const { toast } = useToast();
     const { activeApplication, applications, isLoading, ok, message } = useSelector((state) => state.app);
 
     const onSetMessage = (message) => {
@@ -22,7 +31,7 @@ export const useAppStore = () => {
         
         try {
             const { data } = await anahuacApi.get('/application/getapps', { params: { page, limit } });
-            dispatch(onLoadApplications(dataParser(data.applications)));
+            dispatch(onLoadApplications(data.applications));
             return data.pages; // ? return the number of pages;
         } catch (error) {
             dispatch(setLoadState('error'));
@@ -36,7 +45,7 @@ export const useAppStore = () => {
         try {
             const { data } = await anahuacApi.get('/application/getappsbydate', { params: { page, from, to } });
             console.log({data});
-            dispatch(onLoadApplications(dataParser(data.applications)));
+            dispatch(onLoadApplications(data.applications));
             return data.pages; // ? return the number of pages;
         } catch (error) {
             dispatch(setLoadState('error'));
@@ -50,16 +59,72 @@ export const useAppStore = () => {
         try {
             const { data } = await anahuacApi.post('/application/createapp', app);
             if (applications.length < 10) {
-                dispatch(onAddApplication(dataParser([data.application])[0]));
+                dispatch(onAddApplication(data.application));
             } else {
-                dispatch(setActiveApplication(dataParser([data.application])[0]));
                 dispatch(setLoadState('loaded'));
                 dispatch(setOk(true));
             }
+            dispatch(setActiveApplication({ keys: data.keys, ...data.application }));
         } catch (error) {
             dispatch(setLoadState('error'));
             onSetMessage(error);
         }
+    };
+
+    const startUpdateApp = async (app) => {
+        dispatch(setLoadState('loading'));
+
+        try {
+            const { data } = await anahuacApi.put(`/application/updateapp/${ app.id }`, app);
+            dispatch(setActiveApplication(data.application));
+            dispatch(setLoadState('loaded'));
+            dispatch(setOk(true));
+        } catch (error) {
+            dispatch(setLoadState('error'));
+            onSetMessage(error);
+        }
+    }
+
+    const startDeleteApp = async ({ id, name }) => {
+        dispatch(setLoadState('loading'));
+
+        try {
+            await anahuacApi.delete(`/application/deleteapp/${ id }`);
+            dispatch(onRemoveApplication(id));
+            dispatch(setLoadState('loaded'));
+            dispatch(setOk(true));
+            toast({
+                title: 'Aplicación eliminada',
+                description: `La aplicación con el ID: ${ name } se ha eliminado correctamente`,
+                variant: 'success',
+            })
+        } catch (error) {
+            dispatch(setLoadState('error'));
+            onSetMessage(error);
+            toast({
+                title: 'Error al eliminar',
+                description: `La aplicación con el ID: ${ name } no se ha podido eliminar. Inténtalo de nuevo o más tarde.`,
+                variant: 'destructive',
+            })
+        }
+    };
+
+    const startLoadActiveApplication = async (id) => {
+        dispatch(setLoadState('loading'));
+
+        try {
+            const { data } = await anahuacApi.get(`/application/getapp/${ id }`);
+            dispatch(setActiveApplication(data.application));
+            dispatch(setLoadState('loaded'));
+        } catch (error) {
+            dispatch(setLoadState('error'));
+            onSetMessage(error);
+        }
+    };
+
+    const startSetActiveApplication = (id) => {
+        const app = applications.find((app) => app.id === id);
+        dispatch(setActiveApplication(app));
     };
 
     const cleanActiveApp = () => {
@@ -80,7 +145,11 @@ export const useAppStore = () => {
 
         // ? methods
         startCreateApp,
+        startUpdateApp,
+        startDeleteApp,
         startLoadingApps,
         startLoadingAppsByDate,
+        startLoadActiveApplication,
+        startSetActiveApplication,
     };
 };

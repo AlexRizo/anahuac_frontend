@@ -3,6 +3,7 @@ import { authSlice } from "./auth/authSlice";
 import { uiSlice } from "./ui/uiSlice";
 import { appSlice } from "./app/appSlice";
 import { usersSlice } from "./users/usersSlice";
+import { keysSlice } from "./keys/keysSlice";
 
 export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware(
@@ -16,5 +17,6 @@ export const store = configureStore({
         ui: uiSlice.reducer,
         app: appSlice.reducer,
         users: usersSlice.reducer,
+        keys: keysSlice.reducer,
     },
 });

@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { Ban, Edit, KeyRound, Trash, User } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input } from "@/components/ui"
 import { useAppStore } from "@/hooks";
-import { DatePicker } from ".";
+import { AlertDialogDelete, DatePicker } from "./";
+import { useNavigate } from "react-router-dom";
+import { capitalizeFirstLetter, customParseISO } from "../helpers";
 
 export const AppsTable = () => {
-    const { applications, startLoadingApps, startLoadingAppsByDate } = useAppStore();
+    const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication } = useAppStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [date, setDate] = useState({ from: null, to: null });
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchApps = async () => {
@@ -22,8 +26,6 @@ export const AppsTable = () => {
             setTotalPages(pages);
         };
 
-        console.log({date});
-        
         if (date?.from && date?.to) {
             fetchAppsByDate();
         } else {
@@ -32,6 +34,10 @@ export const AppsTable = () => {
     }, [page, date]);
 
     const handlePageChange = (page) => setPage(page);
+
+    const handleNavigate = (path) => {
+        navigate(path);
+    };
 
     return (
         <>
@@ -65,9 +71,9 @@ export const AppsTable = () => {
                                 <TableRow key={ app.id }>
                                     <TableCell>{ index + 1 }</TableCell>
                                     <TableCell>{ app.name }</TableCell>
-                                    <TableCell>{ app.origin }</TableCell>
-                                    <TableCell>{ app.date }</TableCell>
-                                    <TableCell>{ app.status }</TableCell>
+                                    <TableCell>{ capitalizeFirstLetter(app.origin) }</TableCell>
+                                    <TableCell>{ customParseISO(app.date) }</TableCell>
+                                    <TableCell>{ capitalizeFirstLetter(app.status) }</TableCell>
                                     <TableCell className="flex gap-1">
                                             <User size={20} absoluteStrokeWidth strokeWidth={1.50} />
                                             <p className="truncate">
@@ -75,15 +81,35 @@ export const AppsTable = () => {
                                             </p>
                                     </TableCell>
                                     <TableCell>
-                                        <KeyRound strokeWidth={1.25} className="m-auto" />
+                                        <KeyRound
+                                            strokeWidth={1.25}
+                                            className="m-auto"
+                                            onClick={ () => handleNavigate(`/aplicaciones/${ app.id }/claves`) }
+                                        />
                                     </TableCell>
                                     <TableCell>
                                         <Ban className="m-auto" size={20} absoluteStrokeWidth strokeWidth={1.50}/>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-5">
-                                            <Edit size={20} absoluteStrokeWidth strokeWidth={1.50} />
-                                            <Trash size={20} absoluteStrokeWidth strokeWidth={1.50} />
+                                            <Edit 
+                                                size={20} 
+                                                absoluteStrokeWidth 
+                                                strokeWidth={1.50}
+                                                className="cursor-pointer"
+                                                onClick={ () => {
+                                                    startSetActiveApplication(app.id);
+                                                    handleNavigate(`/aplicaciones/editar/${ app.id }`)
+                                                }}
+                                            />
+                                            <AlertDialogDelete mongoId={ app.id } name={ app.name }>
+                                                <Trash 
+                                                    size={20} 
+                                                    absoluteStrokeWidth 
+                                                    strokeWidth={1.50}
+                                                    className="cursor-pointer"
+                                                />
+                                            </AlertDialogDelete>
                                         </div>
                                     </TableCell>
                                 </TableRow>
