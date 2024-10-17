@@ -5,6 +5,22 @@
   max-width: 140px;
 }
 
+.button-number-decoration {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  margin: 0;
+}
+
+/* input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+} */
+
 .login-loading-bar-animation {
   animation: login-loading-bar 1.5s infinite ease-in-out;
   top: 0;

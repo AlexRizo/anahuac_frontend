@@ -4,6 +4,7 @@ const initialState = {
     keys: [],
     total: 0,
     isLoading: 'loading', // loading, loaded, error
+    message: null
 };
 
 export const keysSlice = createSlice({
@@ -14,11 +15,22 @@ export const keysSlice = createSlice({
             state.keys = payload;
             state.total = payload.length;
             state.isLoading = 'loaded';
+            state.message = null;
+        },
+        onAddKey: (state, { payload }) => {
+            const keys = payload.map(key => (key));
+            
+            state.keys = [...state.keys, ...keys];
+            state.total = state.keys.length;
+            state.isLoading = 'loaded';
         },
         setIsLoading: (state, { payload }) => {
             state.isLoading = payload;
         },
+        setMessage: (state, { payload }) => {
+            state.message = payload;
+        },
     },
 });
 
-export const { onLoadKeys, setIsLoading } = keysSlice.actions;
+export const { onLoadKeys, onAddKey, setIsLoading, setMessage } = keysSlice.actions;

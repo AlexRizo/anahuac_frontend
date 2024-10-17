@@ -42,6 +42,7 @@ export const appSlice = createSlice({
         },
         setLoadState: (state, { payload }) => {
             state.isLoading = payload;
+            if (payload === 'loading') state.applications = [];
         },
         setMessage: (state, { payload }) => {
             state.message = payload;

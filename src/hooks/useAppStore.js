@@ -35,7 +35,7 @@ export const useAppStore = () => {
             return data.pages; // ? return the number of pages;
         } catch (error) {
             dispatch(setLoadState('error'));
-            setMessage(error);
+            onSetMessage(error);
         }
     };
 

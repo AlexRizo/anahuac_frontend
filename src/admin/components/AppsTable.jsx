@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
-import { Ban, Edit, KeyRound, Trash, User } from "lucide-react"
-import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input } from "@/components/ui"
+import { useEffect, useMemo, useState } from "react";
+import { Ban, Edit, KeyRound, LoaderCircle, Trash, User } from "lucide-react"
+import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
 import { useAppStore } from "@/hooks";
 import { AlertDialogDelete, DatePicker } from "./";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
 
 export const AppsTable = () => {
-    const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication } = useAppStore();
+    const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [date, setDate] = useState({ from: null, to: null });
+    const isLoadingApp = useMemo(() => isLoading === 'loading', [isLoading]);
 
     const navigate = useNavigate();
 
@@ -52,6 +53,16 @@ export const AppsTable = () => {
             </div>
             <div className="border rounded">
                 <Table>
+                    {
+                        isLoadingApp && (
+                            <TableCaption>
+                                <div className="flex items-center justify-center w-full overflow-hidden mb-4">
+                                    <LoaderCircle size={20} className="animate-spin mr-1"/>
+                                    <span className="text-gray-600">Cargando...</span>
+                                </div>
+                            </TableCaption>
+                        )
+                    }
                     <TableHeader>
                         <TableRow>
                             <TableHead >#</TableHead>
@@ -83,8 +94,11 @@ export const AppsTable = () => {
                                     <TableCell>
                                         <KeyRound
                                             strokeWidth={1.25}
-                                            className="m-auto"
-                                            onClick={ () => handleNavigate(`/aplicaciones/${ app.id }/claves`) }
+                                            className="m-auto cursor-pointer hover:text-orange-500 transition"
+                                            onClick={ () => {
+                                                startSetActiveApplication(app.id);
+                                                handleNavigate(`/aplicaciones/${ app.id }/claves`)
+                                            }}
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -96,7 +110,7 @@ export const AppsTable = () => {
                                                 size={20} 
                                                 absoluteStrokeWidth 
                                                 strokeWidth={1.50}
-                                                className="cursor-pointer"
+                                                className="cursor-pointer hover:text-blue-500 transition"
                                                 onClick={ () => {
                                                     startSetActiveApplication(app.id);
                                                     handleNavigate(`/aplicaciones/editar/${ app.id }`)
@@ -107,7 +121,7 @@ export const AppsTable = () => {
                                                     size={20} 
                                                     absoluteStrokeWidth 
                                                     strokeWidth={1.50}
-                                                    className="cursor-pointer"
+                                                    className="cursor-pointer hover:text-red-600 transition"
                                                 />
                                             </AlertDialogDelete>
                                         </div>

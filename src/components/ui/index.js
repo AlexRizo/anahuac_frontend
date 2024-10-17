@@ -13,3 +13,4 @@ export * from './alert';
 export * from './alert-dialog';
 export * from './toast';
 export * from './toaster';
+export * from './dialog';
