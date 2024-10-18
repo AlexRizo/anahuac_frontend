@@ -104,7 +104,6 @@ export const ApplicationKeysPage = () => {
                     </div>
                 </div>
 
-
                 <div className="flex items-center justify-center gap-5 mt-32">
                     <Button variant="outline" onClick={ () => navigate('/aplicaciones') }>
                         <CalendarDays size={18} strokeWidth={1.25} className="mr-2"/>

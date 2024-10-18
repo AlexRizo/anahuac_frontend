@@ -1,7 +1,7 @@
 import { addDays } from "date-fns";
 import anahuacApi from "@/api/api";
 import { useDispatch, useSelector } from "react-redux";
-import { useToast } from "./";
+import { useToast, useKeysStore } from "./";
 import {
   onAddApplication,
   onLoadApplications,
@@ -16,6 +16,7 @@ export const useAppStore = () => {
     const dispatch = useDispatch();
     const { toast } = useToast();
     const { activeApplication, applications, isLoading, ok, message } = useSelector((state) => state.app);
+    const { startCleanKeys } = useKeysStore();
 
     const onSetMessage = (message) => {
         const errorMessage = message?.response?.data.message ||
@@ -28,6 +29,7 @@ export const useAppStore = () => {
     
     const startLoadingApps = async({ page = 1, limit = 10 }) => {
         dispatch(setLoadState('loading'));
+        startCleanKeys();
         
         try {
             const { data } = await anahuacApi.get('/application/getapps', { params: { page, limit } });

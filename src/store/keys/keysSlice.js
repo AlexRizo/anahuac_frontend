@@ -24,6 +24,12 @@ export const keysSlice = createSlice({
             state.total = state.keys.length;
             state.isLoading = 'loaded';
         },
+        onCleanKeys: (state) => {
+            state.keys = [];
+            state.total = 0;
+            state.isLoading = 'loaded';
+            state.message = null;
+        },
         setIsLoading: (state, { payload }) => {
             state.isLoading = payload;
         },
@@ -33,4 +39,4 @@ export const keysSlice = createSlice({
     },
 });
 
-export const { onLoadKeys, onAddKey, setIsLoading, setMessage } = keysSlice.actions;
+export const { onLoadKeys, onAddKey, onCleanKeys, setIsLoading, setMessage } = keysSlice.actions;

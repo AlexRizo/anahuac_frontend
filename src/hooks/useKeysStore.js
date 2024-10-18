@@ -1,11 +1,11 @@
-import { onAddKey, onLoadKeys, setIsLoading, setMessage } from "@/store/keys/keysSlice";
+import { onAddKey, onCleanKeys, onLoadKeys, setIsLoading, setMessage } from "@/store/keys/keysSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahiacApi from "@/api/api";
 import { useToast } from "./use-toast";
 
 export const useKeysStore = () => {
     const dispatch = useDispatch();
-    const { keys, total, isLoading } = useSelector( state => state.keys );
+    const { keys, total, isLoading } = useSelector( state => state.key );
     const { toast } = useToast();
 
     const onSetMessage = (message) => {
@@ -51,8 +51,12 @@ export const useKeysStore = () => {
                 title: 'Ha ocurrido un error',
                 description: 'Ocurrió un error al intentar crear las claves. Inténtalo de nuevo.',
                 variant: 'destructive',
-            })
+            });
         };
+    };
+
+    const startCleanKeys = () => {
+        dispatch(onCleanKeys());
     };
     
     return {
@@ -63,6 +67,7 @@ export const useKeysStore = () => {
 
         // ? methods
         startLoadingKeys,
+        startCleanKeys,
         startAddKeys,
     }
 };
