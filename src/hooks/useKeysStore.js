@@ -1,4 +1,4 @@
-import { onAddKey, onCleanKeys, onLoadKeys, setIsLoading, setMessage } from "@/store/keys/keysSlice";
+import { onAddKey, onCleanKeys, onCleanKeyValidation, onInvalidatedKey, onLoadKeys, onValidatedKey, onValidatingKey, setIsLoading, setMessage } from "@/store/keys";
 import { useDispatch, useSelector } from "react-redux";
 import anahiacApi from "@/api/api";
 import { useToast } from "./use-toast";
@@ -6,12 +6,13 @@ import { useToast } from "./use-toast";
 export const useKeysStore = () => {
     const dispatch = useDispatch();
     const { keys, total, isLoading } = useSelector( state => state.key );
+    const { key, status:validateKeyStatus, errorMessage } = useSelector( state => state.keyValidation );
     const { toast } = useToast();
 
     const onSetMessage = (message) => {
         const errorMessage = message?.response?.data.message ||
-                             (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
-                             "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
+            (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
+            "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
         console.log(message);
         dispatch(setMessage(errorMessage));
@@ -55,19 +56,48 @@ export const useKeysStore = () => {
         };
     };
 
+    const startValidateKey = async (key) => {
+        dispatch(onValidatingKey());
+
+        try {
+            const { data } = await anahiacApi.post('/keys/checkkey', { key });
+            dispatch(onValidatedKey(data.key));
+        } catch (error) {
+            const errorMessage = error?.response?.data.message ||
+                (error?.response?.data?.errors && Object.values(error.response.data.errors).map((err) => err.msg).join(", ")) ||
+                "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)"
+            dispatch(onInvalidatedKey(errorMessage));
+            toast({
+                title: 'Error al validar la clave',
+                description: errorMessage,
+                variant: 'destructive',
+            });
+        }
+    }
+
     const startCleanKeys = () => {
         dispatch(onCleanKeys());
     };
     
-    return {
+    return {        
         // ? propiertys
+        // * keySlice
         keys,
         total,
         isLoading,
 
+        // * keyValidationSlice
+        key,
+        validateKeyStatus,
+        errorMessage,
+
         // ? methods
+        // * keySlice
         startLoadingKeys,
         startCleanKeys,
         startAddKeys,
+        
+        // * keyValidationSlice
+        startValidateKey,
     }
 };

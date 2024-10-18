@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     errorMessage: undefined,
     user: {},
+    aspirant: null,
     status: 'checking',
 };
 
@@ -28,7 +29,11 @@ export const authSlice = createSlice({
         onClearErrorMessage: (state) => {
             state.errorMessage = undefined;
         },
+        onSaveAspirant: (state, { payload }) => {
+            state.aspirant = payload.aspirant;
+            state.errorMessage = undefined;
+        }
     },
 });
 
-export const { onChecking, onLogin, onLogout, onClearErrorMessage } = authSlice.actions;
+export const { onChecking, onLogin, onLogout, onSaveAspirant, onClearErrorMessage } = authSlice.actions;
