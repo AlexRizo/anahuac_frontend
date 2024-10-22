@@ -10,7 +10,7 @@ export const AspirantsPage = () => {
             <div>
                 <nav className="flex justify-between px-14 py-8">
                     <h1 className="text-3xl font-semibold">Aspirantes</h1>
-                    <Link to={'/aspirantes/nueva'}>
+                    <Link to={'/aspirantes/nuevo'}>
                         <Button className="gap-2">
                             <CirclePlus size={20} strokeWidth={1.25} absoluteStrokeWidth />
                             Nuevo aspirante

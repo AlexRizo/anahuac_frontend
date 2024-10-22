@@ -142,7 +142,7 @@ export const RegisterUser = () => {
                             <FormItem className="w-full">
                                 <FormLabel>Clave de Activación</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Nombre completo" { ...field } type="text" className="transition" />
+                                    <Input placeholder="Clave de activación" { ...field } type="text" className="transition" disabled />
                                 </FormControl>
                                 <FormMessage >
                                     { errors.key && errors.key.message }
