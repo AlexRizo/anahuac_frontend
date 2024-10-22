@@ -1,11 +1,14 @@
-import { useKeysStore, useUiStore } from "@/hooks";
+import { useState } from "react";
+import { useAuthStore, useKeysStore, useUiStore } from "@/hooks";
 import { Anahuac } from "../components"
-import { CheckKey, RegisterUser } from "../views";
+import { CheckKey, Login, RegisterUser } from "../views";
 import { Toaster } from "@/components/ui";
 
 export const LoginUser = () => {
     const { systemStatus } = useUiStore();
-    const { key, validateKeyStatus, startValidateKey } = useKeysStore();
+    const { validateKeyStatus } = useKeysStore();
+    const { aspirant } = useAuthStore();
+    const [ isRegister, setIsRegister ] = useState(false);
 
     return (
         <>
@@ -34,8 +37,29 @@ export const LoginUser = () => {
                                 <h2 className="text-sm text-slate-500">Atiende las instrucciones del aplicador, él te guiará para acceder a la prueba.</h2>
                             </div>
                             {
-                                validateKeyStatus === 'validated' ? <RegisterUser /> : <CheckKey />
+                                isRegister ? (
+                                    <Login />
+                                ) : (
+                                    <>
+                                        {
+                                            validateKeyStatus === 'validated' ? <RegisterUser /> : <CheckKey />
+                                        }
+                                    </>
+                                )
+
                             }
+                            <p className="py-2 mt-4 text-slate-500 text-sm text-center">
+                                {
+                                    isRegister ? "Si aún no te has registrado, hazlo con tu " : "Si ya realizaste el registro, ingresa con tu "
+                                }
+                                <span 
+                                    className="underline text-orange-400 cursor-pointer"
+                                    onClick={ ( () => setIsRegister(!isRegister) ) }>
+                                        {
+                                            isRegister ? "clave de admisión" : "usuario y contraseña"
+                                        }
+                                    </span>.
+                            </p>
                         </div>
                     </div>
                 }

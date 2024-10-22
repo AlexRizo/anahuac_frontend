@@ -72,10 +72,19 @@ export const AspirantsTable = () => {
                             aspirants.map((aspirant, index) => (
                                 <TableRow key={ aspirant.id }>
                                     <TableCell>{ index + 1 }</TableCell>
-                                    <TableCell>{ aspirant.name }</TableCell>
+                                    <TableCell>{ aspirant.aspirant_id }</TableCell>
+                                    <TableCell>
+                                        { 
+                                            `
+                                                ${ aspirant.first_name } 
+                                                ${ aspirant.last_name_1 } 
+                                                ${ aspirant.last_name_2 }
+                                            `
+                                        }
+                                    </TableCell>
                                     <TableCell>{ capitalizeFirstLetter(aspirant.sex) }</TableCell>
-                                    <TableCell>{ customParseISO(aspirant.origin) }</TableCell>
-                                    <TableCell>{ capitalizeFirstLetter(aspirant.date) }</TableCell>
+                                    <TableCell>{ capitalizeFirstLetter(aspirant.origin) }</TableCell>
+                                    <TableCell>{ customParseISO(aspirant.birthdate) }</TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-5">
                                             <Edit 

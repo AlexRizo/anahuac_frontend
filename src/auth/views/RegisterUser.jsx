@@ -1,26 +1,30 @@
 import { useAuthStore, useKeysStore } from "@/hooks"
-import localCustom from "../helpers/localCustom"
-import { Button, Calendar, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Popover, PopoverContent, PopoverTrigger, RadioGroup, RadioGroupItem } from "@/components/ui"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, RadioGroup, RadioGroupItem } from "@/components/ui"
 import { useForm } from "react-hook-form"
-import { cn } from "@/lib/utils"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Label } from "@radix-ui/react-label"
+import { toZonedTime } from "date-fns-tz"
+import { useMemo } from "react"
+import { LoaderCircle } from "lucide-react"
 
 export const RegisterUser = () => {
-    const { key, isValidating } = useKeysStore();
-    const { startSavingAspirant } = useAuthStore();
+    const { key } = useKeysStore();
+    const { startSavingAspirant, status } = useAuthStore();
+
+    const isValidatingKey = useMemo(() => status === 'checking', [status]);
 
     const zodSchema = z.object({
         first_name: z.string().min(1, '* Introduce tu nombre.'),
         last_name_1: z.string().min(1, '* Introduce tu apellido paterno.'),
-        last_name_2: z.string().min(1, '* Introduce tu apellido materno.'),
+        last_name_2: z.string().optional(),
         sex: z.enum(['MASCULINO', 'FEMENINO'], '* Introduce tu sexo.'),
         key: z.string().min(1, '* Introduce la clave de activación.'),
         birthdate: z.date({
             required_error: '* Introduce tu fecha de nacimiento.',
-        }).min(new Date("1900-01-01"), '* Introduce una fecha válida.'),
+            invalid_type_error: '* Introduce una fecha válida.' ,
+        })
+        .min(new Date("1900-01-01"), '* Introduce una fecha válida.'),
         old_school: z.string().min(1, '* Introduce tu escuela de procedencia.')
     });
     
@@ -40,10 +44,15 @@ export const RegisterUser = () => {
     const onSubmit = handleSubmit((data) => {
         startSavingAspirant(data);
     });
+
+    const parseDate = (value) => {
+        const UTCDate = toZonedTime(value, 'America/Mexico_City')
+        return UTCDate
+    };
     
     return (
         <Form { ...form }>
-            <form action="POST" className="flex flex-col gap-4" onSubmit={ onSubmit }>
+            <form action="POST" className={`flex flex-col gap-4 ${ isValidatingKey && 'opacity-60 pointer-events-none' }`} onSubmit={ onSubmit }>
                 <FormField
                     control={ control }
                     name="first_name"
@@ -141,50 +150,28 @@ export const RegisterUser = () => {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={ control }
-                        name="birthdate"
-                        render={({ field }) => (
-                            <FormItem className="w-full">
-                            <FormLabel>Fecha de Nacimiento</FormLabel>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                <FormControl>
-                                    <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full pl-3 text-left font-normal",
-                                        !field.value && "text-muted-foreground"
-                                    )}
-                                    >
-                                    {field.value ? (
-                                        format(field.value, "PPP", { locale: localCustom })
-                                    ) : (
-                                        <span>Introduce una fecha</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                    mode="single"
-                                    selected={ field.value }
-                                    onSelect={ field.onChange }
-                                    disabled={ (date) =>
-                                    date > new Date() || date < new Date("1900-01-01")
-                                    }
-                                    initialFocus
-                                    locale={ localCustom }
-                                />
-                                </PopoverContent>
-                            </Popover>
-                                <FormMessage >
-                                    { errors.birthdate && errors.birthdate.message }
-                                </FormMessage>
-                            </FormItem>
-                        )}
+                    <div className="space-y-2 w-full">
+                        <Label
+                            htmlFor="birthdate"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            Fecha de Nacimiento
+                        </Label>
+                        <input 
+                            type="date"
+                            name="birthdate"
+                            id="birthdate"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition"
+                            { ...form.register('birthdate', 
+                                {
+                                    setValueAs: value => value ? parseDate(value) : undefined
+                                }
+                            )}
                         />
+                        <FormMessage >
+                            { errors.birthdate && errors.birthdate.message }
+                        </FormMessage>
+                    </div>
                 </div>
                 <FormField
                         control={ control }
@@ -201,8 +188,8 @@ export const RegisterUser = () => {
                             </FormItem>
                         )}
                 />
-                <Button type="submit">
-                    { isValidating ? (
+                <Button type="submit" disabled={ isValidatingKey }>
+                    { isValidatingKey ? (
                         <>
                             <LoaderCircle size={ 20 } className="mr-2 animate-spin" />
                             Registrando...
