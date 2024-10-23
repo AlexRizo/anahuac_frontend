@@ -58,7 +58,7 @@ export const ApplicationEdit = () => {
 
     useEffect(() => {
         if (!app) startLoadActiveApplication(appId);
-    }, [appId, app, startLoadActiveApplication]);
+    }, []);
 
     useEffect(() => {
         if (app) {

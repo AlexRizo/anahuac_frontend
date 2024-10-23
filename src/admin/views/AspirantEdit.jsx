@@ -21,20 +21,16 @@ import {
   Label,
   RadioGroup,
   RadioGroupItem,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from "@/components/ui";
-import { useAppStore, useAspirantsStore } from "@/hooks";
-import { capitalizeFirstLetter, customParseISO } from "../helpers";
+import { useAspirantsStore } from "@/hooks";
+import { getAspirantKey, parseDateForInput } from "../helpers";
 import { CustomAlert } from "../components";
+import { useParams } from "react-router-dom";
 
-export const AspirantAdd = () => {
+export const AspirantEdit = () => {
+    const { id:aspirantId } = useParams();
 
-    const { loading, startManualSavingAspirant, message } = useAspirantsStore();
-    const { startLoadingAllApps, applications } = useAppStore();
+    const { loading, startUpdateAspirant, startLoadingActiveAspirant, activeAspirant:aspirant, message } = useAspirantsStore();
 
     const isLoadingData = useMemo(() => loading === 'loading', [loading]);
 
@@ -52,31 +48,55 @@ export const AspirantAdd = () => {
         old_school: z.string().min(1, '* Introduce tu escuela de procedencia.')
     });
     
-    const { control, formState: { errors }, handleSubmit, ...form } = useForm({
+    const { control, formState: { errors }, handleSubmit, reset, ...form } = useForm({
         defaultValues: {
-            first_name: '',
-            last_name_1: '',
-            last_name_2: '',
-            sex: 'MASCULINO',
-            key: '',
+            first_name: aspirant?.first_name || '',
+            last_name_1: aspirant?.last_name_1 || '',
+            last_name_2: aspirant?.last_name_2 || '',
+            sex: aspirant?.sex || '',
+            key: getAspirantKey(aspirant?.aspirant_id) || '',
             birthdate: undefined,
-            old_school: ''
+            old_school: aspirant?.origin || ''
         },
         resolver: zodResolver(zodSchema)
     });
 
     useEffect(() => {
-        startLoadingAllApps();
+        if (!aspirant) startLoadingActiveAspirant(aspirantId);
     }, []);
 
+    useEffect(() => {
+        if (aspirant) {
+            reset({
+                first_name: aspirant.first_name,
+                last_name_1: aspirant.last_name_1,
+                last_name_2: aspirant.last_name_2,
+                sex: aspirant.sex,
+                key: getAspirantKey(aspirant.aspirant_id),
+                birthdate: parseDateForInput(new Date(aspirant.birthdate)),
+                old_school: aspirant.origin
+            });
+            console.log(aspirant);
+        }
+    }, [aspirant, reset]);
+
     const onSubmit = handleSubmit((data) => {
-        startManualSavingAspirant(data);
+        startUpdateAspirant(data);
     });
 
     const parseDate = (value) => {
         const UTCDate = toZonedTime(value, 'America/Mexico_City')
         return UTCDate
     };
+    
+    if (!aspirant) {
+        return (
+            <div className="flex items-center justify-center">
+                <LoaderCircle size={24} strokeWidth={1.25} absoluteStrokeWidth className="animate-spin" />
+                <h1>Cargando...</h1>
+            </div>
+        );
+    }
     
     return (
         <Card className={`w-[500px] h-min flex flex-col justify-between shadow-sm ${ isLoadingData && 'opacity-60 pointer-events-none' }`} > 
@@ -174,20 +194,9 @@ export const AspirantAdd = () => {
                                 render={({ field }) => (
                                     <FormItem className="w-full">
                                         <FormLabel>Clave de activación</FormLabel>
-                                        <Select onValueChange={ field.onChange } defaultValue={ field.value }>
-                                            <FormControl>
-                                            <SelectTrigger className="transition">
-                                                <SelectValue placeholder="Seleccina una fecha" />
-                                            </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                { applications.map((app) => (
-                                                    <SelectItem key={ app.id } value={ app.id }>
-                                                        { capitalizeFirstLetter(app.origin) }, { customParseISO(app.date) }
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        <FormControl>
+                                            <Input placeholder="Clave de activación" { ...field } type="text" className="transition" disabled />
+                                        </FormControl>
                                         <FormDescription className="text-xs">
                                             Selecciona una fecha de aplicación.
                                             Se le asignará una clave de activación automáticamente.

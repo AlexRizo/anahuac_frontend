@@ -26,6 +26,18 @@ export const useAppStore = () => {
         console.log(message);
         dispatch(setMessage(errorMessage));
     };
+
+    const startLoadingAllApps = async () => {
+        dispatch(setLoadState('loading'));
+
+        try {
+            const { data } = await anahuacApi.get('/application/getallapps');
+            dispatch(onLoadApplications(data.applications));
+        } catch (error) {
+            dispatch(setLoadState('error'));
+            onSetMessage(error);
+        }
+    };
     
     const startLoadingApps = async({ page = 1, limit = 10 }) => {
         dispatch(setLoadState('loading'));
@@ -153,5 +165,6 @@ export const useAppStore = () => {
         startLoadingAppsByDate,
         startLoadActiveApplication,
         startSetActiveApplication,
+        startLoadingAllApps,
     };
 };

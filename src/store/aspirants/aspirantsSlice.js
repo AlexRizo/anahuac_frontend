@@ -3,8 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     aspirants: [],
     activeAspirant: null,
-    loading: 'loading', // error, loading, loaded
+    loading: 'loaded', // error, loading, loaded
     message: null,
+    ok: false,
 };
 
 export const aspirantsSlice = createSlice({
@@ -16,11 +17,13 @@ export const aspirantsSlice = createSlice({
             state.loading = 'loaded';
             state.message = null;
             state.activeAspirant = null;
+            state.ok = false;
         },
         onAddAspirant: (state, { payload }) => {
             state.aspirants = [...state.aspirants, payload ];
             state.loading = 'loaded';
             state.message = null;
+            state.ok = true;
             state.activeAspirant = payload;
         },
         onUpdateAspirant: (state, { payload }) => {
@@ -29,18 +32,20 @@ export const aspirantsSlice = createSlice({
             );
             state.loading = 'loaded';
             state.message = null;
+            state.ok = true;
         },
         onRemoveAspirant: (state, { payload }) => {
             state.aspirants = state.aspirants.filter(aspirant => aspirant.id !== payload);
             state.loading = 'loaded';
             state.message = null;
+            state.ok = false;
         },
         setActiveAspirant: (state, { payload }) => {
             state.activeAspirant = payload;
         },
         setLoadState: (state, { payload }) => {
             state.loading = payload;
-            // if (payload === 'loading') state.aspirants = [];
+            if (payload === 'loading') state.aspirants = [];
         },
         setMessage: (state, { payload }) => {
             state.message = payload;

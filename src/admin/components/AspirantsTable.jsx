@@ -8,11 +8,12 @@ import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 
 export const AspirantsTable = () => {
     // const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
-    const { aspirants, startLoadingAspirants, isLoading } = useAspirantsStore();
+    const { aspirants, startLoadingAspirants, startSetActiveAspirant, loading } = useAspirantsStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const isLoadingAspirants = useMemo(() => isLoading === 'loading', [isLoading]);
+
+    const isLoadingAspirants = useMemo(() => loading === 'loading', [loading]);
 
     const navigate = useNavigate();
 
@@ -83,7 +84,7 @@ export const AspirantsTable = () => {
                                         }
                                     </TableCell>
                                     <TableCell>{ capitalizeFirstLetter(aspirant.sex) }</TableCell>
-                                    <TableCell>{ capitalizeFirstLetter(aspirant.origin) }</TableCell>
+                                    <TableCell>{ aspirant.origin }</TableCell>
                                     <TableCell>{ customParseISO(aspirant.birthdate) }</TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-5">
@@ -93,11 +94,11 @@ export const AspirantsTable = () => {
                                                 strokeWidth={1.50}
                                                 className="cursor-pointer hover:text-blue-500 transition"
                                                 onClick={ () => {
-                                                    startSetActiveApplication(aspirant.id);
+                                                    startSetActiveAspirant(aspirant.id);
                                                     handleNavigate(`/aspirantes/editar/${ aspirant.id }`)
                                                 }}
                                             />
-                                            <AlertDialogDelete mongoId={ aspirant.id } name={ aspirant.name }>
+                                            <AlertDialogDelete mongoId={ aspirant.id } name={ aspirant.aspirant_id }>
                                                 <Trash 
                                                     size={20} 
                                                     absoluteStrokeWidth 

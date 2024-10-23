@@ -5,3 +5,4 @@ export * from './useAppStore';
 export * from './useUsersStore';
 export * from './use-toast';
 export * from './useKeysStore';
+export * from './useAspirantsStore';

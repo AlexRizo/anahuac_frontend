@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import localCustom from "./localCustom";
+import { toZonedTime } from "date-fns-tz";
 
 export const customParseISO = (date) => {
     return format(date, 'dd MMMM y', { locale: localCustom });
@@ -18,3 +19,14 @@ export const dataParser = (apps) => {
         return app;
     });
 }
+
+export const getAspirantKey = (aspirant_name = '') => {
+    const lastIndex = aspirant_name.lastIndexOf('-');
+    return aspirant_name.substring(0, lastIndex);
+};
+
+export const parseDateForInput = (date = new Date()) => {
+    const parsedDate = date.toISOString().split('T')[0];
+    const UTCDate = toZonedTime(parsedDate, 'America/Mexico_City')
+    return format(UTCDate, 'yyyy-MM-dd')
+};
