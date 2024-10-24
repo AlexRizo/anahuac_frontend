@@ -50,7 +50,10 @@ export const aspirantsSlice = createSlice({
         setMessage: (state, { payload }) => {
             state.message = payload;
         },
+        setOk: (state, { payload }) => {
+            state.ok = payload;
+        },
     },
 });
 
-export const { onLoadAspirants, onAddAspirant, onUpdateAspirant, onRemoveAspirant, setActiveAspirant, setLoadState, setMessage } = aspirantsSlice.actions;
+export const { onLoadAspirants, onAddAspirant, onUpdateAspirant, onRemoveAspirant, setActiveAspirant, setLoadState, setMessage, setOk } = aspirantsSlice.actions;

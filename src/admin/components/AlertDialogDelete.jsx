@@ -1,9 +1,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui"
 import { useAppStore } from "@/hooks";
 
-export const AlertDialogDelete = ({ children, mongoId, name }) => {
-    const { startDeleteApp } = useAppStore();
-    
+export const AlertDialogDelete = ({ children, mongoId, name, title, description, additionalDescription, confirm = () => {} }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -11,14 +9,22 @@ export const AlertDialogDelete = ({ children, mongoId, name }) => {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                    <AlertDialogTitle>{ title }</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Esta acción no se puede deshacer, y la 
-                        aplicación se eliminará de forma permanente.
+                        { description }
                         <br />
-                        <br />
+                        <br />  
+                        {
+                            additionalDescription && (
+                                <>
+                                    { additionalDescription }
+                                    <br />
+                                    <br />
+                                </>
+                            )
+                        }
                         <strong>
-                            Aplicación: { name }
+                            Elemento: { name }
                         </strong>
                     </AlertDialogDescription>
                 </AlertDialogHeader>
@@ -26,7 +32,7 @@ export const AlertDialogDelete = ({ children, mongoId, name }) => {
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
                     <AlertDialogAction 
                         className="bg-destructive hover:bg-red-600"
-                        onClick={ () => startDeleteApp({ id: mongoId, name }) }
+                        onClick={ () => confirm({ id: mongoId, name }) }
                     >
                         Eliminar
                     </AlertDialogAction>

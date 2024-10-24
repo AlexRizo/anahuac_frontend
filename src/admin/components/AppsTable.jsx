@@ -7,7 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
 
 export const AppsTable = () => {
-    const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
+    const {
+        applications,
+        startDeleteApp,
+        startLoadingApps,
+        startLoadingAppsByDate,
+        startSetActiveApplication,
+        isLoading,
+    } = useAppStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -116,7 +123,13 @@ export const AppsTable = () => {
                                                     handleNavigate(`/aplicaciones/editar/${ app.id }`)
                                                 }}
                                             />
-                                            <AlertDialogDelete mongoId={ app.id } name={ app.name }>
+                                            <AlertDialogDelete
+                                                title="¿Estás seguro?"
+                                                description="Esta acción no se puede deshacer. ¿Estás seguro de eliminar esta aplicación?"
+                                                confirm={ startDeleteApp }
+                                                mongoId={ app.id }
+                                                name={ app.name }
+                                            >
                                                 <Trash 
                                                     size={20} 
                                                     absoluteStrokeWidth 

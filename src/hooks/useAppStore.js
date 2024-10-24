@@ -27,11 +27,11 @@ export const useAppStore = () => {
         dispatch(setMessage(errorMessage));
     };
 
-    const startLoadingAllApps = async () => {
+    const startLoadingAllApps = async (activeApps = false) => {
         dispatch(setLoadState('loading'));
 
         try {
-            const { data } = await anahuacApi.get('/application/getallapps');
+            const { data } = await anahuacApi.get('/application/getallapps', { params: { activeApps } });
             dispatch(onLoadApplications(data.applications));
         } catch (error) {
             dispatch(setLoadState('error'));
@@ -100,12 +100,9 @@ export const useAppStore = () => {
     }
 
     const startDeleteApp = async ({ id, name }) => {
-        dispatch(setLoadState('loading'));
-
         try {
             await anahuacApi.delete(`/application/deleteapp/${ id }`);
             dispatch(onRemoveApplication(id));
-            dispatch(setLoadState('loaded'));
             dispatch(setOk(true));
             toast({
                 title: 'Aplicación eliminada',

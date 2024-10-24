@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onLoadAspirants, setActiveAspirant, setLoadState, setMessage } from "@/store/aspirants/aspirantsSlice";
+import { onLoadAspirants, onRemoveAspirant, setActiveAspirant, setLoadState, setMessage, setOk } from "@/store/aspirants/aspirantsSlice";
 import { useToast } from "./";
 import anahuacApi from "@/api/api";
 
@@ -39,11 +39,11 @@ export const useAspirantsStore = () => {
         }
     }
     
-    const startLoadingAspirants = async({ page = 1, limit = 10 }) => {
+    const startLoadingAspirants = async({ page = 1, limit = 10, sec = '', prep = '', app = '' }) => {
         dispatch(setLoadState('loading'));
         
         try {
-            const { data } = await anahuacApi.get('/aspirants/getaspirants', { params: { page, limit } });
+            const { data } = await anahuacApi.get('/aspirants/getaspirants', { params: { page, limit, sec, prep, app } });
             dispatch(onLoadAspirants(data.aspirants));
             return data.pages; // ? return the number of pages;
         } catch (error) {
@@ -72,11 +72,33 @@ export const useAspirantsStore = () => {
             const { data } = await anahuacApi.put(`/aspirants/updateaspirant/${ aspirant.id }`, aspirant);
             dispatch(setActiveAspirant(data.aspirant));
             dispatch(setLoadState('loaded'));
+            dispatch(setOk(true));
         } catch (error) {
             dispatch(setLoadState('error'));
             onSetMessage(error, false);
         }
     };
+
+    const startDeleteAspirant = async ({ id, name }) => {
+        try {
+            await anahuacApi.delete(`/aspirants/deleteaspirant/${ id }`);
+            dispatch(onRemoveAspirant(id));
+            dispatch(setOk(true));
+            toast({
+                title: 'Aspirante eliminado',
+                description: `El aspirante con el ID: ${ name } se ha eliminado correctamente`,
+                variant: 'success',
+            })
+        } catch (error) {
+            dispatch(setLoadState('error'));
+            onSetMessage(error, false);
+            toast({
+                title: 'Error al eliminar',
+                description: `La aplicación con el ID: ${ name } no se ha podido eliminar. Inténtalo de nuevo.`,
+                variant: 'destructive',
+            })
+        }
+    }
 
     const startSetActiveAspirant = (id) => {
         const aspirant = aspirants.find((asp) => asp.id === id);
@@ -96,6 +118,7 @@ export const useAspirantsStore = () => {
         ok,
 
         // ? methods
+        startDeleteAspirant,
         startUpdateAspirant,
         startLoadingAspirants,
         startSetActiveAspirant,

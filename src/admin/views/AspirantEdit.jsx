@@ -76,12 +76,11 @@ export const AspirantEdit = () => {
                 birthdate: parseDateForInput(new Date(aspirant.birthdate)),
                 old_school: aspirant.origin
             });
-            console.log(aspirant);
         }
-    }, [aspirant, reset]);
+    }, [aspirant]);
 
     const onSubmit = handleSubmit((data) => {
-        startUpdateAspirant(data);
+        startUpdateAspirant({ id: aspirantId, ...data });
     });
 
     const parseDate = (value) => {
@@ -160,7 +159,7 @@ export const AspirantEdit = () => {
                                     <FormControl>
                                         <RadioGroup
                                             onValueChange={ field.onChange }
-                                            defaultValue={ field.value }
+                                            defaultValue={ aspirant?.sex }
                                             className="flex gap-10"
                                             >
                                             <FormItem className="flex items-center space-x-3 space-y-0">

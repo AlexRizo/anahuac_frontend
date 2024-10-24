@@ -66,7 +66,7 @@ export const AspirantAdd = () => {
     });
 
     useEffect(() => {
-        startLoadingAllApps();
+        startLoadingAllApps(true /* activeApps */);
     }, []);
 
     const onSubmit = handleSubmit((data) => {

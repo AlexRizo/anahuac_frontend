@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import { Edit, LoaderCircle, Trash } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { AlertDialogDelete } from ".";
+import { AlertDialogDelete, SelectApp, SelectOrigin } from ".";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 
 export const AspirantsTable = () => {
     // const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
-    const { aspirants, startLoadingAspirants, startSetActiveAspirant, loading } = useAspirantsStore();
+    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+
+    const [filterStatus, setFilterStatus] = useState([]);
+    const [selectedApp, setSelectedApp] = useState('');
 
     const isLoadingAspirants = useMemo(() => loading === 'loading', [loading]);
 
@@ -19,12 +22,17 @@ export const AspirantsTable = () => {
 
     useEffect(() => {
         const fetchApps = async () => {
-            const pages = await startLoadingAspirants({ page });
+            const pages = await startLoadingAspirants({ 
+                page,
+                sec: filterStatus.includes('SECUNDARIA') ? 'SECUNDARIA' : '',
+                prep: filterStatus.includes('PREPARATORIA') ? 'PREPARATORIA' : '',
+                app: selectedApp
+            });
             setTotalPages(pages);
         };
 
         fetchApps();
-    }, [page]);
+    }, [page, filterStatus, selectedApp]);
 
     const handlePageChange = (page) => setPage(page);
 
@@ -35,8 +43,10 @@ export const AspirantsTable = () => {
     return (
         <>
             <div className="flex justify-between mb-5">
-                <div>
-                    <Input type="text" placeholder="Buscar aplicación..." className="transition w-[251px] shadow-sm" />
+                <div className="flex gap-5">
+                    <Input type="text" placeholder="Buscar aspirante..." className="transition w-[251px] shadow-sm" />
+                    <SelectOrigin filterStatus={ filterStatus } setFilterStatus={ setFilterStatus } />
+                    <SelectApp selectedApp={ selectedApp } setSelectedApp={ setSelectedApp } />
                 </div>
                 <div>
                     <Button>
@@ -98,7 +108,14 @@ export const AspirantsTable = () => {
                                                     handleNavigate(`/aspirantes/editar/${ aspirant.id }`)
                                                 }}
                                             />
-                                            <AlertDialogDelete mongoId={ aspirant.id } name={ aspirant.aspirant_id }>
+                                            <AlertDialogDelete
+                                                title="¿Estás seguro?"
+                                                description="¿Estás seguro de eliminar a este aspirante? Esta acción no se puede deshacer."
+                                                additionalDescription="También se eliminará la clave asociada a este aspirante y sus resultados."
+                                                confirm={ startDeleteAspirant }
+                                                mongoId={ aspirant.id }
+                                                name={ aspirant.aspirant_id }
+                                            >
                                                 <Trash 
                                                     size={20} 
                                                     absoluteStrokeWidth 
