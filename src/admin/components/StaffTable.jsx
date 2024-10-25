@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Edit, LoaderCircle, Trash, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { AlertDialogDelete, SelectApp, SelectOrigin } from ".";
+import { AlertDialogDelete } from ".";
 import { useNavigate } from "react-router-dom";
-import { capitalizeFirstLetter, customParseISO } from "../helpers";
-import { useAspirantsStore } from "@/hooks/useAspirantsStore";
+import { capitalizeFirstLetter, customParseISO, formatDateDMYHMS, parseAdminRole } from "../helpers";
 import debounce from "lodash.debounce";
+import { useAdminsStore } from "@/hooks";
 
 export const StaffTable = () => {
     // const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
-    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
+    const { admins, startLoadingAdmins, startDeleteAdmin, startSetActiveAdmin, loading } = useAdminsStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -17,7 +17,7 @@ export const StaffTable = () => {
     const [searchedTerm, setSearchedTerm] = useState('');
     const [searchTime, setSearchTime] = useState(0);
 
-    const isLoadingAspirants = useMemo(() => loading === 'loading', [loading]);
+    const isLoadingAdmins = useMemo(() => loading === 'loading', [loading]);
 
     const navigate = useNavigate();
 
@@ -37,8 +37,8 @@ export const StaffTable = () => {
     };
 
     useEffect(() => {
-        const fetchApps = async (name = '') => {
-            const pages = await startLoadingAspirants({ 
+        const fetchAdmins = async (name = '') => {
+            const pages = await startLoadingAdmins({ 
                 page,
                 name
             });
@@ -47,9 +47,9 @@ export const StaffTable = () => {
         
         const debouncedSearch = debounce( async(term) => {
             if (term) {
-                fetchApps(term);
+                fetchAdmins(term);
             } else {
-                fetchApps();
+                fetchAdmins();
             }
         }, searchTime);
 
@@ -77,7 +77,7 @@ export const StaffTable = () => {
             <div className="border rounded">
                 <Table>
                     {
-                        isLoadingAspirants && (
+                        isLoadingAdmins && (
                             <TableCaption>
                                 <div className="flex items-center justify-center w-full overflow-hidden mb-4">
                                     <LoaderCircle size={20} className="animate-spin mr-1"/>
@@ -89,32 +89,24 @@ export const StaffTable = () => {
                     <TableHeader>
                         <TableRow>
                             <TableHead>#</TableHead>
-                            <TableHead>ID Aspirante</TableHead>
+                            <TableHead>Usuario</TableHead>
                             <TableHead>Nombre</TableHead>
-                            <TableHead>Sexo</TableHead>
-                            <TableHead>Escuela de origen</TableHead>
-                            <TableHead>Fecha de nacimiento</TableHead>
+                            <TableHead>Correo Electrónico</TableHead>
+                            <TableHead>Perfil</TableHead>
+                            <TableHead>Último Acceso</TableHead>
                             <TableHead className="text-center">Acciones</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {
-                            aspirants.map((aspirant, index) => (
-                                <TableRow key={ aspirant.id }>
+                            admins.map((admin, index) => (
+                                <TableRow key={ admin.id }>
                                     <TableCell>{ index + 1 }</TableCell>
-                                    <TableCell>{ aspirant.aspirant_id }</TableCell>
-                                    <TableCell>
-                                        { 
-                                            `
-                                                ${ aspirant.first_name } 
-                                                ${ aspirant.last_name_1 } 
-                                                ${ aspirant.last_name_2 }
-                                            `
-                                        }
-                                    </TableCell>
-                                    <TableCell>{ capitalizeFirstLetter(aspirant.sex) }</TableCell>
-                                    <TableCell>{ aspirant.origin }</TableCell>
-                                    <TableCell>{ customParseISO(aspirant.birthdate) }</TableCell>
+                                    <TableCell>{ admin.username }</TableCell>
+                                    <TableCell>{ admin.name }</TableCell>
+                                    <TableCell>{ admin.email }</TableCell>
+                                    <TableCell>{ parseAdminRole(admin.role) }</TableCell>
+                                    <TableCell>{ formatDateDMYHMS(admin.last_login) }</TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-5">
                                             <Edit 
@@ -123,17 +115,17 @@ export const StaffTable = () => {
                                                 strokeWidth={1.50}
                                                 className="cursor-pointer hover:text-blue-500 transition"
                                                 onClick={ () => {
-                                                    startSetActiveAspirant(aspirant.id);
-                                                    handleNavigate(`/aspirantes/editar/${ aspirant.id }`)
+                                                    startSetActiveAdmin(admin.id);
+                                                    handleNavigate(`/aspirantes/editar/${ admin.id }`)
                                                 }}
                                             />
                                             <AlertDialogDelete
                                                 title="¿Estás seguro?"
                                                 description="¿Estás seguro de eliminar a este aspirante? Esta acción no se puede deshacer."
                                                 additionalDescription="También se eliminará la clave asociada a este aspirante y sus resultados."
-                                                confirm={ startDeleteAspirant }
-                                                mongoId={ aspirant.id }
-                                                name={ aspirant.aspirant_id }
+                                                confirm={ startDeleteAdmin }
+                                                mongoId={ admin.id }
+                                                name={ admin.username }
                                             >
                                                 <Trash 
                                                     size={20} 

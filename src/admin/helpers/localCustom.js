@@ -5,14 +5,17 @@ const localCustom = {
   ...es,
   localize: {
     ...es.localize,
-    month: (n, options) => {
+    month: (n) => {
       const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       return months[n];
     },
-    day: (n, options) => {
+    day: (n) => {
       const days = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
       return days[n];
     },
+    timeOfDay: (hours) => {
+      return hours < 12 ? 'am' : 'pm';
+    }
   },
 };
 

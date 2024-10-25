@@ -24,11 +24,11 @@ export const useAdminsStore = () => {
         }
     };
     
-    const startLoadingAdmins = async () => {
+    const startLoadingAdmins = async ({ page = 1, limit = 10, name = '' }) => {
         dispatch(setLoadState('loading'));
 
         try {
-            const { data } = await anahuacApi.get('/admin/getadmins');
+            const { data } = await anahuacApi.get('/admin/getadmins', { params: { page, limit, name } });
             dispatch(onLoadAdmins(data.admins));
             return data.pages;
         } catch (error) {

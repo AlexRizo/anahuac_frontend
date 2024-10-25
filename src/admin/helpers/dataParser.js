@@ -30,3 +30,17 @@ export const parseDateForInput = (date = new Date()) => {
     const UTCDate = toZonedTime(parsedDate, 'America/Mexico_City')
     return format(UTCDate, 'yyyy-MM-dd')
 };
+
+export const parseAdminRole = (role = '') => {
+    const roleMap = {
+        'ADMIN_ROLE': 'Administrador',
+        'MOD_ROLE': 'Manejador',
+        'APPLICATOR_ROLE': 'Aplicador'
+    };
+    
+    return roleMap[role] || 'Sin rol';
+};
+
+export const formatDateDMYHMS = (date = new Date()) => {
+    return format(date, 'MMMM dd, yyyy HH:mm a', { locale: localCustom });
+};
