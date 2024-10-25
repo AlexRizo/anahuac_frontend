@@ -19,7 +19,7 @@ export const SelectApp = ({ selectedApp, setSelectedApp }) => {
     };
     
     return (
-        <Select onValueChange={ handleSelectApp }>
+        <Select onValueChange={ handleSelectApp } value={ selectedApp } >
             <SelectTrigger className="w-auto">
             <SelectValue placeholder="Selecciona una aplicación"/>
             </SelectTrigger>

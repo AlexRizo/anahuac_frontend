@@ -6,7 +6,7 @@ import { useToast } from "./use-toast";
 export const useAuthStore = () => {
     const { toast } = useToast();
     const dispatch = useDispatch();
-    const { status, user, aspirant, errorMessage } = useSelector((state) => state.auth);
+    const { status, user, errorMessage } = useSelector((state) => state.auth);
 
     const startLogin = async (email, password) => {
         dispatch(onChecking());
@@ -109,7 +109,6 @@ export const useAuthStore = () => {
                                  "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
             console.log(error);
-                                 
             dispatch(onLogout(errorMessage));
         }
     };

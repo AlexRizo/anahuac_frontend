@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom"
 import { NavbarMenu } from "../UI"
-import { useCustomLocation, useUsersStore } from "@/hooks"
+import { useCustomLocation, useAdminsStore } from "@/hooks"
 import { Toaster } from "@/components/ui";
 import { useEffect } from "react";
 
 export const AdminLayout = () => {
 
-    const { startLoadingAdmins } = useUsersStore();
+    const { startLoadingAdmins } = useAdminsStore();
     
     useCustomLocation();
 

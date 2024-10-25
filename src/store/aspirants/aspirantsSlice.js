@@ -56,4 +56,13 @@ export const aspirantsSlice = createSlice({
     },
 });
 
-export const { onLoadAspirants, onAddAspirant, onUpdateAspirant, onRemoveAspirant, setActiveAspirant, setLoadState, setMessage, setOk } = aspirantsSlice.actions;
+export const {
+    onLoadAspirants,
+    onAddAspirant,
+    onUpdateAspirant,
+    onRemoveAspirant,
+    setActiveAspirant,
+    setLoadState,
+    setMessage,
+    setOk,
+} = aspirantsSlice.actions;

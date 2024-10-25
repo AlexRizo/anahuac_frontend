@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { addDays, format } from "date-fns";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAppStore } from "@/hooks";
+import { useAdminsStore, useAppStore } from "@/hooks";
 import localCustom from "../helpers/localCustom";
 import {
   Button,
@@ -37,7 +37,7 @@ export const ApplicationEdit = () => {
     const { id:appId } = useParams();
     const navigate = useNavigate();
     const { activeApplication:app, startUpdateApp, startLoadActiveApplication, message, isLoading } = useAppStore();
-    const { admins } = useSelector( state => state.users );
+    const { admins, startLoadingAdmins } = useAdminsStore();
 
     const isLoadingApp = useMemo(() => isLoading === 'loading', [isLoading]);
 
@@ -45,26 +45,27 @@ export const ApplicationEdit = () => {
         date: z.date({ 
             required_error: '* Este campo es obligatorio.'
         }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
-        user: z.string().min(1, '* El aplicador es obligatorio.'),
+        admin: z.string().min(1, '* El aplicador es obligatorio.'),
     });
     
     const { control, formState: { errors }, reset, handleSubmit, ...form } = useForm({
         defaultValues: {
             date: app?.date ? new Date(app.date) : new Date(),
-            user: app?.user._id || ''
+            admin: app?.admin._id || ''
         },
         resolver: zodResolver(zodSchema)
     });
 
     useEffect(() => {
         if (!app) startLoadActiveApplication(appId);
+        startLoadingAdmins();
     }, []);
 
     useEffect(() => {
         if (app) {
             reset({
                 date: new Date(app.date),
-                user: app.user._id
+                admin: app.admin._id
             });
         }
     }, [app, reset]);
@@ -72,8 +73,8 @@ export const ApplicationEdit = () => {
     const handleNavigate = (path) => navigate(path);
 
     const onSubmit = handleSubmit((data) => {
-        const { date, user } = data;
-        startUpdateApp({ id: appId, date, user });
+        const { date, admin } = data;
+        startUpdateApp({ id: appId, date, admin });
     });
 
 
@@ -147,7 +148,7 @@ export const ApplicationEdit = () => {
                             <div className="flex border-b pb-4 pt-6 mb-3">
                                 <p className="w-full">Aplicador</p>
                                 <FormField
-                                    name="user"
+                                    name="admin"
                                     control={ control }
                                     render={({ field }) => (
                                         <FormItem className="w-full">

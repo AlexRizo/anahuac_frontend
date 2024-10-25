@@ -33,12 +33,12 @@ import {
 } from "@/components/ui";
 
 import localCustom from "../helpers/localCustom";
-import { useAppStore, useUsersStore } from "@/hooks";
+import { useAppStore, useAdminsStore } from "@/hooks";
 import { CustomAlert } from "../components";
 
 export const ApplicationForm = () => {
     const { startCreateApp, isLoading, message } = useAppStore();
-    const { admins } = useUsersStore();
+    const { admins } = useAdminsStore();
 
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
     
@@ -46,7 +46,7 @@ export const ApplicationForm = () => {
         date: z.date({ 
             required_error: '* Este campo es obligatorio.'
         }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
-        user: z.string().min(1, '* El aplicador es obligatorio.'),
+        admin: z.string().min(1, '* El aplicador es obligatorio.'),
         type: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
         keys: z.preprocess((val) => Number(val), z.number().max(25, '* En este momento sólo se permiten crear hasta 25 claves.').optional()),
     });
@@ -54,7 +54,7 @@ export const ApplicationForm = () => {
     const { control, handleSubmit, formState: { errors },  ...form } = useForm({
         defaultValues: {
             date: undefined,
-            user: '',
+            admin: '',
             type: 'SECUNDARIA',
             keys: 0
         },
@@ -153,7 +153,7 @@ export const ApplicationForm = () => {
                             )}
                         />
                         <FormField
-                            name="user"
+                            name="admin"
                             control={ control }
                             render={({ field }) => (
                                 <FormItem>

@@ -33,7 +33,7 @@ export const ApplicationConfirm = () => {
                 </div>
                 <div className="flex border-b pb-4 pt-6">
                     <p className="w-full">Aplicador</p>
-                    <p className="w-full">{ app.user.name }</p>
+                    <p className="w-full">{ app.admin.name }</p>
                 </div>
                 {
                     !!app?.keys && (

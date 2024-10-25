@@ -2,9 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "./auth/authSlice";
 import { uiSlice } from "./ui/uiSlice";
 import { appSlice } from "./app/appSlice";
-import { usersSlice } from "./users/usersSlice";
 import { aspirantsSlice } from "./aspirants/aspirantsSlice";
 import { keysSlice, keyValidationSlice } from "./keys";
+import { adminsSlice } from "./admins/adminsSlice";
 
 export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware(
@@ -17,9 +17,9 @@ export const store = configureStore({
         auth: authSlice.reducer,
         ui: uiSlice.reducer,
         app: appSlice.reducer,
-        users: usersSlice.reducer,
         key: keysSlice.reducer,
         keyValidation: keyValidationSlice.reducer,
         aspirant: aspirantsSlice.reducer,
+        admins: adminsSlice.reducer,
     },
 });

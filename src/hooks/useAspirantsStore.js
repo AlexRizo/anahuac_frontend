@@ -39,11 +39,11 @@ export const useAspirantsStore = () => {
         }
     }
     
-    const startLoadingAspirants = async({ page = 1, limit = 10, sec = '', prep = '', app = '' }) => {
+    const startLoadingAspirants = async({ page = 1, limit = 10, sec = '', prep = '', app = '', name = '' }) => {
         dispatch(setLoadState('loading'));
         
         try {
-            const { data } = await anahuacApi.get('/aspirants/getaspirants', { params: { page, limit, sec, prep, app } });
+            const { data } = await anahuacApi.get('/aspirants/getaspirants', { params: { page, limit, sec, prep, app, name } });
             dispatch(onLoadAspirants(data.aspirants));
             return data.pages; // ? return the number of pages;
         } catch (error) {
@@ -108,6 +108,20 @@ export const useAspirantsStore = () => {
     const startClearActiveAspirant = () => {
         dispatch(setActiveAspirant(null));
     }
+
+    // const startSearchAspirants = async (name) => {
+    //     dispatch(setLoadState('loading'));
+
+    //     try {
+    //         const { data } = await anahuacApi.get('/aspirants/search', { params: { name } });
+    //         dispatch(onLoadSerchedAspirants(data.aspirants));
+    //         dispatch(setLoadState('loaded'));
+    //         return data.pages;
+    //     } catch (error) {
+    //         dispatch(setLoadState('error'));
+    //         onSetMessage(error);
+    //     }
+    // };
 
     return {
         // ? properties

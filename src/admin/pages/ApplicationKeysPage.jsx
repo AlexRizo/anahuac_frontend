@@ -71,7 +71,7 @@ export const ApplicationKeysPage = () => {
                                         <TableCell>{ capitalizeFirstLetter(activeApp.origin) }</TableCell>
                                         <TableCell>{ activeApp.name }</TableCell>
                                         <TableCell>{ customParseISO(activeApp.date) }</TableCell>
-                                        <TableCell>{ activeApp.user.name }</TableCell>
+                                        <TableCell>{ activeApp.admin.name }</TableCell>
                                         <TableCell>{ total }</TableCell>
                                     </TableRow>
                                 </TableBody>

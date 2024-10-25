@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui'
 import { CirclePlus } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { AspirantsTable } from '../components'
+import { StaffTable } from '../components'
 
-export const AspirantsPage = () => {
+export const StaffPage = () => {
     return (
         <main className="w-full">
             <div>
@@ -19,7 +19,7 @@ export const AspirantsPage = () => {
                 <hr />
             </div>
             <div className="px-14 py-6">
-                <AspirantsTable />
+                <StaffTable />
             </div>
         </main>
     )

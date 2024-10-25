@@ -7,15 +7,13 @@ import { capitalizeFirstLetter, customParseISO } from "../helpers";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
 
-export const AspirantsTable = () => {
+export const StaffTable = () => {
     // const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
-    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, startSearchAspirants, loading } = useAspirantsStore();
+    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const [filterStatus, setFilterStatus] = useState([]);
-    const [selectedApp, setSelectedApp] = useState('');
     const [searchedTerm, setSearchedTerm] = useState('');
     const [searchTime, setSearchTime] = useState(0);
 
@@ -34,10 +32,7 @@ export const AspirantsTable = () => {
     };
 
     const handleCleanFilter = () => {
-        if (filterStatus.length === 0 && selectedApp === '' && searchedTerm === '') return;
-        
-        setFilterStatus([]);
-        setSelectedApp('');
+        if (searchedTerm === '') return;
         setSearchedTerm('');
     };
 
@@ -45,9 +40,6 @@ export const AspirantsTable = () => {
         const fetchApps = async (name = '') => {
             const pages = await startLoadingAspirants({ 
                 page,
-                sec: filterStatus.includes('SECUNDARIA') ? 'SECUNDARIA' : '',
-                prep: filterStatus.includes('PREPARATORIA') ? 'PREPARATORIA' : '',
-                app: selectedApp,
                 name
             });
             setTotalPages(pages);
@@ -68,16 +60,14 @@ export const AspirantsTable = () => {
         }
 
         return () => debouncedSearch.cancel();
-    }, [searchedTerm, page, filterStatus, selectedApp]);
+    }, [searchedTerm, page]);
 
 
     return (
         <>
             <div className="flex justify-between mb-5">
                 <div className="flex gap-5">
-                    <Input type="text" placeholder="Buscar aspirante..." className="transition w-[251px] shadow-sm" onChange={ handleSearch } value={ searchedTerm } />
-                    <SelectOrigin filterStatus={ filterStatus } setFilterStatus={ setFilterStatus } />
-                    <SelectApp selectedApp={ selectedApp } setSelectedApp={ setSelectedApp } />
+                    <Input type="text" placeholder="Buscar staff..." className="transition w-[251px] shadow-sm" onChange={ handleSearch } value={ searchedTerm } />
                     <Button variant="ghost" onClick={ handleCleanFilter }>
                         <X size={20} strokeWidth={1.50} absoluteStrokeWidth className="mr-1" />
                         Limpiar filtro

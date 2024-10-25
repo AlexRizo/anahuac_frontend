@@ -95,7 +95,7 @@ export const AppsTable = () => {
                                     <TableCell className="flex gap-1">
                                             <User size={20} absoluteStrokeWidth strokeWidth={1.50} />
                                             <p className="truncate">
-                                                { app.user.name }
+                                                { app.admin?.name || "Llave huerfana" }
                                             </p>
                                     </TableCell>
                                     <TableCell>
