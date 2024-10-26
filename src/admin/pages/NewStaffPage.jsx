@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
-import { AspirantAdd, AspirantConfirm } from '../views'
+import { useEffect } from 'react'
+import { StaffAdd, AspirantConfirm } from '../views'
 import { CustomAlert } from '../components'
-import { useAspirantsStore } from '@/hooks';
+import { useAdminsStore } from '@/hooks';
 
 export const NewStaffPage = () => {
-    const { activeAspirant, startClearActiveAspirant } = useAspirantsStore();
+    const { activeAdmin, startClearActiveAdmin } = useAdminsStore();
 
     useEffect(() => {
-        startClearActiveAspirant();
+        startClearActiveAdmin();
     }, []);
     
     return (
@@ -21,17 +21,17 @@ export const NewStaffPage = () => {
             </div>
             <div className="px-14 py-6 w-full h-[calc(100%-101px)] flex items-center justify-center animate__animated animate__zoomIn overflow-y-auto">
             {
-                    !!activeAspirant ? (
+                    !!activeAdmin ? (
                         <div>
                             <CustomAlert
                                 title="Nuevo aspirante creado"
-                                message={`Se ha creado un nuevo aspirante a ${ activeAspirant.exam.name } exitosamente.`}
+                                message={`Se ha creado un nuevo aspirante a ${ activeAdmin.name } exitosamente.`}
                                 variant="success"
                             />
                             <AspirantConfirm/>
                         </div>
                     ) : (
-                        <AspirantAdd />
+                        <StaffAdd />
                     )
                 }
             </div>

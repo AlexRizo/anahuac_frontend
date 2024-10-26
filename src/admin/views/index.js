@@ -4,3 +4,4 @@ export * from './ApplicationEdit';
 export * from './AspirantAdd';
 export * from './AspirantConfirm';
 export * from './AspirantEdit';
+export * from './StaffAdd';

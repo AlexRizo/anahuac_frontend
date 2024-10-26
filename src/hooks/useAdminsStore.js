@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "./";
-import { onLoadAdmins, setLoadState, setMessage } from "@/store/admins/adminsSlice";
+import { onLoadAdmins, setActiveAdmin, setLoadState, setMessage } from "@/store/admins/adminsSlice";
 import anahuacApi from '@/api/api.js';
 
 export const useAdminsStore = () => {
@@ -36,6 +36,10 @@ export const useAdminsStore = () => {
             onSetMessage(error);
         }
     };
+
+    const startClearActiveAdmin = () => {
+        dispatch(setActiveAdmin(null));
+    };
     
     return {
         // ? properties
@@ -47,5 +51,6 @@ export const useAdminsStore = () => {
         
         // ? methods
         startLoadingAdmins,
+        startClearActiveAdmin,
     }
 };
