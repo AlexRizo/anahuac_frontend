@@ -1,5 +1,4 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui"
-import { useAppStore } from "@/hooks";
 
 export const AlertDialogDelete = ({ children, mongoId, name, title, description, additionalDescription, confirm = () => {} }) => {
     return (

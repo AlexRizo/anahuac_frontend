@@ -8,8 +8,7 @@ import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
 
 export const AspirantsTable = () => {
-    // const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
-    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, startSearchAspirants, loading } = useAspirantsStore();
+    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -17,7 +16,7 @@ export const AspirantsTable = () => {
     const [filterStatus, setFilterStatus] = useState([]);
     const [selectedApp, setSelectedApp] = useState('');
     const [searchedTerm, setSearchedTerm] = useState('');
-    const [searchTime, setSearchTime] = useState(0);
+    const [isFirstTime, setIsFirstTime] = useState(true);
 
     const isLoadingAspirants = useMemo(() => loading === 'loading', [loading]);
 
@@ -59,12 +58,13 @@ export const AspirantsTable = () => {
             } else {
                 fetchApps();
             }
-        }, searchTime);
+        }, 500);
 
-        debouncedSearch(searchedTerm);
-
-        if (!searchTime) {
-            setSearchTime(500);
+        if (isFirstTime) {
+            fetchApps(searchedTerm);
+            setIsFirstTime(false);
+        } else {
+            debouncedSearch(searchedTerm);
         }
 
         return () => debouncedSearch.cancel();

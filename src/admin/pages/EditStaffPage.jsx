@@ -1,37 +1,32 @@
-import { useEffect } from 'react'
-import { StaffAdd, StaffConfirm } from '../views'
-import { CustomAlert } from '../components'
-import { useAdminsStore } from '@/hooks';
+import { useAdminsStore } from "@/hooks";
+import { CustomAlert } from "../components"
+import { StaffConfirm, StaffEdit } from "../views";
 
-export const NewStaffPage = () => {
-    const { activeAdmin, startClearActiveAdmin } = useAdminsStore();
-
-    useEffect(() => {
-        startClearActiveAdmin();
-    }, []);
+export const EditStaffPage = () => {
+    const { ok, activeAdmin } = useAdminsStore();
     
     return (
-        <main className="w-full h-screen overflow-hidden">
+        <main className="w-full h-screen relative overflow-hidden">
             <div>
                 <nav className="flex items-center gap-5 px-14 py-8">
                     <h1 className="text-3xl font-semibold">Staff</h1>
-                    <p className="text-gray-400 pt-1"> / Nuevo staff</p>
+                    <p className="text-gray-400 pt-1"> / Editar staff</p>
                 </nav>
                 <hr />
             </div>
             <div className="px-14 py-6 w-full h-[calc(100%-101px)] flex items-center justify-center animate__animated animate__zoomIn overflow-y-auto">
-            {
-                    !!activeAdmin ? (
+                {
+                    ok ? (
                         <div>
                             <CustomAlert
-                                title="Nuevo staff creado"
-                                message={`Se ha creado un nuevo staff corréctamente.`}
+                                title="Staff actualizado"
+                                message={`Se ha actualizado el staff ${ activeAdmin.username } corréctamente.`}
                                 variant="success"
                             />
                             <StaffConfirm/>
                         </div>
                     ) : (
-                        <StaffAdd />
+                        <StaffEdit />
                     )
                 }
             </div>

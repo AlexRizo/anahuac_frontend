@@ -41,6 +41,7 @@ export const parseAdminRole = (role = '') => {
     return roleMap[role] || 'Sin rol';
 };
 
-export const formatDateDMYHMS = (date = new Date()) => {
+export const formatDateDMYHMS = (date) => {
+    if (!date) return 'Sin actividad';
     return format(date, 'MMMM dd, yyyy HH:mm a', { locale: localCustom });
 };

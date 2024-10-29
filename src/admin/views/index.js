@@ -5,3 +5,5 @@ export * from './AspirantAdd';
 export * from './AspirantConfirm';
 export * from './AspirantEdit';
 export * from './StaffAdd';
+export * from './StaffConfirm';
+export * from './StaffEdit';

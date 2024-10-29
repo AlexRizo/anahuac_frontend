@@ -8,7 +8,7 @@ export const StaffPage = () => {
         <main className="w-full">
             <div>
                 <nav className="flex justify-between px-14 py-8">
-                    <h1 className="text-3xl font-semibold">Aspirantes</h1>
+                    <h1 className="text-3xl font-semibold">Staff</h1>
                     <Link to={'/staff/nuevo'}>
                         <Button className="gap-2">
                             <CirclePlus size={20} strokeWidth={1.25} absoluteStrokeWidth />

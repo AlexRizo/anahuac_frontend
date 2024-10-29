@@ -3,19 +3,18 @@ import { Edit, LoaderCircle, Trash, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
 import { AlertDialogDelete } from ".";
 import { useNavigate } from "react-router-dom";
-import { capitalizeFirstLetter, customParseISO, formatDateDMYHMS, parseAdminRole } from "../helpers";
+import { formatDateDMYHMS, parseAdminRole } from "../helpers";
 import debounce from "lodash.debounce";
 import { useAdminsStore } from "@/hooks";
 
 export const StaffTable = () => {
-    // const { applications, startLoadingApps, startLoadingAppsByDate, startSetActiveApplication, isLoading } = useAppStore();
-    const { admins, startLoadingAdmins, startDeleteAdmin, startSetActiveAdmin, loading } = useAdminsStore();
+    const { admins, startLoadingAdmins, startDeletingAdmin, startSetActiveAdmin, loading } = useAdminsStore();
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     const [searchedTerm, setSearchedTerm] = useState('');
-    const [searchTime, setSearchTime] = useState(0);
+    const [isFirstTime, setIsFirstTime] = useState(true);
 
     const isLoadingAdmins = useMemo(() => loading === 'loading', [loading]);
 
@@ -45,18 +44,19 @@ export const StaffTable = () => {
             setTotalPages(pages);
         };
         
-        const debouncedSearch = debounce( async(term) => {
+        const debouncedSearch = debounce(async (term) => {
             if (term) {
                 fetchAdmins(term);
             } else {
                 fetchAdmins();
             }
-        }, searchTime);
+        }, 500);
 
-        debouncedSearch(searchedTerm);
-
-        if (!searchTime) {
-            setSearchTime(500);
+        if (isFirstTime) {
+            fetchAdmins(searchedTerm);
+            setIsFirstTime(false);
+        } else {
+            debouncedSearch(searchedTerm);
         }
 
         return () => debouncedSearch.cancel();
@@ -103,7 +103,7 @@ export const StaffTable = () => {
                                 <TableRow key={ admin.id }>
                                     <TableCell>{ index + 1 }</TableCell>
                                     <TableCell>{ admin.username }</TableCell>
-                                    <TableCell>{ admin.name }</TableCell>
+                                    <TableCell>{ `${ admin.first_name } ${ admin.last_name }` }</TableCell>
                                     <TableCell>{ admin.email }</TableCell>
                                     <TableCell>{ parseAdminRole(admin.role) }</TableCell>
                                     <TableCell>{ formatDateDMYHMS(admin.last_login) }</TableCell>
@@ -116,14 +116,14 @@ export const StaffTable = () => {
                                                 className="cursor-pointer hover:text-blue-500 transition"
                                                 onClick={ () => {
                                                     startSetActiveAdmin(admin.id);
-                                                    handleNavigate(`/aspirantes/editar/${ admin.id }`)
+                                                    handleNavigate(`/staff/editar/${ admin.id }`)
                                                 }}
                                             />
                                             <AlertDialogDelete
                                                 title="¿Estás seguro?"
-                                                description="¿Estás seguro de eliminar a este aspirante? Esta acción no se puede deshacer."
-                                                additionalDescription="También se eliminará la clave asociada a este aspirante y sus resultados."
-                                                confirm={ startDeleteAdmin }
+                                                description="¿Estás seguro de eliminar a este staff? Esta acción no se puede deshacer."
+                                                additionalDescription="Las aplicaciones asociadas a este usuario no se eliminarán, pero seguirán siendo propiedad de él."
+                                                confirm={ startDeletingAdmin }
                                                 mongoId={ admin.id }
                                                 name={ admin.username }
                                             >
