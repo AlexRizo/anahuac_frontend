@@ -16,3 +16,4 @@ export * from './toaster';
 export * from './dialog';
 export * from './dropdown-menu';
 export * from './badge';
+export * from './progress';

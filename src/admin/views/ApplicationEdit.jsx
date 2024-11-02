@@ -37,7 +37,7 @@ export const ApplicationEdit = () => {
     const { id:appId } = useParams();
     const navigate = useNavigate();
     const { activeApplication:app, startUpdateApp, startLoadActiveApplication, message, isLoading } = useAppStore();
-    const { admins, startLoadingAdmins } = useAdminsStore();
+    const { admins, startLoadingAllAdmins } = useAdminsStore();
 
     const isLoadingApp = useMemo(() => isLoading === 'loading', [isLoading]);
 
@@ -58,7 +58,7 @@ export const ApplicationEdit = () => {
 
     useEffect(() => {
         if (!app) startLoadActiveApplication(appId);
-        startLoadingAdmins();
+        startLoadingAllAdmins();
     }, []);
 
     useEffect(() => {
@@ -163,7 +163,7 @@ export const ApplicationEdit = () => {
                                                     <SelectContent>
                                                         { admins.map((admin) => (
                                                             <SelectItem key={ admin.id } value={ admin.id }>
-                                                                { admin.name }
+                                                                { admin.username }
                                                             </SelectItem>
                                                         ))}
                                                     </SelectContent>

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -38,7 +38,11 @@ import { CustomAlert } from "../components";
 
 export const ApplicationForm = () => {
     const { startCreateApp, isLoading, message } = useAppStore();
-    const { admins } = useAdminsStore();
+    const { admins, startLoadingAllAdmins } = useAdminsStore();
+
+    useEffect(() => {
+        startLoadingAllAdmins();  
+    }, []);
 
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
     
@@ -169,7 +173,7 @@ export const ApplicationForm = () => {
                                             <SelectContent>
                                                 { admins.map((admin) => (
                                                     <SelectItem key={ admin.id } value={ admin.id }>
-                                                        { admin.name }
+                                                        { admin.username }
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>

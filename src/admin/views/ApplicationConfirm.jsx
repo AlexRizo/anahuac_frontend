@@ -53,7 +53,7 @@ export const ApplicationConfirm = () => {
                     <UserPlus size={20} strokeWidth={1.25} />
                     Aspirantes
                 </Button>
-                <Button className="gap-2" onClick={() => handleNavigate('/aplicaciones/:id/claves') }>
+                <Button className="gap-2" onClick={() => handleNavigate(`/aplicaciones/${ app.id }/claves`) }>
                     <KeyRound size={20} strokeWidth={1.25}/>
                     Claves de activación
                 </Button>

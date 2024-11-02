@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { UserLayout } from "../user/layout/UserLayout";
-import { HomePage } from "../user/pages/HomePage";
+import { HomePage, LecturaPage } from "../user/pages";
 
 export const UserRoutes = [
     {
@@ -10,6 +10,10 @@ export const UserRoutes = [
             {
                 path: '/',
                 element: <HomePage/>
+            },
+            {
+                path: '/examen/exap-lectura',
+                element: <LecturaPage/>
             }
         ]
     },

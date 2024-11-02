@@ -25,6 +25,19 @@ export const useAdminsStore = () => {
             });
         }
     };
+
+    const startLoadingAllAdmins = async () => {
+        dispatch(setLoadState('loading'));
+
+        try {
+            const { data } = await anahuacApi.get('/admin/getadmins/all');
+            dispatch(onLoadAdmins(data.admins));
+            dispatch(setLoadState('loaded'));
+        } catch (error) {
+            dispatch(setLoadState('error'));
+            onSetMessage(error);
+        }
+    }
     
     const startLoadingAdmins = async ({ page = 1, limit = 10, name = '' }) => {
         dispatch(setLoadState('loading'));
@@ -126,5 +139,6 @@ export const useAdminsStore = () => {
         startSetActiveAdmin,
         startClearActiveAdmin,
         startLoadingActiveAdmin,
+        startLoadingAllAdmins,
     }
 };
