@@ -67,6 +67,17 @@ export const useExamStore = () => {
         localStorage.setItem('exam', JSON.stringify(updatedExam));
     }
 
+    const startSavingExam = async () => {
+        const exam = JSON.parse(localStorage.getItem('exam') || '[]');
+        if (!exam || !exam.length) return;
+
+        try {
+            await anahuacApi.post('/exam/lectura/save', { exam });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return {
         // ? properties
         questions,
@@ -83,5 +94,6 @@ export const useExamStore = () => {
         startLoadingActiveQuestion,
         startSaveLocalAnswer,
         startLoadingLocaleExam,
+        startSavingExam,
     }
 }; 

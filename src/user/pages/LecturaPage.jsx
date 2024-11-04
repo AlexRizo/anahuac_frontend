@@ -3,7 +3,7 @@ import { Button, Label, Progress } from "@/components/ui"
 import { useExamStore } from "@/hooks";
 import { ArrowLeft, ArrowRight, CheckSquare, LoaderCircle, Save } from "lucide-react"
 import { useEffect, useMemo, useState } from "react";
-import { Answers, Article, BlockProgress, LoadingQuestionPage } from "../components";
+import { ActualProgress, Answers, Article, BlockProgress, LoadingQuestionPage } from "../components";
 
 export const LecturaPage = () => {
     const {
@@ -12,6 +12,7 @@ export const LecturaPage = () => {
         total,
         isLoading,
         specials,
+        startSavingExam,
         startLoadingAllBlockQuestions,
         startLoadingActiveQuestion,
         startSaveLocalAnswer,
@@ -23,6 +24,7 @@ export const LecturaPage = () => {
 
     const [index, setIndex] = useState(0);
     const [totalComplete, setTotalComplete] = useState(0);
+    const [currentCuestion, setCurrentCuestion] = useState(0);
     const [currentArticle, setCurrentArticle] = useState({});
 
     const articleQuestionId = useMemo(() => activeQuestion?.relation, [activeQuestion]);
@@ -37,6 +39,7 @@ export const LecturaPage = () => {
     useEffect(() => {
         if (questions.length > 0) {
             startLoadingActiveQuestion(questions[index]);
+            setCurrentCuestion(questions[index]);
         }
     }, [questions, index]);
 
@@ -48,7 +51,6 @@ export const LecturaPage = () => {
         
         if (article.id !== currentArticle.id) {
             setCurrentArticle(article);
-            console.log({ article });
         }
     }, [activeQuestion, specials]);
 
@@ -115,7 +117,7 @@ export const LecturaPage = () => {
                                 />
                             :
                                 (
-                                    <div>
+                                    <div className="flex items-center gap-2 h-[550px] justify-center fade-in-animation">
                                         <LoaderCircle size={32} strokeWidth={1.50} className="animate-spin" />
                                         <p className="">Cargando artículo...</p>
                                     </div>
@@ -126,7 +128,10 @@ export const LecturaPage = () => {
                 <div className="w-1/2 px-24 flex flex-col">
                     <div className="flex items-center justify-end gap-3">
                         <BlockProgress total={ total } done={ totalComplete } />
-                        <Button className="bg-blue-600 hover:bg-blue-700 gap-1">
+                        <Button 
+                            className="bg-blue-600 hover:bg-blue-700 gap-1"
+                            onClick={ startSavingExam }
+                        >
                             Guardar
                             <Save strokeWidth={1.50} />
                         </Button>
@@ -147,8 +152,7 @@ export const LecturaPage = () => {
             </div>
             <div className="flex items-center px-24 gap-28 mt-auto mb-20">
                 <div className="my-auto flex gap-4 items-center w-1/2">
-                    <Label>Lecturas:</Label>
-                    <Progress value={33} indicatorColor="bg-emerald-500" className="border border-emerald-500" />
+                    <ActualProgress actual={ index + 1 } total={ questions.length } />
                 </div>
                 <div className="flex items-center justify-center gap-4 my-auto w-1/2">
                     <Button 
