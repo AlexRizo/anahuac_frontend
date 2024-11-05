@@ -3,7 +3,7 @@ import { Button, Label, Progress } from "@/components/ui"
 import { useExamStore } from "@/hooks";
 import { ArrowLeft, ArrowRight, CheckSquare, LoaderCircle, Save } from "lucide-react"
 import { useEffect, useMemo, useState } from "react";
-import { ActualProgress, Answers, Article, BlockProgress, LoadingQuestionPage } from "../components";
+import { ActualProgress, Answers, Article, BlockProgress, CustomAlertDialog, LoadingQuestionPage, MultipleSelectionAnswer } from "../components";
 
 export const LecturaPage = () => {
     const {
@@ -24,8 +24,8 @@ export const LecturaPage = () => {
 
     const [index, setIndex] = useState(0);
     const [totalComplete, setTotalComplete] = useState(0);
-    const [currentCuestion, setCurrentCuestion] = useState(0);
     const [currentArticle, setCurrentArticle] = useState({});
+    const [response, setResponse] = useState([]);
 
     const articleQuestionId = useMemo(() => activeQuestion?.relation, [activeQuestion]);
 
@@ -39,7 +39,6 @@ export const LecturaPage = () => {
     useEffect(() => {
         if (questions.length > 0) {
             startLoadingActiveQuestion(questions[index]);
-            setCurrentCuestion(questions[index]);
         }
     }, [questions, index]);
 
@@ -54,43 +53,39 @@ export const LecturaPage = () => {
         }
     }, [activeQuestion, specials]);
 
-    const [response, setResponse] = useState(null);
-
     useEffect(() => {
         if (!activeQuestion) return;
-
-        // Encuentra la respuesta guardada solo si `activeQuestion` ha cambiado.
-        const savedResponse = answeredQuestions.find(answer => answer.id === activeQuestion?.id)?.response || null;
     
-        // Verificar que `response` realmente cambió antes de actualizar el estado.
-        if (savedResponse !== response) {
-            setResponse(savedResponse);
+        const savedResponse = answeredQuestions.find(answer => answer.id === activeQuestion?.id)?.response || [];
+        
+        if (savedResponse.length) {
+            setResponse(savedResponse); // O simplemente setResponse(savedResponse) si es una letra
+        } else {
+            setResponse([]); // Asegúrate de limpiar la respuesta si no hay respuesta guardada
         }
-    }, [activeQuestion, answeredQuestions]);
-
-    useEffect(() => {
-        if (!activeQuestion) return;
-
-        const savedResponse = answeredQuestions.find(answer => answer.id === activeQuestion?.id)?.response || null;
-        setResponse(savedResponse);
+    
         setTotalComplete(answeredQuestions.length);
     }, [activeQuestion, answeredQuestions]);
-    
+
+    useEffect(() => {
+        const isDifferent = answeredQuestions.find(answer => answer.id === activeQuestion.id)?.response !== response || null;
+
+        if (response.length && isDifferent ) {
+            startSaveLocalAnswer({ id: activeQuestion.id, response });
+        }
+    }, [response]);
+
     const handlePrev = () => {
         if (index > 0) {
-            setResponse(null);
+            setResponse([]);
             setIndex(index - 1);
         }
     };
 
     const handleNext = () => {
         if (index < questions.length - 1) {
-            setResponse(null);
+            setResponse([]);
             setIndex(index + 1);
-        }
-
-        if (response) {
-            startSaveLocalAnswer({ id: activeQuestion.id, response });
         }
     };
 
@@ -135,17 +130,30 @@ export const LecturaPage = () => {
                             Guardar
                             <Save strokeWidth={1.50} />
                         </Button>
-                        <Button className="bg-green-700 hover:bg-green-800 gap-1">
-                            Terminar bloque
-                            <CheckSquare strokeWidth={1.50} />
-                        </Button>
+
+                        <CustomAlertDialog 
+                            title="Confirmar finalización del bloque" 
+                            content={<>
+                                Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
+                                ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
+                            </>}
+                        >
+                            <Button className="bg-green-700 hover:bg-green-800 gap-1">
+                                Terminar bloque
+                                <CheckSquare strokeWidth={1.50} />
+                            </Button>
+                        </CustomAlertDialog>
                     </div>
                     <div className="mt-36">
                         <p className="text-lg font-medium mb-4">
                             { activeQuestion.question }
                         </p>
                         <div>
-                            <Answers answers={ activeQuestion.answers } value={ response } onChange={ setResponse } />
+                            {
+                                activeQuestion.questionNumber === 9 
+                                    ? <MultipleSelectionAnswer answers={ activeQuestion.answers } value={ response } onChange={ setResponse } /> 
+                                    : <Answers answers={ activeQuestion.answers } value={ response } onChange={ setResponse } /> 
+                            }
                         </div>
                     </div>
                 </div>

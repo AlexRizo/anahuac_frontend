@@ -1,9 +1,11 @@
 import { onSetAnswerQuestion, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading } from "@/store/exam/examSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
+import { useToast } from "./use-toast";
 
 export const useExamStore = () => {
     const { questions, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials } = useSelector(state => state.exam);
+    const { toast } = useToast();
     const dispatch = useDispatch();
 
     const startLoadingAllBlockQuestions = async () => {
@@ -62,7 +64,7 @@ export const useExamStore = () => {
         updatedExam.push({ id, response }); // Agregar la nueva respuesta
     
         dispatch(onSetAnswerQuestion(updatedExam));
-        
+
         // Guardar el array actualizado en localStorage
         localStorage.setItem('exam', JSON.stringify(updatedExam));
     }
@@ -73,6 +75,10 @@ export const useExamStore = () => {
 
         try {
             await anahuacApi.post('/exam/lectura/save', { exam });
+            toast({
+                description: "Tu progreso ha sido guardado.",
+                variant: "done",
+            })
         } catch (error) {
             console.error(error);
         }
@@ -96,4 +102,4 @@ export const useExamStore = () => {
         startLoadingLocaleExam,
         startSavingExam,
     }
-}; 
+};

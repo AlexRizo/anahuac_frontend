@@ -17,3 +17,4 @@ export * from './dialog';
 export * from './dropdown-menu';
 export * from './badge';
 export * from './progress';
+export * from './checkbox';
