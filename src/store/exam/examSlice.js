@@ -8,6 +8,7 @@ const initialState = {
     total: null,
     totalResponded: null,
     isLoading: 'loading',
+    exam_level: 0,
 };
 
 export const examSlice = createSlice({
@@ -17,7 +18,6 @@ export const examSlice = createSlice({
         onLoadQuestions: (state, { payload }) => {
             state.questions = payload;
             state.total = payload.length;
-            state.totalResponded = payload.filter(question => question.response).length;
         },
         onSetActiveQuestion: (state, { payload }) => {
             state.activeQuestion = payload;
@@ -25,9 +25,12 @@ export const examSlice = createSlice({
         onLoadSpecial: (state, { payload }) => {
             state.specials = payload;
         },
-        onSetAnswerQuestion: (state, { payload }) => {
+        onSetAnsweredQuestions: (state, { payload }) => {
             state.answeredQuestions = payload;
             state.totalResponded = state.answeredQuestions.length;
+        },
+        onLoadExamLevel: (state, { payload }) => {
+            state.exam_level = payload;
         },
         setIsLoading: (state, { payload }) => {
             state.isLoading = payload;
@@ -35,4 +38,4 @@ export const examSlice = createSlice({
     },
 });
 
-export const { onSetAnswerQuestion, onLoadQuestions, onSetActiveQuestion, setIsLoading, onLoadSpecial } = examSlice.actions;
+export const { onSetAnsweredQuestions, onLoadQuestions, onSetActiveQuestion, setIsLoading, onLoadSpecial, onLoadExamLevel } = examSlice.actions;

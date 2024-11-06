@@ -1,5 +1,5 @@
 import { Anahuac } from "@/auth/components"
-import { Button, Label, Progress } from "@/components/ui"
+import { Button, Label } from "@/components/ui"
 import { useExamStore } from "@/hooks";
 import { ArrowLeft, ArrowRight, CheckSquare, LoaderCircle, Save } from "lucide-react"
 import { useEffect, useMemo, useState } from "react";
@@ -12,6 +12,7 @@ export const LecturaPage = () => {
         total,
         isLoading,
         specials,
+        totalResponded,
         startSavingExam,
         startLoadingAllBlockQuestions,
         startLoadingActiveQuestion,
@@ -26,6 +27,7 @@ export const LecturaPage = () => {
     const [totalComplete, setTotalComplete] = useState(0);
     const [currentArticle, setCurrentArticle] = useState({});
     const [response, setResponse] = useState([]);
+    const [recentSaved, setRecentSaved] = useState(false);
 
     const articleQuestionId = useMemo(() => activeQuestion?.relation, [activeQuestion]);
 
@@ -68,9 +70,17 @@ export const LecturaPage = () => {
     }, [activeQuestion, answeredQuestions]);
 
     useEffect(() => {
+        if (!activeQuestion) return;
+        
         const isDifferent = answeredQuestions.find(answer => answer.id === activeQuestion.id)?.response !== response || null;
-
-        if (response.length && isDifferent ) {
+        if (activeQuestion.type === "multiple" && isDifferent) {
+            if (response.length > 0) { // Solo ejecuta si response tiene elementos
+                startSaveLocalAnswer({ id: activeQuestion.id, response });
+            }
+            return;
+        }
+    
+        if (response.length && isDifferent) {
             startSaveLocalAnswer({ id: activeQuestion.id, response });
         }
     }, [response]);
@@ -88,6 +98,15 @@ export const LecturaPage = () => {
             setIndex(index + 1);
         }
     };
+
+    const handleSave = () => {
+        setRecentSaved(true);
+        startSavingExam();
+
+        setTimeout(() => {
+            setRecentSaved(false);
+        }, 15000);
+    }
 
     if (isLoadingData) {
         return <LoadingQuestionPage />;
@@ -121,11 +140,12 @@ export const LecturaPage = () => {
                     </div>
                 </div>
                 <div className="w-1/2 px-24 flex flex-col">
-                    <div className="flex items-center justify-end gap-3">
+                    <div className="flex items-center justify-end gap-4">
                         <BlockProgress total={ total } done={ totalComplete } />
                         <Button 
                             className="bg-blue-600 hover:bg-blue-700 gap-1"
-                            onClick={ startSavingExam }
+                            onClick={ handleSave }
+                            disabled={ recentSaved }
                         >
                             Guardar
                             <Save strokeWidth={1.50} />
@@ -138,7 +158,7 @@ export const LecturaPage = () => {
                                 ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
                             </>}
                         >
-                            <Button className="bg-green-700 hover:bg-green-800 gap-1">
+                            <Button className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}>
                                 Terminar bloque
                                 <CheckSquare strokeWidth={1.50} />
                             </Button>
@@ -147,10 +167,17 @@ export const LecturaPage = () => {
                     <div className="mt-36">
                         <p className="text-lg font-medium mb-4">
                             { activeQuestion.question }
+                            {
+                                activeQuestion.type === "multiple" && (<>
+                                    <br/>
+                                    <br/>
+                                    <span className="text-gray-700 font-bold">Selecciona dos de los siguientes incisos:</span>
+                                </>)
+                            }
                         </p>
                         <div>
                             {
-                                activeQuestion.questionNumber === 9 
+                                activeQuestion.type === "multiple" 
                                     ? <MultipleSelectionAnswer answers={ activeQuestion.answers } value={ response } onChange={ setResponse } /> 
                                     : <Answers answers={ activeQuestion.answers } value={ response } onChange={ setResponse } /> 
                             }

@@ -1,12 +1,29 @@
-import { onSetAnswerQuestion, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading } from "@/store/exam/examSlice";
+import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading } from "@/store/exam/examSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
 
 export const useExamStore = () => {
-    const { questions, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials } = useSelector(state => state.exam);
+    const { questions, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level } = useSelector(state => state.exam);
+    const { user } = useSelector(state => state.auth);
+
     const { toast } = useToast();
     const dispatch = useDispatch();
+
+    const startSetExceptionMessage = (exception) => {
+        const message = exception?.response?.data.message ||
+        (exception?.response?.data?.errors && Object.values(exception.response.data.errors).map((err) => err.msg).join(", ")) ||
+        "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
+
+        console.error(exception);
+
+        toast({
+            title: 'Ha ocurrido un error',
+            description: message,
+            variant: 'destructive',
+        });
+    };
+    
 
     const startLoadingAllBlockQuestions = async () => {
         dispatch(setIsLoading('loading'));
@@ -15,9 +32,10 @@ export const useExamStore = () => {
             const { data } = await anahuacApi.get('/exam/lectura/questions');
             dispatch(onLoadQuestions(data.questions));
             await startLoadingSpecials();
+            await startLoadingUserExamResults(user.uid);
             dispatch(setIsLoading('loaded'));
         } catch (error) {
-            console.error(error);
+            startSetExceptionMessage(error);
             dispatch(setIsLoading('error'));
         }
     };
@@ -27,7 +45,23 @@ export const useExamStore = () => {
             const { data } = await anahuacApi.get('/exam/getarticles');
             dispatch(onLoadSpecial(data.articles));
         } catch (error) {
-            console.error(error);
+            startSetExceptionMessage(error);
+            dispatch(setIsLoading('error'));
+        }
+    };
+
+    const startLoadingUserExamResults = async (uid) => {
+        const localExamExists = localStorage.getItem('exam');
+
+        try {
+            if (!localExamExists) {
+                const { data } = await anahuacApi.get(`/aspirants/${uid}/exam/results`, { params: { block: 'lectura' } });
+                dispatch(onSetAnsweredQuestions(data.results));
+                localStorage.setItem('exam', JSON.stringify(data.results));
+                return;
+            }
+        } catch (error) {
+            startSetExceptionMessage(error);
             dispatch(setIsLoading('error'));
         }
     };
@@ -38,7 +72,7 @@ export const useExamStore = () => {
 
     const startLoadingLocaleExam = () => {
         const localExam = JSON.parse(localStorage.getItem('exam') || '[]');
-        dispatch(onSetAnswerQuestion(localExam));
+        dispatch(onSetAnsweredQuestions(localExam));
     };
 
     const startSaveLocalAnswer = (question) => {
@@ -63,7 +97,7 @@ export const useExamStore = () => {
         const updatedExam = localExam.filter(item => item.id !== id);
         updatedExam.push({ id, response }); // Agregar la nueva respuesta
     
-        dispatch(onSetAnswerQuestion(updatedExam));
+        dispatch(onSetAnsweredQuestions(updatedExam));
 
         // Guardar el array actualizado en localStorage
         localStorage.setItem('exam', JSON.stringify(updatedExam));
@@ -80,7 +114,7 @@ export const useExamStore = () => {
                 variant: "done",
             })
         } catch (error) {
-            console.error(error);
+            startSetExceptionMessage(error);
         }
     };
 

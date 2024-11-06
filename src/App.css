@@ -59,6 +59,19 @@ input[type=number] {
   opacity: 1 !important;
 }
 
+.animated-border-button {
+  animation: border-rotate 2s ease-in-out alternate infinite;
+}
+
+@keyframes border-rotate {
+    0% {
+        box-shadow: rgb(91, 225, 91) 0px 0px 20px 5px;
+    }
+    100% {
+        box-shadow: rgb(61, 126, 11) 0px 0px 20px 5px;
+    }
+}
+
 @keyframes login-loading-bar {
   0% {
     width: 32px;
