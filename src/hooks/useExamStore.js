@@ -1,11 +1,13 @@
-import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading } from "@/store/exam/examSlice";
+import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel } from "@/store/exam/examSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
+import { useNavigate } from "react-router-dom";
 
 export const useExamStore = () => {
     const { questions, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level } = useSelector(state => state.exam);
     const { user } = useSelector(state => state.auth);
+    const navigate = useNavigate();
 
     const { toast } = useToast();
     const dispatch = useDispatch();
@@ -23,7 +25,6 @@ export const useExamStore = () => {
             variant: 'destructive',
         });
     };
-    
 
     const startLoadingAllBlockQuestions = async () => {
         dispatch(setIsLoading('loading'));
@@ -31,6 +32,7 @@ export const useExamStore = () => {
         try {
             const { data } = await anahuacApi.get('/exam/lectura/questions');
             dispatch(onLoadQuestions(data.questions));
+            dispatch(onLoadExamLevel(data.exam_level));
             await startLoadingSpecials();
             await startLoadingUserExamResults(user.uid);
             dispatch(setIsLoading('loaded'));
@@ -57,6 +59,7 @@ export const useExamStore = () => {
             if (!localExamExists) {
                 const { data } = await anahuacApi.get(`/aspirants/${uid}/exam/results`, { params: { block: 'lectura' } });
                 dispatch(onSetAnsweredQuestions(data.results));
+                dispatch(onLoadExamLevel(data.exam_level));
                 localStorage.setItem('exam', JSON.stringify(data.results));
                 return;
             }
@@ -118,6 +121,22 @@ export const useExamStore = () => {
         }
     };
 
+    const startSavingExamAndNextLevel = async () => {
+        const exam = JSON.parse(localStorage.getItem('exam') || '[]');
+        if (!exam || !exam.length) return;
+
+        try {
+            await anahuacApi.post('/exam/saveandnext', { exam }, { params: { exam_level } });
+            toast({
+                description: "Tu progreso ha sido guardado.",
+                variant: "done",
+            });
+            navigate('/examen/exap-matematicas');
+        } catch (error) {
+            startSetExceptionMessage(error);
+        }
+    };
+
     return {
         // ? properties
         questions,
@@ -127,9 +146,11 @@ export const useExamStore = () => {
         isLoading,
         specials,
         answeredQuestions,
+        exam_level,
 
         // ! methods
         startLoadingAllBlockQuestions,
+        startSavingExamAndNextLevel,
         startLoadingSpecials,
         startLoadingActiveQuestion,
         startSaveLocalAnswer,

@@ -1,6 +1,6 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Button } from "@/components/ui"
 
-export const CustomAlertDialog = ({ children, title, content }) => {
+export const CustomAlertDialog = ({ children, title, content, onConfirm = () => {} }) => {
     return (
         <AlertDialog>
         <AlertDialogTrigger asChild>
@@ -16,7 +16,7 @@ export const CustomAlertDialog = ({ children, title, content }) => {
             <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction
-                    onClick={() => navigate("/examen/exap-matematicas")}
+                    onClick={ () => onConfirm() }
                 >
                     Finalizar bloque
                 </AlertDialogAction>

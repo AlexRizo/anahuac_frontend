@@ -4,6 +4,7 @@ import { useExamStore } from "@/hooks";
 import { ArrowLeft, ArrowRight, CheckSquare, LoaderCircle, Save } from "lucide-react"
 import { useEffect, useMemo, useState } from "react";
 import { ActualProgress, Answers, Article, BlockProgress, CustomAlertDialog, LoadingQuestionPage, MultipleSelectionAnswer } from "../components";
+import { useNavigate } from "react-router-dom";
 
 export const LecturaPage = () => {
     const {
@@ -13,23 +14,26 @@ export const LecturaPage = () => {
         isLoading,
         specials,
         totalResponded,
+        exam_level,
         startSavingExam,
         startLoadingAllBlockQuestions,
         startLoadingActiveQuestion,
         startSaveLocalAnswer,
         answeredQuestions,
         startLoadingLocaleExam,
+        startSavingExamAndNextLevel
     } = useExamStore();
 
+    const navigate = useNavigate();
+
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
+    const articleQuestionId = useMemo(() => activeQuestion?.relation, [activeQuestion]);
 
     const [index, setIndex] = useState(0);
-    const [totalComplete, setTotalComplete] = useState(0);
-    const [currentArticle, setCurrentArticle] = useState({});
     const [response, setResponse] = useState([]);
+    const [totalComplete, setTotalComplete] = useState(0);
     const [recentSaved, setRecentSaved] = useState(false);
-
-    const articleQuestionId = useMemo(() => activeQuestion?.relation, [activeQuestion]);
+    const [currentArticle, setCurrentArticle] = useState({});
 
     // Cargar todas las preguntas solo al montar el componente
     useEffect(() => {
@@ -55,6 +59,7 @@ export const LecturaPage = () => {
         }
     }, [activeQuestion, specials]);
 
+    // Establecer la respuesta guardada en el estado local
     useEffect(() => {
         if (!activeQuestion) return;
     
@@ -69,6 +74,7 @@ export const LecturaPage = () => {
         setTotalComplete(answeredQuestions.length);
     }, [activeQuestion, answeredQuestions]);
 
+    // Guardar la respuesta en el estado local
     useEffect(() => {
         if (!activeQuestion) return;
         
@@ -110,6 +116,10 @@ export const LecturaPage = () => {
 
     if (isLoadingData) {
         return <LoadingQuestionPage />;
+    }
+
+    if (exam_level !== 1) {
+        return navigate('/examen/exap-matematicas');
     }
 
     return (
@@ -157,8 +167,12 @@ export const LecturaPage = () => {
                                 Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
                                 ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
                             </>}
+                            onConfirm={ startSavingExamAndNextLevel }
                         >
-                            <Button className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}>
+                            <Button 
+                                className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}
+
+                            >
                                 Terminar bloque
                                 <CheckSquare strokeWidth={1.50} />
                             </Button>
