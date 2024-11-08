@@ -4,7 +4,7 @@ import { useExamStore } from "@/hooks";
 import { ArrowLeft, ArrowRight, CheckSquare, LoaderCircle, Save } from "lucide-react"
 import { useEffect, useMemo, useState } from "react";
 import { ActualProgress, Answers, Article, BlockProgress, CustomAlertDialog, LoadingQuestionPage, MultipleSelectionAnswer } from "../components";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export const LecturaPage = () => {
     const {
@@ -24,8 +24,6 @@ export const LecturaPage = () => {
         startSavingExamAndNextLevel
     } = useExamStore();
 
-    const navigate = useNavigate();
-
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
     const articleQuestionId = useMemo(() => activeQuestion?.relation, [activeQuestion]);
 
@@ -37,7 +35,7 @@ export const LecturaPage = () => {
 
     // Cargar todas las preguntas solo al montar el componente
     useEffect(() => {
-        startLoadingAllBlockQuestions();
+        startLoadingAllBlockQuestions('lectura');
         startLoadingLocaleExam();
     }, []);
 
@@ -119,7 +117,7 @@ export const LecturaPage = () => {
     }
 
     if (exam_level !== 1) {
-        return navigate('/examen/exap-matematicas');
+        return <Navigate to={'/examen/exap-matematicas'} />;
     }
 
     return (

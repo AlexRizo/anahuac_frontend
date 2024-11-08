@@ -35,7 +35,16 @@ export const examSlice = createSlice({
         setIsLoading: (state, { payload }) => {
             state.isLoading = payload;
         },
+        onRestartExam: (state) => {
+            state.questions = [];
+            state.activeQuestion = undefined;
+            state.answeredQuestions = [];
+            state.specials = [];
+            state.total = 0;
+            state.totalResponded = 0;
+            state.isLoading = 'loading';
+        }
     },
 });
 
-export const { onSetAnsweredQuestions, onLoadQuestions, onSetActiveQuestion, setIsLoading, onLoadSpecial, onLoadExamLevel } = examSlice.actions;
+export const { onSetAnsweredQuestions, onLoadQuestions, onSetActiveQuestion, setIsLoading, onLoadSpecial, onLoadExamLevel, onRestartExam } = examSlice.actions;

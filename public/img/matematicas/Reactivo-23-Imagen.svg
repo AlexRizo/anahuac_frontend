@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #7c7c7c;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #7c7c7c;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 56.32px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-3" x="7.93" y="33.33" width="84.57" height="36.48"/>
+  <line class="cls-3" x1="50.22" y1="70" x2="50.22" y2="33"/>
+  <polygon class="cls-3" points="207.5 68 266.5 10 291.5 35 232.5 93 207.5 68"/>
+  <line class="cls-3" x1="238.5" y1="58" x2="270.5" y2="56"/>
+  <polygon class="cls-3" points="318.5 53 372.5 23 345.5 79.24 318.5 53"/>
+  <line class="cls-3" x1="326.5" y1="55" x2="357.5" y2="53"/>
+  <text class="cls-2" transform="translate(141.39 70.14)"><tspan x="0" y="0">?</tspan></text>
+  <path class="cls-1" d="M99,1v98H1V1h98M100,0H0v100h100V0h0Z"/>
+  <path class="cls-1" d="M199,1v98h-98V1h98M200,0h-100v100h100V0h0Z"/>
+  <path class="cls-1" d="M299,1v98h-98V1h98M300,0h-100v100h100V0h0Z"/>
+  <path class="cls-1" d="M399,1v98h-98V1h98M400,0h-100v100h100V0h0Z"/>
+</svg>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 230">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke: #7c7c7c;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #150f0c;
+        font-family: MyriadPro-Semibold, 'Myriad Pro';
+        font-size: 16.29px;
+        font-weight: 600;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-1" points="62.5 78 62.5 173.14 130.5 173.14 93.64 78 62.5 78"/>
+  <polygon class="cls-1" points="161 56.5 191.47 56.5 93.64 78 62.5 78 161 56.5"/>
+  <polygon class="cls-1" points="229 152.5 191.47 56.5 93.64 78 130.5 173.14 229 152.5"/>
+  <text class="cls-2" transform="translate(15.5 133.17)"><tspan x="0" y="0">40 cm</tspan></text>
+  <text class="cls-2" transform="translate(70.5 63.17)"><tspan x="0" y="0">15 cm</tspan></text>
+  <text class="cls-2" transform="translate(70.5 190.17)"><tspan x="0" y="0">35 cm</tspan></text>
+  <text class="cls-2" transform="translate(181.5 181.17)"><tspan x="0" y="0">90 cm</tspan></text>
+</svg>

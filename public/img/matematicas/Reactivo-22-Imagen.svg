@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 26.27px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        stroke: #7c7c7c;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <rect class="cls-2" x="2.5" y="2.5" width="63" height="63"/>
+  <rect class="cls-2" x="68.5" y="2.5" width="63" height="63"/>
+  <rect class="cls-2" x="134.5" y="2.5" width="63" height="63"/>
+  <rect class="cls-2" x="2.5" y="68.5" width="63" height="63"/>
+  <rect class="cls-2" x="134.5" y="68.5" width="63" height="63"/>
+  <rect class="cls-2" x="2.5" y="134.5" width="63" height="63"/>
+  <rect class="cls-2" x="68.5" y="134.5" width="63" height="63"/>
+  <rect class="cls-2" x="134.5" y="134.5" width="63" height="63"/>
+  <g>
+    <rect x="9.5" y="7" width="15" height="13"/>
+    <rect x="26.5" y="7" width="15" height="13"/>
+    <rect x="43.5" y="7" width="15" height="13"/>
+    <rect x="9.5" y="48" width="15" height="13"/>
+    <rect x="26.5" y="48" width="15" height="13"/>
+    <rect x="43.5" y="48" width="15" height="13"/>
+    <circle cx="34.5" cy="34" r="5"/>
+  </g>
+  <g>
+    <rect x="75.5" y="139.5" width="15" height="13"/>
+    <rect x="92.5" y="139.5" width="15" height="13"/>
+    <rect x="109.5" y="139.5" width="15" height="13"/>
+    <rect x="75.5" y="180.5" width="15" height="13"/>
+    <rect x="92.5" y="180.5" width="15" height="13"/>
+    <rect x="109.5" y="180.5" width="15" height="13"/>
+  </g>
+  <g>
+    <rect x="139.5" y="72.5" width="15" height="13"/>
+    <rect x="156.5" y="72.5" width="15" height="13"/>
+    <rect x="173.5" y="72.5" width="15" height="13"/>
+    <rect x="139.5" y="113.5" width="15" height="13"/>
+    <rect x="156.5" y="113.5" width="15" height="13"/>
+    <rect x="173.5" y="113.5" width="15" height="13"/>
+  </g>
+  <rect class="cls-2" x="68.5" y="68.5" width="63" height="63"/>
+  <rect x="74.5" y="4.5" width="14" height="16"/>
+  <rect x="107.5" y="4.5" width="14" height="16"/>
+  <rect x="74.5" y="47.5" width="14" height="16"/>
+  <rect x="107.5" y="47.5" width="14" height="16"/>
+  <polygon points="91.9 38.5 97.5 29.5 103.59 38.5 91.9 38.5"/>
+  <polygon points="157.9 103.5 163.5 94.5 169.59 103.5 157.9 103.5"/>
+  <polygon points="26.9 168.5 32.5 159.5 38.59 168.5 26.9 168.5"/>
+  <rect x="138.5" y="8.5" width="12" height="10"/>
+  <rect x="159.5" y="8.5" width="12" height="10"/>
+  <rect x="181.5" y="8.5" width="12" height="10"/>
+  <rect x="138.5" y="50.5" width="12" height="10"/>
+  <rect x="159.5" y="50.5" width="12" height="10"/>
+  <rect x="159.5" y="32.5" width="16" height="6"/>
+  <rect x="93.5" y="165.5" width="16" height="6"/>
+  <rect x="29.5" y="98" width="15" height="8"/>
+  <rect x="181.5" y="50.5" width="12" height="10"/>
+  <rect x="6.5" y="138.5" width="12" height="10"/>
+  <rect x="27.5" y="138.5" width="12" height="10"/>
+  <rect x="49.5" y="138.5" width="12" height="10"/>
+  <rect x="6.5" y="180.5" width="12" height="10"/>
+  <rect x="27.5" y="180.5" width="12" height="10"/>
+  <rect x="49.5" y="180.5" width="12" height="10"/>
+  <rect x="9.5" y="71" width="15" height="16"/>
+  <rect x="42.5" y="71" width="15" height="16"/>
+  <rect x="9.5" y="113" width="15" height="16"/>
+  <rect x="42.5" y="113" width="15" height="16"/>
+  <rect x="141.5" y="137" width="15" height="16"/>
+  <rect x="174.5" y="137" width="15" height="16"/>
+  <rect x="141.5" y="179" width="15" height="16"/>
+  <rect x="174.5" y="179" width="15" height="16"/>
+  <text class="cls-1" transform="translate(92.19 108.93)"><tspan x="0" y="0">?</tspan></text>
+  <circle cx="166.5" cy="166" r="5"/>
+</svg>

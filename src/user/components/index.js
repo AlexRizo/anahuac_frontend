@@ -5,3 +5,4 @@ export * from './BlockProgress';
 export * from './ActualProgress';
 export * from './CustomAlertDialog';
 export * from './MultipleSelectionAnswer';
+export * from './MathematicAnswers';

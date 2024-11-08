@@ -1,4 +1,4 @@
-import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel } from "@/store/exam/examSlice";
+import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel, onRestartExam } from "@/store/exam/examSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
@@ -26,14 +26,31 @@ export const useExamStore = () => {
         });
     };
 
-    const startLoadingAllBlockQuestions = async () => {
+    const startResetExam = () => {
+        dispatch(onRestartExam());
+    };
+
+    const startLoadingAllBlockQuestions = async (model) => {
         dispatch(setIsLoading('loading'));
         
+        if (!model) return toast({
+            title: 'Hmmm...',
+            description: '¿Modificaste el código?.',
+            variant: 'destructive',
+        });
+        
         try {
-            const { data } = await anahuacApi.get('/exam/lectura/questions');
-            dispatch(onLoadQuestions(data.questions));
-            dispatch(onLoadExamLevel(data.exam_level));
-            await startLoadingSpecials();
+            if (model === 'lectura') {
+                const { data } = await anahuacApi.get('/exam/lectura/questions');
+                dispatch(onLoadQuestions(data.questions));
+                dispatch(onLoadExamLevel(data.exam_level));
+                await startLoadingSpecials();
+            } else if (model === 'matematicas') {
+                const { data } = await anahuacApi.get('/exam/matematicas/questions');
+                dispatch(onLoadQuestions(data.questions));
+                dispatch(onLoadExamLevel(data.exam_level));
+            }
+
             await startLoadingUserExamResults(user.uid);
             dispatch(setIsLoading('loaded'));
         } catch (error) {
@@ -156,5 +173,6 @@ export const useExamStore = () => {
         startSaveLocalAnswer,
         startLoadingLocaleExam,
         startSavingExam,
+        startResetExam,
     }
 };
