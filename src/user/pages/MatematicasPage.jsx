@@ -1,5 +1,5 @@
-import { ArrowLeft, ArrowRight, CheckSquare, LoaderCircle, Save } from "lucide-react"
-import { ActualProgress, Answers, Article, BlockProgress, CustomAlertDialog, LoadingQuestionPage, MathematicAnswers, MultipleSelectionAnswer } from "../components"
+import { ArrowLeft, ArrowRight, CheckSquare, Save } from "lucide-react"
+import { ActualProgress, BlockProgress, CustomAlertDialog, LoadingQuestionPage, MathematicAnswers } from "../components"
 import { Button, Label } from "@/components/ui"
 import { Anahuac } from "@/auth/components"
 import { useExamStore } from "@/hooks"
@@ -8,11 +8,13 @@ import { useEffect, useMemo, useState } from "react"
 export const MatematicasPage = () => {
     const {
       activeQuestion,
+      answeredQuestions,
       questions,
       total,
       totalResponded,
       isLoading,
       startLoadingActiveQuestion,
+      startSavingExam,
       startSavingExamAndNextLevel,
       startSaveLocalAnswer,
       startLoadingAllBlockQuestions,
@@ -28,10 +30,6 @@ export const MatematicasPage = () => {
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
     
     useEffect(() => {
-        if (!!questions) {
-            startResetExam();
-        }
-
         startLoadingAllBlockQuestions('matematicas');
         startLoadingLocaleExam();
     }, []);
@@ -41,6 +39,30 @@ export const MatematicasPage = () => {
             startLoadingActiveQuestion(questions[index]);
         }
     }, [questions, index]);
+
+    useEffect(() => {
+        if (!activeQuestion) return;
+
+        const savedResponse = answeredQuestions.find(answer => answer.id === activeQuestion.id)?.response || [];
+
+        if (savedResponse.length) {
+            setResponse(savedResponse);
+        } else {
+            setResponse([]);
+        }
+        
+        setTotalComplete(answeredQuestions.length);
+    }, [activeQuestion, answeredQuestions]);
+    
+    useEffect(() => {
+        if (!activeQuestion) return;
+        
+        const isDifferent = answeredQuestions.find(answer => answer.id === activeQuestion.id)?.response !== response;
+        
+        if (isDifferent && response.length) {
+            startSaveLocalAnswer({ id: activeQuestion.id, response });
+        }
+    }, [response]);
     
     if (isLoadingData) {
         return <LoadingQuestionPage />;
@@ -58,6 +80,15 @@ export const MatematicasPage = () => {
         }
     }
 
+    const handleSave = () => {
+        setRecentSaved(true);
+        startSavingExam('matematicas');
+
+        setTimeout(() => {
+            setRecentSaved(false);
+        }, 15000);
+    }
+
     return (
         <main className="w-full grid min-h-dvh grid-rows-[auto_1fr_auto] py-5">
             <div className="flex">
@@ -67,7 +98,7 @@ export const MatematicasPage = () => {
                         <h1 className="text-3xl font-bold">Habilidades Lógico - Matemáticas</h1>
                     </div>
                     <div className="pr-5 h-[550px] flex items-center justify-center">
-                        <img src={`${ activeQuestion.attachment }`} alt="Reactivo 21" className="w-[540px]" />
+                        <img src={`${ activeQuestion.attachment }`} className="w-[540px]" alt={ activeQuestion.attachment } />
                     </div>
                 </div>
                 <div className="w-1/2 px-24 flex flex-col">
@@ -75,8 +106,8 @@ export const MatematicasPage = () => {
                         <BlockProgress total={ total } done={ totalComplete } />
                         <Button
                             className="bg-blue-600 hover:bg-blue-700 gap-1"
-                            // onClick={ handleSave }
-                            // disabled={ recentSaved }
+                            onClick={ handleSave }
+                            disabled={ recentSaved }
                         >
                             Guardar
                             <Save strokeWidth={1.50} />
@@ -104,7 +135,7 @@ export const MatematicasPage = () => {
                             { activeQuestion.question }
                         </p>
                         <div>
-                            <MathematicAnswers answers={ activeQuestion.answers } value={ response } onChange={ setResponse } /> 
+                            <MathematicAnswers answers={ activeQuestion.answers } value={ response } onChange={ setResponse } type={ activeQuestion.type } /> 
                         </div>
                     </div>
                 </div>

@@ -54,7 +54,7 @@ export const HomePage = () => {
                         <AlertDialogFooter>
                             <AlertDialogCancel>Cancelar</AlertDialogCancel>
                             <AlertDialogAction
-                                onClick={() => navigate("/examen/exap-lectura")}
+                                onClick={() => navigate("/examen/exap")}
                             >
                                 Iniciar
                             </AlertDialogAction>

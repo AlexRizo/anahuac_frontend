@@ -105,7 +105,7 @@ export const LecturaPage = () => {
 
     const handleSave = () => {
         setRecentSaved(true);
-        startSavingExam();
+        startSavingExam('lectura');
 
         setTimeout(() => {
             setRecentSaved(false);

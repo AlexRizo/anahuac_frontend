@@ -2,13 +2,10 @@ import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQues
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
-import { useNavigate } from "react-router-dom";
 
 export const useExamStore = () => {
     const { questions, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level } = useSelector(state => state.exam);
     const { user } = useSelector(state => state.auth);
-    const navigate = useNavigate();
-
     const { toast } = useToast();
     const dispatch = useDispatch();
 
@@ -26,8 +23,13 @@ export const useExamStore = () => {
         });
     };
 
-    const startResetExam = () => {
-        dispatch(onRestartExam());
+    const startLoadingExamLevel = async () => {
+        try {
+            const { data } = await anahuacApi.get(`/aspirants/${ user.uid }/exam/level`);
+            dispatch(onLoadExamLevel(data.exam_level));
+        } catch (error) {
+            startSetExceptionMessage(error);
+        }
     };
 
     const startLoadingAllBlockQuestions = async (model) => {
@@ -43,15 +45,13 @@ export const useExamStore = () => {
             if (model === 'lectura') {
                 const { data } = await anahuacApi.get('/exam/lectura/questions');
                 dispatch(onLoadQuestions(data.questions));
-                dispatch(onLoadExamLevel(data.exam_level));
                 await startLoadingSpecials();
             } else if (model === 'matematicas') {
                 const { data } = await anahuacApi.get('/exam/matematicas/questions');
                 dispatch(onLoadQuestions(data.questions));
-                dispatch(onLoadExamLevel(data.exam_level));
             }
 
-            await startLoadingUserExamResults(user.uid);
+            await startLoadingUserExamResults(user.uid, model);
             dispatch(setIsLoading('loaded'));
         } catch (error) {
             startSetExceptionMessage(error);
@@ -69,14 +69,13 @@ export const useExamStore = () => {
         }
     };
 
-    const startLoadingUserExamResults = async (uid) => {
+    const startLoadingUserExamResults = async (uid, block) => {
         const localExamExists = localStorage.getItem('exam');
 
         try {
             if (!localExamExists) {
-                const { data } = await anahuacApi.get(`/aspirants/${uid}/exam/results`, { params: { block: 'lectura' } });
+                const { data } = await anahuacApi.get(`/aspirants/${uid}/exam/results`, { params: { block } });
                 dispatch(onSetAnsweredQuestions(data.results));
-                dispatch(onLoadExamLevel(data.exam_level));
                 localStorage.setItem('exam', JSON.stringify(data.results));
                 return;
             }
@@ -123,12 +122,12 @@ export const useExamStore = () => {
         localStorage.setItem('exam', JSON.stringify(updatedExam));
     }
 
-    const startSavingExam = async () => {
+    const startSavingExam = async (model = '') => {
         const exam = JSON.parse(localStorage.getItem('exam') || '[]');
         if (!exam || !exam.length) return;
 
         try {
-            await anahuacApi.post('/exam/lectura/save', { exam });
+            await anahuacApi.post(`/exam/${ model }/save`, { exam });
             toast({
                 description: "Tu progreso ha sido guardado.",
                 variant: "done",
@@ -148,7 +147,6 @@ export const useExamStore = () => {
                 description: "Tu progreso ha sido guardado.",
                 variant: "done",
             });
-            navigate('/examen/exap-matematicas');
         } catch (error) {
             startSetExceptionMessage(error);
         }
@@ -173,6 +171,6 @@ export const useExamStore = () => {
         startSaveLocalAnswer,
         startLoadingLocaleExam,
         startSavingExam,
-        startResetExam,
+        startLoadingExamLevel
     }
 };
