@@ -119,7 +119,7 @@ export const MatematicasPage = () => {
                                 Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
                                 ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
                             </>}
-                            // onConfirm={ startSavingExamAndNextLevel }
+                            onConfirm={ startSavingExamAndNextLevel }
                         >
                             <Button 
                                 className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}
