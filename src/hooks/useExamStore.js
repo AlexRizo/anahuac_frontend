@@ -23,6 +23,11 @@ export const useExamStore = () => {
         });
     };
 
+    const startResetExam = () => {
+        localStorage.removeItem('exam');
+        dispatch(onRestartExam());
+    };
+
     const startLoadingExamLevel = async () => {
         try {
             const { data } = await anahuacApi.get(`/aspirants/${ user.uid }/exam/level`);
@@ -70,14 +75,13 @@ export const useExamStore = () => {
     };
 
     const startLoadingUserExamResults = async (uid, block) => {
-        const localExamExists = localStorage.getItem('exam');
+        const localExamExists = JSON.parse(localStorage.getItem('exam') || '[]');
 
         try {
-            if (!localExamExists) {
+            if (!localExamExists.length) {
                 const { data } = await anahuacApi.get(`/aspirants/${uid}/exam/results`, { params: { block } });
                 dispatch(onSetAnsweredQuestions(data.results));
                 localStorage.setItem('exam', JSON.stringify(data.results));
-                return;
             }
         } catch (error) {
             startSetExceptionMessage(error);
@@ -138,15 +142,21 @@ export const useExamStore = () => {
     };
 
     const startSavingExamAndNextLevel = async () => {
+        dispatch(setIsLoading('loading'));
         const exam = JSON.parse(localStorage.getItem('exam') || '[]');
         if (!exam || !exam.length) return;
 
         try {
-            await anahuacApi.post('/exam/saveandnext', { exam }, { params: { exam_level } });
+            const { data } = await anahuacApi.post('/exam/saveandnext', { exam }, { params: { exam_level } });
+            startResetExam();
+            
             toast({
                 description: "Tu progreso ha sido guardado.",
                 variant: "done",
             });
+
+            dispatch(onLoadExamLevel(data.examResult.exam_level));
+            dispatch(setIsLoading('loaded'));
         } catch (error) {
             startSetExceptionMessage(error);
         }
@@ -171,6 +181,7 @@ export const useExamStore = () => {
         startSaveLocalAnswer,
         startLoadingLocaleExam,
         startSavingExam,
-        startLoadingExamLevel
+        startLoadingExamLevel,
+        startResetExam,
     }
 };

@@ -36,13 +36,10 @@ export const examSlice = createSlice({
             state.isLoading = payload;
         },
         onRestartExam: (state) => {
-            state.questions = [];
-            state.activeQuestion = undefined;
             state.answeredQuestions = [];
             state.specials = [];
             state.total = 0;
             state.totalResponded = 0;
-            state.isLoading = 'loading';
         }
     },
 });

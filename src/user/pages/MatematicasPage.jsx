@@ -63,10 +63,6 @@ export const MatematicasPage = () => {
             startSaveLocalAnswer({ id: activeQuestion.id, response });
         }
     }, [response]);
-    
-    if (isLoadingData) {
-        return <LoadingQuestionPage />;
-    }
 
     const handleNext = () => {
         if (index < questions.length - 1) {
@@ -87,6 +83,10 @@ export const MatematicasPage = () => {
         setTimeout(() => {
             setRecentSaved(false);
         }, 15000);
+    }
+
+    if (isLoadingData) {
+        return <LoadingQuestionPage />;
     }
 
     return (

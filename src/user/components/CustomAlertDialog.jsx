@@ -1,6 +1,7 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Button } from "@/components/ui"
 
 export const CustomAlertDialog = ({ children, title, content, onConfirm = () => {} }) => {
+    
     return (
         <AlertDialog>
         <AlertDialogTrigger asChild>

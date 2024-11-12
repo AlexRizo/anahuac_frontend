@@ -21,7 +21,7 @@ export const LecturaPage = () => {
         startSaveLocalAnswer,
         answeredQuestions,
         startLoadingLocaleExam,
-        startSavingExamAndNextLevel
+        startSavingExamAndNextLevel,
     } = useExamStore();
 
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
@@ -111,7 +111,7 @@ export const LecturaPage = () => {
             setRecentSaved(false);
         }, 15000);
     }
-
+    
     if (isLoadingData) {
         return <LoadingQuestionPage />;
     }
