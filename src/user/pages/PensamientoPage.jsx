@@ -77,7 +77,7 @@ export const PensamientoPage = () => {
 
     const handleSave = () => {
         setRecentSaved(true);
-        startSavingExam('matematicas');
+        startSavingExam('pensamiento');
 
         setTimeout(() => {
             setRecentSaved(false);
