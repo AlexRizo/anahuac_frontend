@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    font-family: 'Inter', sans-serif;
-}
-
 .permanent-maker {
     font-family: 'Permanent Marker', cursive;
+}
+
+
+body {
+  font-family: 'Inter', sans-serif;
 }
 
 @layer base {

@@ -7,19 +7,18 @@ import { useEffect, useMemo, useState } from "react"
 
 export const MatematicasPage = () => {
     const {
-      activeQuestion,
-      answeredQuestions,
-      questions,
-      total,
-      totalResponded,
-      isLoading,
-      startLoadingActiveQuestion,
-      startSavingExam,
-      startSavingExamAndNextLevel,
-      startSaveLocalAnswer,
-      startLoadingAllBlockQuestions,
-      startLoadingLocaleExam,
-      startResetExam,
+        activeQuestion,
+        answeredQuestions,
+        questions,
+        total,
+        totalResponded,
+        isLoading,
+        startLoadingActiveQuestion,
+        startSavingExam,
+        startSavingExamAndNextLevel,
+        startSaveLocalAnswer,
+        startLoadingAllBlockQuestions,
+        startLoadingLocaleExam,
     } = useExamStore();
 
     const [index, setIndex] = useState(0);

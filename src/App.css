@@ -63,6 +63,7 @@ input[type=number] {
   animation: border-rotate 2s ease-in-out alternate infinite;
 }
 
+
 @keyframes border-rotate {
     0% {
         box-shadow: rgb(91, 225, 91) 0px 0px 20px 5px;

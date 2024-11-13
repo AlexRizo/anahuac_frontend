@@ -13,9 +13,9 @@ export const BlockProgress = ({ total, done }) => {
     }, [total, done]);
     
     return (
-        <div className="w-1/3">
+        <div className="w-56">
             <Label>Progreso de bloque:</Label>
-            <Progress value={progress} indicatorColor="bg-blue-600" className="border border-blue-600" />
+            <Progress value={ progress } indicatorColor="bg-blue-600" className="border border-blue-600" />
         </div>
     );
 };

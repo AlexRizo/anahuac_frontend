@@ -54,6 +54,9 @@ export const useExamStore = () => {
             } else if (model === 'matematicas') {
                 const { data } = await anahuacApi.get('/exam/matematicas/questions');
                 dispatch(onLoadQuestions(data.questions));
+            } else if (model === 'pensamiento') {
+                const { data } = await anahuacApi.get('/exam/pensamiento/questions');
+                dispatch(onLoadQuestions(data.questions));
             }
 
             await startLoadingUserExamResults(user.uid, model);
