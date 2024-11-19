@@ -88,7 +88,6 @@ export const PensamientoPage = () => {
         return <LoadingQuestionPage />;
     }
 
-    
     return (
         <main className="w-full grid min-h-dvh grid-rows-[auto_1fr_auto] py-5">
             <div className="flex flex-col items-center">

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export const HomePage = () => {
     const [active, setActive] = useState(false);
 
-    const [count, setCount] = useState(15);
+    const [count, setCount] = useState(20);
 
     const navigate = useNavigate();
 
@@ -45,10 +45,9 @@ export const HomePage = () => {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Antes de continuar...</AlertDialogTitle>
+                            <AlertDialogTitle>Confirmación</AlertDialogTitle>
                             <AlertDialogDescription>
                                 Estás a punto de comenzar el examen. ¿Estás seguro de que deseas continuar?.
-                                Una vez que inicies, tendrás 125 minutos para terminar.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>

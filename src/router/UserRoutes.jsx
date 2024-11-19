@@ -16,7 +16,7 @@ export const UserRoutes = (exam_level) => {
                     path: '/examen/exap',
                     element: (exam_level === 3) 
                         ? <PensamientoPage/> : exam_level === 2
-                        ? <MatematicasPage/> : exam_level === 3 
+                        ? <MatematicasPage/> : exam_level === 1 
                         ? <LecturaPage/> : <Navigate to="/examen/finalizado"/>
                 },
                 {

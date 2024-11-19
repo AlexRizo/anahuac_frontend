@@ -147,7 +147,14 @@ export const useExamStore = () => {
     const startSavingExamAndNextLevel = async () => {
         dispatch(setIsLoading('loading'));
         const exam = JSON.parse(localStorage.getItem('exam') || '[]');
-        if (!exam || !exam.length) return;
+        if (!exam || !exam.length) {
+            dispatch(setIsLoading('error'));
+            return toast({
+                title: 'Hmmm...',
+                description: 'Contesta al menos una pregunta.',
+                variant: 'destructive',
+            });
+        };
 
         try {
             const { data } = await anahuacApi.post('/exam/saveandnext', { exam }, { params: { exam_level } });

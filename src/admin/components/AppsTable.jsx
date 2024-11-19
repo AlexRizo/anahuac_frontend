@@ -95,7 +95,7 @@ export const AppsTable = () => {
                                     <TableCell className="flex gap-1">
                                             <User size={20} absoluteStrokeWidth strokeWidth={1.50} />
                                             <p className="truncate">
-                                                { app.admin?.name || "Llave huerfana" }
+                                                { (`${ app.admin?.first_name } ${ app.admin?.last_name }`) ?? "Llave huerfana" }
                                             </p>
                                     </TableCell>
                                     <TableCell>
