@@ -1,5 +1,5 @@
 import { Label, RadioGroup, RadioGroupItem } from "@/components/ui"
-import { FourDigitsPrompt } from ".";
+import { FourDigitsPrompt, MagicTriangle } from ".";
 
 export const ThinkAnswers = ({ answers, value, type, onChange }) => {
     
@@ -9,6 +9,8 @@ export const ThinkAnswers = ({ answers, value, type, onChange }) => {
     
     if (type === 'four-digits') {
         return <FourDigitsPrompt response={ value } setResponse={ onChange } />
+    } else if (type === 'triangle') {
+        return <MagicTriangle response={ value } setResponse={ onChange } />
     }
 
     return (

@@ -90,46 +90,52 @@ export const MatematicasPage = () => {
 
     return (
         <main className="w-full grid min-h-dvh grid-rows-[auto_1fr_auto] py-5">
-            <div className="flex">
-                <div className="w-1/2 px-24 h-full flex flex-col">
-                    <div className="mb-12">
-                        <p className="text-sm font-semibold">Bloque:</p>
-                        <h1 className="text-3xl font-bold">Habilidades Lógico - Matemáticas</h1>
-                    </div>
-                    <div className="pr-5 h-[550px] flex items-center justify-center">
-                        <img src={`${ activeQuestion.attachment }`} className="w-[540px]" alt={ activeQuestion.attachment } />
+            <div className="flex flex-col items-center">
+                <div className="px-24 h-full flex flex-col w-full">
+                    <div className="mb-12 flex justify-between w-full">
+                        <div>
+                            <p className="text-sm font-semibold">Bloque:</p>
+                            <h1 className="text-3xl font-bold">Habilidades Lógico - Matemáticas</h1>
+                        </div>
+                        <div className="flex items-center justify-end gap-4">
+                            <BlockProgress total={ total } done={ totalComplete } />
+                            <Button
+                                className="bg-blue-600 hover:bg-blue-700 gap-1"
+                                onClick={ handleSave }
+                                disabled={ recentSaved }
+                            >
+                                Guardar
+                                <Save strokeWidth={1.50} />
+                            </Button>
+
+                            <CustomAlertDialog 
+                                title="Confirmar finalización del bloque" 
+                                content={<>
+                                    Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
+                                    ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
+                                </>}
+                                onConfirm={ startSavingExamAndNextLevel }
+                            >
+                                <Button 
+                                    className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}
+
+                                >
+                                    Terminar bloque
+                                    <CheckSquare strokeWidth={1.50} />
+                                </Button>
+                            </CustomAlertDialog>
+                        </div>
                     </div>
                 </div>
-                <div className="w-1/2 px-24 flex flex-col">
-                    <div className="flex items-center justify-end gap-4">
-                        <BlockProgress total={ total } done={ totalComplete } />
-                        <Button
-                            className="bg-blue-600 hover:bg-blue-700 gap-1"
-                            onClick={ handleSave }
-                            disabled={ recentSaved }
-                        >
-                            Guardar
-                            <Save strokeWidth={1.50} />
-                        </Button>
-
-                        <CustomAlertDialog 
-                            title="Confirmar finalización del bloque" 
-                            content={<>
-                                Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
-                                ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
-                            </>}
-                            onConfirm={ startSavingExamAndNextLevel }
-                        >
-                            <Button 
-                                className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}
-
-                            >
-                                Terminar bloque
-                                <CheckSquare strokeWidth={1.50} />
-                            </Button>
-                        </CustomAlertDialog>
-                    </div>
-                    <div className="mt-36">
+                <div className="w-full px-24 flex justify-evenly items-center">
+                    {
+                        activeQuestion.attachment && (
+                            <div className="pr-5 h-[550px] flex items-center justify-center w-full">
+                                <img src={`${ activeQuestion.attachment }`} className="w-[540px]" alt={ activeQuestion.attachment } />
+                            </div>
+                        )
+                    }
+                    <div className={`${ activeQuestion.attachment ? 'w-full' : 'w-1/2 mt-10' }`}>
                         <p className="text-lg font-medium mb-4">
                             { activeQuestion.question }
                         </p>
@@ -140,10 +146,7 @@ export const MatematicasPage = () => {
                 </div>
             </div>
             <div className="flex items-center px-24 gap-28 mt-auto mb-20">
-                <div className="my-auto flex gap-4 items-center w-1/2">
-                    <ActualProgress actual={ index + 1 } total={ questions.length } />
-                </div>
-                <div className="flex items-center justify-center gap-4 my-auto w-1/2">
+                <div className="flex items-center justify-center my-auto gap-4 w-full">
                     <Button 
                         variant="ghost" 
                         className="bg-gray-100 hover:bg-slate-50 gap-1"
@@ -153,7 +156,7 @@ export const MatematicasPage = () => {
                         <ArrowLeft strokeWidth={1.5} />
                         Anterior
                     </Button>
-                    <Label>Reactivos de Lectura</Label>
+                    <Label>Reactivos de Pensamiento </Label>
                     <Button 
                         variant="ghost" 
                         className="bg-gray-100 hover:bg-slate-50 gap-1"

@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, CheckSquare, Save } from "lucide-react"
-import { ActualProgress, BlockProgress, CustomAlertDialog, LoadingQuestionPage, ThinkAnswers } from "../components"
+import { BlockProgress, CustomAlertDialog, LoadingQuestionPage, ThinkAnswers } from "../components"
 import { Button, Label } from "@/components/ui"
 import { Anahuac } from "@/auth/components"
 import { useExamStore } from "@/hooks"
@@ -157,7 +157,7 @@ export const PensamientoPage = () => {
                         <ArrowLeft strokeWidth={1.5} />
                         Anterior
                     </Button>
-                    <Label>Reactivos de Lectura</Label>
+                    <Label>Reactivos de Pensamiento </Label>
                     <Button 
                         variant="ghost" 
                         className="bg-gray-100 hover:bg-slate-50 gap-1"

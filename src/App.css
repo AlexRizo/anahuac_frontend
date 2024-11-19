@@ -63,6 +63,32 @@ input[type=number] {
   animation: border-rotate 2s ease-in-out alternate infinite;
 }
 
+.triangle {
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+
+.triangle-slot {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.numbers button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
 
 @keyframes border-rotate {
     0% {

@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { UserLayout } from "../user/layout/UserLayout";
-import { HomePage, LecturaPage, MatematicasPage, PensamientoPage } from "../user/pages";
+import { DonePage, HomePage, LecturaPage, MatematicasPage, PensamientoPage } from "../user/pages";
 
 export const UserRoutes = (exam_level) => {
     return [
@@ -14,7 +14,14 @@ export const UserRoutes = (exam_level) => {
                 },
                 {
                     path: '/examen/exap',
-                    element: (exam_level === 3) ? <PensamientoPage/> : exam_level === 2 ? <MatematicasPage/> : <LecturaPage/>
+                    element: (exam_level === 3) 
+                        ? <PensamientoPage/> : exam_level === 2
+                        ? <MatematicasPage/> : exam_level === 3 
+                        ? <LecturaPage/> : <Navigate to="/examen/finalizado"/>
+                },
+                {
+                    path: '/examen/finalizado',
+                    element: <DonePage/>
                 }
             ]
         },

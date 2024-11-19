@@ -7,7 +7,7 @@ export const MathematicAnswers = ({ answers, value, type, onChange }) => {
     }
     
     return (
-        <RadioGroup value={ value[0] || null } onValueChange={ handleChange } className={`${ type === 'single-image' && 'grid grid-cols-2 grid-rows-2' }`} >
+<RadioGroup value={ value[0] || null } onValueChange={ handleChange } className={`${ type === 'single-image' && 'grid grid-cols-2 grid-rows-2' }`} >
             {
                 answers.map((answer, index) => (
                     <div 
