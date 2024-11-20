@@ -39,11 +39,11 @@ export const useAspirantsStore = () => {
         }
     }
     
-    const startLoadingAspirants = async({ page = 1, limit = 10, sec = '', prep = '', app = '', name = '' }) => {
+    const startLoadingAspirants = async({ page = 1, limit = 10, sec = '', prep = '', app = '', name = '', results = false }) => {
         dispatch(setLoadState('loading'));
         
         try {
-            const { data } = await anahuacApi.get('/aspirants/getaspirants', { params: { page, limit, sec, prep, app, name } });
+            const { data } = await anahuacApi.get('/aspirants/getaspirants', { params: { page, limit, sec, prep, app, name, results } });
             dispatch(onLoadAspirants(data.aspirants));
             return data.pages; // ? return the number of pages;
         } catch (error) {

@@ -16,7 +16,14 @@ export const examSlice = createSlice({
     initialState,
     reducers: {
         onLoadQuestions: (state, { payload }) => {
-            state.questions = payload;
+            
+            const block1 = payload.filter((question) => question.relation === '672279a3a3f880dfc5b70a8a').sort(() => Math.random() - 0.5);
+            const block2 = payload.filter((question) => question.relation === '67228afb1d0fcdd16996d872').sort(() => Math.random() - 0.5);
+            const block3 = payload.filter((question) => question.relation === '6722937322a8c5bd203084a4').sort(() => Math.random() - 0.5);
+
+            const shuffleBlocks = [block1, block2, block3].sort(() => Math.random() - 0.5);
+
+            state.questions = [shuffleBlocks[0], shuffleBlocks[1], shuffleBlocks[2]].flat();
             state.total = payload.length;
         },
         onSetActiveQuestion: (state, { payload }) => {

@@ -4,7 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/components/ui";
 import { useAuthStore } from "../../hooks";
-import { Anahuac } from "../components";
+import { Anahuac, ModeloEducativo } from "../components";
+import { EXHA } from "@/components";
 
 export const LoginAdmin = () => {
     const { startLogin, errorMessage, status } = useAuthStore();
@@ -37,7 +38,7 @@ export const LoginAdmin = () => {
                         <Anahuac/>
                     </div>
                     <div>
-                        <h1 className="font-black text-[70px]">Admisión<br/> Prepa Anáhuac</h1>
+                        <ModeloEducativo/>
                         <p className="text-lg max-w-[579px]">
                             Guíamos a nuestros estudiantes para que construyan su proyecto 
                             de vida y los apoyamos a descubrir sus potencialidades, 
@@ -49,8 +50,12 @@ export const LoginAdmin = () => {
                     </div>
                 </div>
             </div>
-            <div className={`border shadow p-6 w-[45%] h-full bg-white ${ checkingStatus && 'opacity-50 pointer-events-none' } transition flex`}>
+            <div className={`border shadow p-6 w-[45%] h-full bg-white ${ checkingStatus && 'opacity-50 pointer-events-none' } transition flex relative`}>
                 <div className="w-[493px] m-auto">
+                    <div className="flex flex-col gap-2 mb-14">
+                        <EXHA/>
+                        <h1 className="text-xs uppercase">Examen de habilidades para el aprendizaje</h1>
+                    </div>
                     <div className="mb-6 flex flex-col gap-1">
                         <h1 className="text-2xl font-medium text-primary">Bienvenido/a</h1>
                         <h2 className="text-sm text-slate-500">Introduce tus credenciales</h2>
@@ -91,6 +96,10 @@ export const LoginAdmin = () => {
                         { errorMessage && <p className="text-red-500 text-sm text-center">{ errorMessage }</p> }
                     </form>
                 </Form>
+                <div className="absolute bottom-10">
+                    <Anahuac fill="#2B3844" width={140} />
+                    <p className="text-sm font-light mt-2">© 2025 Colegio Anáhuac Colima. Todos los derechos Reservados.</p>
+                </div>
                 </div>
             </div>
         </section>

@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { CheckCircle, Edit, FileBadge, LoaderCircle, Trash, X } from "lucide-react"
+import { CheckCircle, CircleX, Edit, FileBadge, LoaderCircle, Trash, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
 import { AlertDialogDelete, SelectApp, SelectOrigin } from ".";
 import { useNavigate } from "react-router-dom";
-import { capitalizeFirstLetter, customParseISO } from "../helpers";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
 
@@ -41,27 +40,28 @@ export const ResultsTable = () => {
     };
 
     useEffect(() => {
-        const fetchApps = async (name = '') => {
+        const fetchAspirants = async (name = '') => {
             const pages = await startLoadingAspirants({ 
                 page,
                 sec: filterStatus.includes('SECUNDARIA') ? 'SECUNDARIA' : '',
                 prep: filterStatus.includes('PREPARATORIA') ? 'PREPARATORIA' : '',
                 app: selectedApp,
-                name
+                name,
+                results: true
             });
             setTotalPages(pages);
         };
         
         const debouncedSearch = debounce( async(term) => {
             if (term) {
-                fetchApps(term);
+                fetchAspirants(term);
             } else {
-                fetchApps();
+                fetchAspirants();
             }
         }, 500);
 
         if (isFirstTime) {
-            fetchApps(searchedTerm);
+            fetchAspirants(searchedTerm);
             setIsFirstTime(false);
         } else {
             debouncedSearch(searchedTerm);
@@ -124,13 +124,18 @@ export const ResultsTable = () => {
                                             `
                                         }
                                     </TableCell>
-                                    <TableCell className="text-center">{ 40 }</TableCell>
-                                    <TableCell className="text-center">{ 43 }</TableCell>
-                                    <TableCell className="text-center">{ 50 }</TableCell>
-                                    <TableCell className="text-center">{ 133 }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.lecturaScore ?? 0 }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.matematicasScore ?? 0 }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.pensamientoScore ?? 0 }</TableCell>
+                                    <TableCell className="text-center">{ 
+                                        aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore ?? 0 
+                                    }</TableCell>
                                     <TableCell>
                                         <div className="flex justify-center">
-                                            <CheckCircle strokeWidth={ 1.25 } />
+                                            {
+                                               aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore > 999 
+                                               ? <CheckCircle strokeWidth={ 1.25 } /> : <CircleX strokeWidth={ 1.25 } />
+                                            }
                                         </div>
                                     </TableCell>
                                     <TableCell>

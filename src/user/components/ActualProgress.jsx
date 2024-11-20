@@ -1,20 +1,26 @@
 import { Label, Progress } from "@/components/ui"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
-export const ActualProgress = ({ actual, total }) => {
+export const ActualProgress = ({ actual, index }) => {
     const [progress, setProgress] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(1);
 
-    useEffect(() => {
-        if (total <= 0) return;
+    const $index = useMemo(() => index, [index]);
 
-        if (actual <= 10) {
-            setProgress(((actual - 1) / total) * 100);
-        } else if (actual > 10 && actual <= 15) {
-            setProgress(((actual - 1 + .5) / total) * 100);
-        } else {
-            setProgress((actual / total) * 100);
-        }
-    }, [actual, total])
+    const blocks = [
+        { id: '672279a3a3f880dfc5b70a8a', bloque: 1, total: 10 },
+        { id: '67228afb1d0fcdd16996d872', bloque: 2, total: 6 },
+        { id: '6722937322a8c5bd203084a4', bloque: 3, total: 4 },
+    ]
+
+    // useEffect(() => {
+    //     const block = blocks.find(block => block.id === actual);
+    //     const total = block.total;
+    //     const progress = currentIndex / total * 100;
+    //     setProgress(progress);
+
+    //     if ($index)
+    // }, [actual, index]);
     
     return (
         <>
