@@ -199,7 +199,7 @@ export const LecturaPage = () => {
             </div>
             <div className="flex items-center px-24 gap-28 mt-auto mb-20">
                 <div className="my-auto flex gap-4 items-center w-1/2">
-                    <ActualProgress actual={ activeQuestion.relation } index={ index }/>
+                    <ActualProgress actual={ index } block={ currentArticle.id }/>
                 </div>
                 <div className="flex items-center justify-center gap-4 my-auto w-1/2">
                     <Button 

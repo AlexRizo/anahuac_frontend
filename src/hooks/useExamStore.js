@@ -49,14 +49,21 @@ export const useExamStore = () => {
         try {
             if (model === 'lectura') {
                 const { data } = await anahuacApi.get('/exam/lectura/questions');
-                dispatch(onLoadQuestions(data.questions));
+
+                const block1 = data.questions.filter((question) => question.relation === '672279a3a3f880dfc5b70a8a').sort(() => Math.random() - 0.5);
+                const block2 = data.questions.filter((question) => question.relation === '67228afb1d0fcdd16996d872').sort(() => Math.random() - 0.5);
+                const block3 = data.questions.filter((question) => question.relation === '6722937322a8c5bd203084a4').sort(() => Math.random() - 0.5);
+
+                const shuffleBlocks = [block1, block2, block3].sort(() => Math.random() - 0.5);
+                
+                dispatch(onLoadQuestions(shuffleBlocks.flat()));
                 await startLoadingSpecials();
             } else if (model === 'matematicas') {
                 const { data } = await anahuacApi.get('/exam/matematicas/questions');
-                dispatch(onLoadQuestions(data.questions));
+                dispatch(onLoadQuestions(data.questions.sort(() => Math.random() - 0.5)));
             } else if (model === 'pensamiento') {
                 const { data } = await anahuacApi.get('/exam/pensamiento/questions');
-                dispatch(onLoadQuestions(data.questions));
+                dispatch(onLoadQuestions(data.questions.sort(() => Math.random() - 0.5)));
             }
 
             await startLoadingUserExamResults(user.uid, model);

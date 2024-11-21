@@ -124,11 +124,11 @@ export const ResultsTable = () => {
                                             `
                                         }
                                     </TableCell>
-                                    <TableCell className="text-center">{ aspirant?.examResult?.lecturaScore ?? 0 }</TableCell>
-                                    <TableCell className="text-center">{ aspirant?.examResult?.matematicasScore ?? 0 }</TableCell>
-                                    <TableCell className="text-center">{ aspirant?.examResult?.pensamientoScore ?? 0 }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.lecturaScore }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.matematicasScore }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.pensamientoScore }</TableCell>
                                     <TableCell className="text-center">{ 
-                                        aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore ?? 0 
+                                        aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore
                                     }</TableCell>
                                     <TableCell>
                                         <div className="flex justify-center">
