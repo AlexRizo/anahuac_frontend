@@ -18,3 +18,5 @@ export * from './dropdown-menu';
 export * from './badge';
 export * from './progress';
 export * from './checkbox';
+export * from './accordion';
+export * from './hover-card';

@@ -1,4 +1,4 @@
-import { CalendarDays, FileBadge, House, LogOut, UserCog, Users } from "lucide-react"
+import { Album, CalendarDays, FileBadge, House, LogOut, UserCog, Users } from "lucide-react"
 import { NavItem, SAPAC } from "../components"
 import { Button, Label, Switch } from "@/components/ui"
 import { useAuthStore, useUiStore } from "@/hooks"
@@ -24,6 +24,10 @@ const menu = [
     {
         children: (<> <UserCog strokeWidth={1.25} /> Staff </>),
         path: '/staff'
+    },
+    {
+        children: (<> <Album strokeWidth={1.25} /> Exámenes </>),
+        path: '/examenes'
     },
 ]
 

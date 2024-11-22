@@ -1,10 +1,10 @@
-import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel, onRestartExam } from "@/store/exam/examSlice";
+import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel, onRestartExam, onLoadExams } from "@/store/exam/examSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
 
 export const useExamStore = () => {
-    const { questions, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level } = useSelector(state => state.exam);
+    const { questions, exams, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level } = useSelector(state => state.exam);
     const { user } = useSelector(state => state.auth);
     const { toast } = useToast();
     const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export const useExamStore = () => {
                 const block2 = data.questions.filter((question) => question.relation === '67228afb1d0fcdd16996d872').sort(() => Math.random() - 0.5);
                 const block3 = data.questions.filter((question) => question.relation === '6722937322a8c5bd203084a4').sort(() => Math.random() - 0.5);
 
-                const shuffleBlocks = [block1, block2, block3].sort(() => Math.random() - 0.5);
+                const shuffleBlocks = [block1, block2, block3];
                 
                 dispatch(onLoadQuestions(shuffleBlocks.flat()));
                 await startLoadingSpecials();
@@ -179,8 +179,35 @@ export const useExamStore = () => {
         }
     };
 
+    const startLoadingExams = async () => {
+        dispatch(setIsLoading('loading'));
+
+        try {
+            const { data } = await anahuacApi.get('/exam/get');
+            dispatch(onLoadExams(data.exams));
+        } catch (error) {
+            startSetExceptionMessage(error);
+            dispatch(setIsLoading('error'));
+        }
+    };
+
+    const startLoadingAllQuestionsWithCorrectAnswer = async (origin) => {
+        if (!origin) return;
+        dispatch(setIsLoading('loading'));
+
+        try {
+            const { data } = await anahuacApi.get(`/exam/get/questions/${ origin }`);
+            dispatch(onLoadQuestions(data.questions));
+            dispatch(setIsLoading('loaded'));
+        } catch (error) {
+            startSetExceptionMessage(error);
+            dispatch(setIsLoading('error'));
+        }
+    };
+
     return {
         // ? properties
+        exams,
         questions,
         activeQuestion,
         total,
@@ -191,6 +218,7 @@ export const useExamStore = () => {
         exam_level,
 
         // ! methods
+        startLoadingAllQuestionsWithCorrectAnswer,
         startLoadingAllBlockQuestions,
         startSavingExamAndNextLevel,
         startLoadingSpecials,
@@ -200,5 +228,6 @@ export const useExamStore = () => {
         startSavingExam,
         startLoadingExamLevel,
         startResetExam,
+        startLoadingExams,
     }
 };
