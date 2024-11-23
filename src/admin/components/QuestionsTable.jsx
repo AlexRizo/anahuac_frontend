@@ -2,10 +2,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, HoverCard
 import { useExamStore } from '@/hooks';
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { SelectBlock, SelectLect } from '.';
+import { LecturaCard, SelectBlock, SelectLect } from '.';
+import { BookOpenCheck } from 'lucide-react';
 
 export const QuestionsTable = () => {
-    const { questions, isLoadingApp, startLoadingAllQuestionsWithCorrectAnswer } = useExamStore();
+    const { questions, specials, isLoadingApp, startLoadingAllQuestionsWithCorrectAnswer, startLoadingSpecials } = useExamStore();
 
     const { id } = useParams();
 
@@ -13,14 +14,23 @@ export const QuestionsTable = () => {
     const [selectedBlock, setSelectedBlock] = useState('');
     const [selectedLect, setSelectedLect] = useState(1); // El id de la lectura 1
     const [blockPoints, setBlockPoints] = useState(0);
+    const [special, setSpecial] = useState([]);
 
     useEffect(() => {
         startLoadingAllQuestionsWithCorrectAnswer(id);
     }, []);
 
     useEffect(() => {
+        if (specials.length === 0) return;
+        setSpecial(specials.find(s => s.number === selectedLect));
+    }, [specials, selectedLect]);
+
+    useEffect(() => {
         if (selectedBlock === 'lectura') {
             setSelectedQuestions(questions.filter(q => q.block === selectedBlock.toUpperCase() && q.relation.number === selectedLect));
+            if (specials.length === 0) {
+                startLoadingSpecials();
+            }
         } else {
             setSelectedQuestions(questions.filter(q => q.block === selectedBlock.toUpperCase()));
         }
@@ -36,7 +46,17 @@ export const QuestionsTable = () => {
                 <div>
                     <SelectBlock value={ selectedBlock } onChange={ setSelectedBlock } />
                     {
-                        selectedBlock === 'lectura' && <SelectLect value={ selectedLect } onChange={ setSelectedLect } />
+                        selectedBlock === 'lectura' && (
+                            <div className='flex'>
+                                <SelectLect value={ selectedLect } onChange={ setSelectedLect } />
+                                <LecturaCard { ...special } >
+                                    <span className='flex items-center gap-2 ml-6 underline cursor-pointer'>
+                                        <Label className="font-semibold">Ver lectura</Label>
+                                        <BookOpenCheck size={ 18 } />
+                                    </span>
+                                </LecturaCard>
+                            </div>
+                        )
                     }
                 </div>
                 <div className='flex gap-10'>
@@ -46,11 +66,11 @@ export const QuestionsTable = () => {
                     </span>
                     <span className='flex gap-1 items-center'>
                         <Label>Reactivos del bloque:</Label>
-                        <p className='font-semibold text-blue-600'>20</p>
+                        <p className='font-semibold text-blue-600'>{ selectedQuestions.length > 1 ? 20 : 0 }</p>
                     </span>
                     <span className='flex gap-1 items-center'>
                         <Label>Porcentaje:</Label>
-                        <p className='font-semibold text-blue-600'>{((blockPoints * 100) / 1300).toPrecision(4)}%</p>
+                        <p className='font-semibold text-blue-600'>{ ((blockPoints * 100) / 1300).toPrecision(4) }%</p>
                     </span>
                 </div>
             </div>

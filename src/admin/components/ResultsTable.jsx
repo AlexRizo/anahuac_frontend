@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle, CircleX, Edit, FileBadge, LoaderCircle, Trash, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { AlertDialogDelete, SelectApp, SelectOrigin } from ".";
+import { AlertDialogDelete, PDF, SelectApp, SelectOrigin } from ".";
 import { useNavigate } from "react-router-dom";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export const ResultsTable = () => {
     const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
@@ -138,10 +139,19 @@ export const ResultsTable = () => {
                                             }
                                         </div>
                                     </TableCell>
-                                    <TableCell>
-                                        <div className="flex justify-center">
-                                            <FileBadge strokeWidth={ 1.25 } />
-                                        </div>
+                                    <TableCell className="text-center">
+                                        <PDFDownloadLink 
+                                            document={ <PDF/> }
+                                            fileName={ `${ aspirant.first_name.replace(' ', '_') }_${ aspirant.last_name_1 }${ aspirant.last_name_2 ? '_' + aspirant.last_name_2 : '' }_EXHA_Results.pdf` }
+                                        >
+                                            {
+                                                ({ loading }) => (
+                                                    <Button variant="ghost">
+                                                        <FileBadge size={20} strokeWidth={1.50} absoluteStrokeWidth className={`mr-1 ${ loading && 'opacity-50' } transition`} />
+                                                    </Button>
+                                                )
+                                            }
+                                        </PDFDownloadLink>
                                     </TableCell>
                                 </TableRow>
                             ))
