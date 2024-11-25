@@ -9,13 +9,21 @@ export const useKeysStore = () => {
     const { key, status:validateKeyStatus, errorMessage } = useSelector( state => state.keyValidation );
     const { toast } = useToast();
 
-    const onSetMessage = (message) => {
+    const onSetMessage = (message, useToast = false) => {
         const errorMessage = message?.response?.data.message ||
             (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
             "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
         console.log(message);
         dispatch(setMessage(errorMessage));
+
+        if (useToast) {
+            toast({
+                title: 'Ha ocurrido un error',
+                description: errorMessage,
+                variant: 'destructive',
+            });
+        }
     };
 
     const startLoadingKeys = async (id) => {
@@ -26,12 +34,7 @@ export const useKeysStore = () => {
             dispatch(onLoadKeys(data.keys));
         } catch (error) {
             dispatch(setIsLoading('error'));
-            onSetMessage(error);
-            toast({
-                title: 'Ha ocurrido un error',
-                description: 'Ocurrió un error al intentar cargar las claves.',
-                variant: 'destructive',
-            })
+            onSetMessage(error, true);
         };
     };
 
@@ -47,12 +50,7 @@ export const useKeysStore = () => {
             })
         } catch (error) {
             dispatch(setIsLoading('error'));
-            dispatch(setMessage(error));
-            toast({
-                title: 'Ha ocurrido un error',
-                description: 'Ocurrió un error al intentar crear las claves. Inténtalo de nuevo.',
-                variant: 'destructive',
-            });
+            onSetMessage(error, true);
         };
     };
 
@@ -67,11 +65,7 @@ export const useKeysStore = () => {
                 (error?.response?.data?.errors && Object.values(error.response.data.errors).map((err) => err.msg).join(", ")) ||
                 "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)"
             dispatch(onInvalidatedKey(errorMessage));
-            toast({
-                title: 'Error al validar la clave',
-                description: errorMessage,
-                variant: 'destructive',
-            });
+            onSetMessage(error, true);
         }
     }
 
