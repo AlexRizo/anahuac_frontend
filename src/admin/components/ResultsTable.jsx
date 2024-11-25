@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckCircle, CircleX, Edit, FileBadge, LoaderCircle, Trash, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { AlertDialogDelete, PDF, SelectApp, SelectOrigin } from ".";
+import { AlertDialogDelete, PDF, PDFRejected, SelectApp, SelectOrigin } from ".";
 import { useNavigate } from "react-router-dom";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
@@ -141,7 +141,29 @@ export const ResultsTable = () => {
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <PDFDownloadLink 
-                                            document={ <PDF/> }
+                                            document={ 
+                                                aspirant?.examResult.lecturaScore + aspirant?.examResult.matematicasScore + aspirant?.examResult.pensamientoScore > 999 ? (
+                                                    <PDF 
+                                                        aspirant={`${ aspirant.first_name } ${ aspirant.last_name_1 } ${ aspirant.last_name_2 ? aspirant.last_name_2 : '' }`}
+                                                        lecturaScore={ aspirant?.examResult?.lecturaScore }
+                                                        matematicasScore={ aspirant?.examResult?.matematicasScore }
+                                                        pensamientoScore={ aspirant?.examResult?.pensamientoScore }
+                                                        sex={ aspirant.sex }
+                                                        date={ aspirant.application.date }
+                                                        origin={ aspirant.app_origin }
+                                                    />
+                                                ) : (
+                                                    <PDFRejected
+                                                        aspirant={`${ aspirant.first_name } ${ aspirant.last_name_1 } ${ aspirant.last_name_2 ? aspirant.last_name_2 : '' }`}
+                                                        lecturaScore={ aspirant?.examResult?.lecturaScore }
+                                                        matematicasScore={ aspirant?.examResult?.matematicasScore }
+                                                        pensamientoScore={ aspirant?.examResult?.pensamientoScore }
+                                                        sex={ aspirant.sex }
+                                                        date={ aspirant.application.date }
+                                                        origin={ aspirant.app_origin }
+                                                    />
+                                                )
+                                            }
                                             fileName={ `${ aspirant.first_name.replace(' ', '_') }_${ aspirant.last_name_1 }${ aspirant.last_name_2 ? '_' + aspirant.last_name_2 : '' }_EXHA_Results.pdf` }
                                         >
                                             {
