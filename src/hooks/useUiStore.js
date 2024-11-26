@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { default as anahuacApi } from "../api/api";
-import { onActiveSystem } from "@/store/ui/uiSlice";
+import { onActiveSystem, onComingSoon } from "@/store/ui/uiSlice";
 
 export const useUiStore = () => {
     const dispatch = useDispatch();
 
-    const { systemStatus } = useSelector((state) => state.ui);
+    const { systemStatus, comingSoon } = useSelector((state) => state.ui);
     
     const setSystemStatus = async(value) => {
         try {
@@ -31,13 +31,19 @@ export const useUiStore = () => {
             console.log({error});
         }
     };
-    
+
+    const setComingSoon = async(status = false) => {
+        dispatch(onComingSoon(status));
+    };
+
     return {
         // ? values
         systemStatus,
-
+        comingSoon,
+        
         // ? methods
         setSystemStatus,
         getSystemStatus,
+        setComingSoon,
     }
 }

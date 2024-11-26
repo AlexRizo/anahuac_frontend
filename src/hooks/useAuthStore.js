@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onChecking, onLogin, onLogout } from "../store/auth/authSlice";
+import { onChecking, onLogin, onLogout, onSetChecking } from "../store/auth/authSlice";
 import { default as anahuacApi } from "../api/api";
 import { useToast } from "./use-toast";
+import { useUiStore } from "./useUiStore";
 
 export const useAuthStore = () => {
     const { toast } = useToast();
     const dispatch = useDispatch();
     const { status, user, errorMessage } = useSelector((state) => state.auth);
+    const { comingSoon, setComingSoon } = useUiStore();
 
     const startLogin = async (email, password) => {
         dispatch(onChecking());
@@ -64,6 +66,17 @@ export const useAuthStore = () => {
 
         try {
             const { data } = await anahuacApi.post("/aspirants/registeraspirant", aspirant);
+
+            if (data.status === 'pending') {
+                setComingSoon(true);
+                dispatch(onSetChecking('not-authenticated'));
+                return toast({
+                    title: "Registro exitoso",
+                    description: data.message,
+                    variant: "success",
+                });
+            }
+
             localStorage.setItem("token", data.token); 
             localStorage.setItem("token-init-date", new Date().getTime());
             dispatch(onLogin({

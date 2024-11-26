@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     systemStatus: false,
+    comingSoon: false,
 };
 
 export const uiSlice = createSlice({
@@ -11,7 +12,10 @@ export const uiSlice = createSlice({
         onActiveSystem: (state, { payload }) => {
             state.systemStatus = payload;
         },
+        onComingSoon: (state, { payload }) => {
+            state.comingSoon = payload;
+        }
     },
 });
 
-export const { onActiveSystem } = uiSlice.actions;
+export const { onActiveSystem, onComingSoon } = uiSlice.actions;
