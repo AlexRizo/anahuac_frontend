@@ -1,17 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
-import { CheckCircle, CircleX, Edit, FileBadge, LoaderCircle, Trash, X } from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CheckCircle, CircleX, FileBadge, LoaderCircle, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { AlertDialogDelete, PDF, PDFRejected, SelectApp, SelectOrigin } from ".";
+import { PDF, PDFRejected, SelectApp, SelectOrigin } from ".";
 import { useNavigate } from "react-router-dom";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { pdf } from "@react-pdf/renderer";
 
 export const ResultsTable = () => {
     const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
+    const aRef = useRef(null);
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [fileName, setFileName] = useState('');
 
     const [filterStatus, setFilterStatus] = useState([]);
     const [selectedApp, setSelectedApp] = useState('');
@@ -71,9 +73,46 @@ export const ResultsTable = () => {
         return () => debouncedSearch.cancel();
     }, [searchedTerm, page, filterStatus, selectedApp]);
 
+    const handleDownloadPDF = async (aspirant) => {
+        const isAccepted = 
+            (aspirant?.examResult?.lecturaScore || 0) +
+            (aspirant?.examResult?.matematicasScore || 0) +
+            (aspirant?.examResult?.pensamientoScore || 0) > 999;
+
+        const document = isAccepted ? (
+            <PDF 
+                aspirant={`${aspirant.first_name} ${aspirant.last_name_1} ${aspirant.last_name_2 || ''}`}
+                lecturaScore={aspirant?.examResult?.lecturaScore}
+                matematicasScore={aspirant?.examResult?.matematicasScore}
+                pensamientoScore={aspirant?.examResult?.pensamientoScore}
+                sex={aspirant.sex}
+                date={aspirant.application.date}
+                origin={aspirant.app_origin}
+            />
+        ) : (
+            <PDFRejected
+                aspirant={`${aspirant.first_name} ${aspirant.last_name_1} ${aspirant.last_name_2 || ''}`}
+                lecturaScore={aspirant?.examResult?.lecturaScore || 0}
+                matematicasScore={aspirant?.examResult?.matematicasScore || 0}
+                pensamientoScore={aspirant?.examResult?.pensamientoScore || 0}
+                sex={aspirant.sex}
+                date={aspirant.application.date}
+                origin={aspirant.app_origin}
+            />
+        );
+
+        const blob = await pdf(document).toBlob();
+        const url = window.URL.createObjectURL(blob);
+
+        aRef.current.href = url;
+        aRef.current.download = `${aspirant.first_name.replace(' ', '_')}_${aspirant.last_name_1}${aspirant.last_name_2 ? '_' + aspirant.last_name_2 : ''}_EXHA_Results.pdf`;
+        aRef.current.click();
+    };
+
 
     return (
         <>
+        <a ref={ aRef } target="_blank" rel="noopener noreferrer" className="hidden"></a>
             <div className="flex justify-between mb-5">
                 <div className="flex gap-5">
                     <Input type="text" placeholder="Buscar aspirante..." className="transition w-[251px] shadow-sm" onChange={ handleSearch } value={ searchedTerm } />
@@ -125,11 +164,11 @@ export const ResultsTable = () => {
                                             `
                                         }
                                     </TableCell>
-                                    <TableCell className="text-center">{ aspirant?.examResult?.lecturaScore }</TableCell>
-                                    <TableCell className="text-center">{ aspirant?.examResult?.matematicasScore }</TableCell>
-                                    <TableCell className="text-center">{ aspirant?.examResult?.pensamientoScore }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.lecturaScore || 0 }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.matematicasScore || 0 }</TableCell>
+                                    <TableCell className="text-center">{ aspirant?.examResult?.pensamientoScore || 0 }</TableCell>
                                     <TableCell className="text-center">{ 
-                                        aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore
+                                        (aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore) || 0
                                     }</TableCell>
                                     <TableCell>
                                         <div className="flex justify-center">
@@ -140,40 +179,12 @@ export const ResultsTable = () => {
                                         </div>
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        <PDFDownloadLink 
-                                            document={ 
-                                                aspirant?.examResult.lecturaScore + aspirant?.examResult.matematicasScore + aspirant?.examResult.pensamientoScore > 999 ? (
-                                                    <PDF 
-                                                        aspirant={`${ aspirant.first_name } ${ aspirant.last_name_1 } ${ aspirant.last_name_2 ? aspirant.last_name_2 : '' }`}
-                                                        lecturaScore={ aspirant?.examResult?.lecturaScore }
-                                                        matematicasScore={ aspirant?.examResult?.matematicasScore }
-                                                        pensamientoScore={ aspirant?.examResult?.pensamientoScore }
-                                                        sex={ aspirant.sex }
-                                                        date={ aspirant.application.date }
-                                                        origin={ aspirant.app_origin }
-                                                    />
-                                                ) : (
-                                                    <PDFRejected
-                                                        aspirant={`${ aspirant.first_name } ${ aspirant.last_name_1 } ${ aspirant.last_name_2 ? aspirant.last_name_2 : '' }`}
-                                                        lecturaScore={ aspirant?.examResult?.lecturaScore }
-                                                        matematicasScore={ aspirant?.examResult?.matematicasScore }
-                                                        pensamientoScore={ aspirant?.examResult?.pensamientoScore }
-                                                        sex={ aspirant.sex }
-                                                        date={ aspirant.application.date }
-                                                        origin={ aspirant.app_origin }
-                                                    />
-                                                )
-                                            }
-                                            fileName={ `${ aspirant.first_name.replace(' ', '_') }_${ aspirant.last_name_1 }${ aspirant.last_name_2 ? '_' + aspirant.last_name_2 : '' }_EXHA_Results.pdf` }
+                                        <Button
+                                            variant="ghost"
+                                            onClick={() => handleDownloadPDF(aspirant)}
                                         >
-                                            {
-                                                ({ loading }) => (
-                                                    <Button variant="ghost">
-                                                        <FileBadge size={20} strokeWidth={1.50} absoluteStrokeWidth className={`mr-1 ${ loading && 'opacity-50' } transition`} />
-                                                    </Button>
-                                                )
-                                            }
-                                        </PDFDownloadLink>
+                                            <FileBadge size={20} strokeWidth={1.50} absoluteStrokeWidth className="mr-1" />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))

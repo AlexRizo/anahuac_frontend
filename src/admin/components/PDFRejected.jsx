@@ -98,14 +98,12 @@ export const PDFRejected = (
                 <View style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    width: '100%',
+                    alignItems: 'center',
                     gap: 20,
-                    textAlign: 'center',
+                    marginTop: 60,
                     fontSize: 12,
-                    position: 'absolute',
-                    bottom: 80,
                 }}>
-                    <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>
                             Colima, Col. a <Text style={{ fontWeight: 600, fontSize: 12 }}>{ format(new Date(), "dd 'de' MMMM 'del' y", { locale: localCustom }) }</Text>
                         </Text>
@@ -113,7 +111,8 @@ export const PDFRejected = (
                             Atentamente
                         </Text>
                     </View>
-                    <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <Image src="/img/pdf/firma-prepa.png" style={{ width: 200 }} />
+                    <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
                         <Text>Directora Académica</Text>
                     </View>
