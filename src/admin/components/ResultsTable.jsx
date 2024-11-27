@@ -173,7 +173,7 @@ export const ResultsTable = () => {
                                     <TableCell>
                                         <div className="flex justify-center">
                                             {
-                                               aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore > 999 
+                                               aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 780 
                                                ? <CheckCircle strokeWidth={ 1.25 } className="text-green-600" /> : <CircleX strokeWidth={ 1.25 } className="text-red-600" />
                                             }
                                         </div>

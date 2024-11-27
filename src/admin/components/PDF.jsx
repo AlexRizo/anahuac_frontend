@@ -102,7 +102,7 @@ export const PDF = (
                         </Text>
                         es&nbsp; 
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
-                            { totalScore >= 1150 ? 'sobresaliente' : totalScore < 1150 && totalScore >= 1000 ? 'satisfactorio' : 'insuficiente' }
+                            { totalScore >= 1000 ? 'sobresaliente' : totalScore <= 999 && totalScore >= 780 ? 'satisfactorio' : 'insuficiente' }
                         </Text>, lo cual te hace candidata a ser parte de la&nbsp;
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
                             { origin === 'PREPARATORIA' ? 'Preparatoria' : 'Secundaria' } Anáhuac.
