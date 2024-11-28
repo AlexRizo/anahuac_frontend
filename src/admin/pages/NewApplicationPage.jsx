@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { CustomAlert } from "../components";
 
 export const NewApplicationPage = () => {
-    const { ok, cleanActiveApp } = useAppStore();
+    const { activeApplication, cleanActiveApp } = useAppStore();
     
     useEffect(() => {
         cleanActiveApp();
@@ -21,7 +21,7 @@ export const NewApplicationPage = () => {
             </div>
             <div className="px-14 py-6 w-full h-[calc(100%-101px)] flex items-center justify-center animate__animated animate__zoomIn">
                 {
-                    ok ? (
+                    !!activeApplication ? (
                         <div>
                             <CustomAlert
                                 title="Nueva aplicación creada"
