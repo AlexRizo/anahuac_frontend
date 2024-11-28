@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "serve": "serve dist"
+    "start": "serve dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
