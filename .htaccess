@@ -1,0 +1,7 @@
+# Habilitar la reescritura de URLs
+RewriteEngine On
+
+# Si la URL no es un archivo o directorio existente, redirigir a index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ /index.html [L]
