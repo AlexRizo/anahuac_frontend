@@ -17,7 +17,7 @@ export const HomePage = () => {
 
         const interval = setInterval(() => {
             setCount(count - 1);
-        }, 1);
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [count]);
@@ -39,7 +39,7 @@ export const HomePage = () => {
                             className="w-52 mt-10"
                         >
                             {
-                                active ? "Iniciar examen" : `Podrás comenzar en ${count}`
+                                active ? "Iniciar examen" : `Podrás comenzar en ${ count }`
                             }
                         </Button>
                     </AlertDialogTrigger>

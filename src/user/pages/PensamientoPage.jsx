@@ -112,7 +112,7 @@ export const PensamientoPage = () => {
                                 title="Confirmar finalización del bloque" 
                                 content={<>
                                     Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
-                                    ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
+                                    Tu progreso se guardará y no podrás regresar.
                                 </>}
                                 onConfirm={ startSavingExamAndNextLevel }
                             >

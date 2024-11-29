@@ -14,7 +14,7 @@ export const Article = ({ title, author, text = [], contentOrigin }) => {
                     ))
                 }
             </p>
-            <p className="text-gray-500 text-right">{ contentOrigin }</p>
+            <p className="text-gray-500 text-right whitespace-pre-wrap break-words">{ contentOrigin }</p>
         </article>
     )
 }

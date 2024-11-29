@@ -112,7 +112,7 @@ export const MatematicasPage = () => {
                                 title="Confirmar finalización del bloque" 
                                 content={<>
                                     Antes de finalizar, asegúrate de haber respondido todas las preguntas. <br /><br />
-                                    ¿Estás seguro de que deseas finalizar este bloque?. Tu progreso se guardará y no podrás regresar.
+                                    Tu progreso se guardará y no podrás regresar.
                                 </>}
                                 onConfirm={ startSavingExamAndNextLevel }
                             >
@@ -156,7 +156,7 @@ export const MatematicasPage = () => {
                         <ArrowLeft strokeWidth={1.5} />
                         Anterior
                     </Button>
-                    <Label>Reactivos de Pensamiento </Label>
+                    <Label>Reactivos de Matemáticas</Label>
                     <Button 
                         variant="ghost" 
                         className="bg-gray-100 hover:bg-slate-50 gap-1"
