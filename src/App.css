@@ -95,6 +95,19 @@ input[type=number] {
   cursor: pointer;
 }
 
+.animate-loading {
+  animation: loading-image 1s infinite alternate;
+}
+
+@keyframes loading-image {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
 @keyframes border-rotate {
     0% {
         box-shadow: rgb(91, 225, 91) 0px 0px 20px 5px;

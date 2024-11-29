@@ -17,7 +17,7 @@ export const HomePage = () => {
 
         const interval = setInterval(() => {
             setCount(count - 1);
-        }, 1000);
+        }, 1);
 
         return () => clearInterval(interval);
     }, [count]);

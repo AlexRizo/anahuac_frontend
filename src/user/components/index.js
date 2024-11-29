@@ -9,3 +9,4 @@ export * from './MathematicAnswers';
 export * from './FourDigitsPrompt';
 export * from './ThinkAnswers';
 export * from './MagicTriangle';
+export * from './LoadingImage';

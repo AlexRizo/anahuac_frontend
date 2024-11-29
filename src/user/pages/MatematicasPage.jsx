@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, CheckSquare, Save } from "lucide-react"
-import { ActualProgress, BlockProgress, CustomAlertDialog, LoadingQuestionPage, MathematicAnswers } from "../components"
+import { ActualProgress, BlockProgress, CustomAlertDialog, LoadingImage, LoadingQuestionPage, MathematicAnswers } from "../components"
 import { Button, Label } from "@/components/ui"
 import { Anahuac } from "@/auth/components"
 import { useExamStore } from "@/hooks"
@@ -26,6 +26,18 @@ export const MatematicasPage = () => {
     const [totalComplete, setTotalComplete] = useState(0);
     const [recentSaved, setRecentSaved] = useState(false);
 
+    const [isLoadingImages, setIsLoadingImages] = useState([
+        true, true, true, true, true
+    ]);
+
+    const handleLoadImage = (index) => {
+        setIsLoadingImages(prev => {
+            const newImages = [...prev];
+            newImages[index] = false;
+            return newImages;
+        });
+    }
+    
     const isLoadingData = useMemo(() => isLoading === 'loading', [isLoading]);
     
     useEffect(() => {
@@ -36,6 +48,10 @@ export const MatematicasPage = () => {
     useEffect(() => {
         if (questions.length > 0) {
             startLoadingActiveQuestion(questions[index]);
+        }
+
+        if (isLoadingImages.some(image => image === false)) {
+            setIsLoadingImages([true, true, true, true, true]);
         }
     }, [questions, index]);
 
@@ -130,8 +146,16 @@ export const MatematicasPage = () => {
                 <div className="w-full px-24 flex justify-evenly items-center">
                     {
                         activeQuestion.attachment && (
-                            <div className="pr-5 h-[550px] flex items-center justify-center w-full">
-                                <img src={`${ activeQuestion.attachment }`} className="w-[540px]" alt={ activeQuestion.attachment } />
+                            <div className="pr-5 h-[550px] flex items-center justify-center w-full relative">
+                                {
+                                    isLoadingImages[0] && (<LoadingImage className="size-[550px] absolute" />)
+                                }
+                                <img 
+                                    src={`${ activeQuestion.attachment }`} 
+                                    className="w-[540px]" 
+                                    alt={ activeQuestion.attachment }
+                                    onLoad={() => handleLoadImage(0)}
+                                />
                             </div>
                         )
                     }
@@ -140,7 +164,14 @@ export const MatematicasPage = () => {
                             { activeQuestion.question }
                         </p>
                         <div>
-                            <MathematicAnswers answers={ activeQuestion.answers } value={ response } onChange={ setResponse } type={ activeQuestion.type } /> 
+                            <MathematicAnswers 
+                                answers={ activeQuestion.answers } 
+                                value={ response } 
+                                onChange={ setResponse } 
+                                type={ activeQuestion.type }
+                                isLoadingImages = { isLoadingImages }
+                                setIsLoadingImages = { handleLoadImage }
+                            /> 
                         </div>
                     </div>
                 </div>
