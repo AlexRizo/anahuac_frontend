@@ -52,7 +52,7 @@ export const ApplicationForm = () => {
         }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
         admin: z.string().min(1, '* El aplicador es obligatorio.'),
         type: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
-        keys: z.preprocess((val) => Number(val), z.number().max(25, '* En este momento sólo se permiten crear hasta 25 claves.').optional()),
+        keys: z.preprocess((val) => Number(val), z.number().max(35, '* Sólo puedes crear 35 claves en lote.').optional()),
     });
     
     const { control, handleSubmit, formState: { errors },  ...form } = useForm({
@@ -194,7 +194,7 @@ export const ApplicationForm = () => {
                                     <FormControl>
                                         <Input
                                             type="number"
-                                            max={ 25 }
+                                            max={ 35 }
                                             min={ 0 }
                                             value={ field.value }
                                             { ...field }

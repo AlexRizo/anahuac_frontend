@@ -18,13 +18,20 @@ export const useAppStore = () => {
     const { activeApplication, applications, isLoading, ok, message } = useSelector((state) => state.app);
     const { startCleanKeys } = useKeysStore();
 
-    const onSetMessage = (message) => {
+    const onSetMessage = (message, setToast = false) => {
         const errorMessage = message?.response?.data.message ||
                              (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
                              "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
         console.log(message);
         dispatch(setMessage(errorMessage));
+        if (setToast) {
+            toast({
+                title: 'Ha ocurrido un error',
+                description: errorMessage,
+                variant: 'destructive',
+            });
+        }
     };
 
     const startLoadingAllApps = async (activeApps = false) => {
@@ -101,7 +108,7 @@ export const useAppStore = () => {
 
     const startDeleteApp = async ({ id, name }) => {
         try {
-            await anahuacApi.delete(`/application/deleteapp/${ id }`);
+            await anahuacApi.patch(`/application/deleteapp/${ id }`);
             dispatch(onRemoveApplication(id));
             dispatch(setOk(true));
             toast({
@@ -111,12 +118,7 @@ export const useAppStore = () => {
             })
         } catch (error) {
             dispatch(setLoadState('error'));
-            onSetMessage(error);
-            toast({
-                title: 'Error al eliminar',
-                description: `La aplicación con el ID: ${ name } no se ha podido eliminar. Inténtalo de nuevo o más tarde.`,
-                variant: 'destructive',
-            })
+            onSetMessage(error, true);
         }
     };
 

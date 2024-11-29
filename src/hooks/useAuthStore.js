@@ -3,12 +3,13 @@ import { onChecking, onLogin, onLogout, onSetChecking } from "../store/auth/auth
 import { default as anahuacApi } from "../api/api";
 import { useToast } from "./use-toast";
 import { useUiStore } from "./useUiStore";
+import { useNavigate } from "react-router-dom";
 
 export const useAuthStore = () => {
     const { toast } = useToast();
     const dispatch = useDispatch();
     const { status, user, errorMessage } = useSelector((state) => state.auth);
-    const { comingSoon, setComingSoon } = useUiStore();
+    const { setComingSoon } = useUiStore();
 
     const startLogin = async (email, password) => {
         dispatch(onChecking());
@@ -20,7 +21,7 @@ export const useAuthStore = () => {
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
-                    name: data.user.name,
+                    username: data.user.username,
                     role: data.user.role,
                 }
             })) 
@@ -51,7 +52,7 @@ export const useAuthStore = () => {
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
-                    name: data.user.name,
+                    username: data.user.username,
                     role: data.user.role,
                 }
             }));
@@ -82,7 +83,7 @@ export const useAuthStore = () => {
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
-                    name: data.user.name,
+                    username: data.user.username,
                     role: data.user.role,
                 }
         }));
@@ -112,7 +113,7 @@ export const useAuthStore = () => {
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
-                    name: data.user.name,
+                    username: data.user.username,
                     role: data.user.role,
                 }
             }));
@@ -125,7 +126,7 @@ export const useAuthStore = () => {
             dispatch(onLogout(errorMessage));
         }
     };
-    
+
     return {
         // ? values
         status,

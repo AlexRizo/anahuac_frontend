@@ -7,6 +7,10 @@ export const AuthRoutes = [
         element: <LoginUser/>
     },
     {
+        path: '/admin',
+        element: <Navigate to="/admin/auth"/>
+    },
+    {
         path: '/admin/auth',
         element: <LoginAdmin/>
     },

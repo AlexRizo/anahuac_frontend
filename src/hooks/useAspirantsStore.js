@@ -109,20 +109,6 @@ export const useAspirantsStore = () => {
         dispatch(setActiveAspirant(null));
     }
 
-    // const startSearchAspirants = async (name) => {
-    //     dispatch(setLoadState('loading'));
-
-    //     try {
-    //         const { data } = await anahuacApi.get('/aspirants/search', { params: { name } });
-    //         dispatch(onLoadSerchedAspirants(data.aspirants));
-    //         dispatch(setLoadState('loaded'));
-    //         return data.pages;
-    //     } catch (error) {
-    //         dispatch(setLoadState('error'));
-    //         onSetMessage(error);
-    //     }
-    // };
-
     return {
         // ? properties
         activeAspirant,

@@ -3,6 +3,7 @@ import { NavItem, SAPAC } from "../components"
 import { Button, Label, Switch } from "@/components/ui"
 import { useAuthStore, useUiStore } from "@/hooks"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const menu = [
     {
@@ -34,6 +35,7 @@ const menu = [
 export const NavbarMenu = () => {
     const { startLogout } = useAuthStore();
     const { systemStatus, setSystemStatus } = useUiStore();
+    const navigate = useNavigate();
 
     const [isChecked, setIsChecked] = useState(systemStatus);
 
@@ -43,6 +45,11 @@ export const NavbarMenu = () => {
 
     const handleSwitchChange = async (checked) => {
         setIsChecked(setSystemStatus(checked));
+    };
+
+    const handleLogout = () => {
+        startLogout();
+        navigate('/admin');
     };
     
     return (
@@ -59,7 +66,7 @@ export const NavbarMenu = () => {
                     }
                     <Button 
                         className="w-full justify-start gap-2"
-                        onClick={ () => startLogout() }
+                        onClick={ handleLogout }
                     >
                         <LogOut strokeWidth={1.25} />
                         Cerrar sesión

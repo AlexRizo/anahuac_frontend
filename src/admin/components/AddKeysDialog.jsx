@@ -13,14 +13,14 @@ export const AddKeysDialog = ({ children }) => {
     const isLoadingKeys = useMemo(() => isLoading === 'loading', [isLoading]);
 
     const handleManualChange = (e) => {
-        if (e.target.value > 25) return setKeys(25);
+        if (e.target.value > 35) return setKeys(35);
         if (e.target.value < 1) return setKeys(1);
         setKeys(e.target.value);
     }
 
     const handleChangue = (type) => {        
         if (type === 'plus') {
-            if (keys === 25) return 25; 
+            if (keys === 35) return 35; 
             setKeys(keys + 1);
         } else {
             if (keys === 1) return 1;
@@ -49,7 +49,7 @@ export const AddKeysDialog = ({ children }) => {
                         <CircleMinus strokeWidth={1.50} onClick={() => handleChangue()} className="cursor-pointer"/>
                     </div>
                     <p className="text-gray-500 text-sm mt-2">
-                        Sólo se permiten crear 25 claves en lote.
+                        Sólo se permiten crear 35 claves en lote.
                     </p>
                 </div>
                 <DialogFooter>

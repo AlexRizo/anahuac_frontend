@@ -32,16 +32,16 @@ const dashboardOptions = [
         icon: <ClipboardList size={115} absoluteStrokeWidth />,
         button: 'Ver Reactivos',
         iconButton: <ClipboardList size={20} strokeWidth={1.25} absoluteStrokeWidth />,
-        path: '/reactivos'
+        path: '/examenes'
     },
-    {
-        title: 'Estadisticas',
-        description: 'Segunda etapa',
-        icon: <Activity size={115} absoluteStrokeWidth />,
-        button: 'Ver Estadisticas',
-        iconButton: <Activity size={20} strokeWidth={1.25} absoluteStrokeWidth />,
-        path: '/estadisticas'
-    }
+    // {
+    //     title: 'Estadisticas',
+    //     description: 'Segunda etapa',
+    //     icon: <Activity size={115} absoluteStrokeWidth />,
+    //     button: 'Ver Estadisticas',
+    //     iconButton: <Activity size={20} strokeWidth={1.25} absoluteStrokeWidth />,
+    //     path: '/estadisticas'
+    // }
 ]
 
 

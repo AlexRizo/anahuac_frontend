@@ -6,7 +6,7 @@
 }
 
 .button-number-decoration {
-  -webkit-appearance: none;
+  -webkit-appearance: none !important;
   -moz-appearance: textfield;
   margin: 0;
 }
