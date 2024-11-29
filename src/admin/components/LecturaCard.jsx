@@ -15,7 +15,7 @@ export const LecturaCard = ({ children, number, title, author, content = [], con
                                 content.map((paragraph, index) => <span key={ index }>{ paragraph }<br/><br/></span>)    
                             }
                         </span>
-                        <span>{ contentOrigin }</span>
+                        <span className="w-full whitespace-pre-wrap break-words">{ contentOrigin }</span>
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

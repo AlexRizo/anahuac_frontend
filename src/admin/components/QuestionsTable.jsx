@@ -1,20 +1,33 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, HoverCard, HoverCardContent, HoverCardTrigger, Label } from '@/components/ui'
 import { useExamStore } from '@/hooks';
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { LecturaCard, SelectBlock, SelectLect } from '.';
 import { BookOpenCheck } from 'lucide-react';
 
 export const QuestionsTable = () => {
-    const { questions, specials, isLoadingApp, startLoadingAllQuestionsWithCorrectAnswer, startLoadingSpecials } = useExamStore();
+    const { questions, specials, startLoadingAllQuestionsWithCorrectAnswer, startLoadingSpecials } = useExamStore();
 
     const { id } = useParams();
+
+    const itemsRef = useRef([]);
+    const tableRef = useRef(null);
 
     const [selectedQuestions, setSelectedQuestions] = useState([]);
     const [selectedBlock, setSelectedBlock] = useState('');
     const [selectedLect, setSelectedLect] = useState(1); // El id de la lectura 1
     const [blockPoints, setBlockPoints] = useState(0);
     const [special, setSpecial] = useState([]);
+
+    const scrollToItem = (index) => {
+        const container = tableRef.current;
+        const item = itemsRef.current[index];
+        if (item) {
+            setTimeout(() => {
+                container.scrollTo({ top: item.offsetTop - container.offsetTop, behavior: 'smooth' });
+            }, 300);
+        }
+    }
 
     useEffect(() => {
         startLoadingAllQuestionsWithCorrectAnswer(id);
@@ -26,6 +39,8 @@ export const QuestionsTable = () => {
     }, [specials, selectedLect]);
 
     useEffect(() => {
+        itemsRef.current = [];
+
         if (selectedBlock === 'lectura') {
             setSelectedQuestions(questions.filter(q => q.block === selectedBlock.toUpperCase() && q.relation.number === selectedLect));
             if (specials.length === 0) {
@@ -81,10 +96,16 @@ export const QuestionsTable = () => {
                     <span className='w-[110px]'>Valor</span>
                     <span className='w-[110px]'>Porcentaje</span>
                 </div>
-                <Accordion type="single" collapsible className='max-h-[570px] overflow-y-auto'>
+                <Accordion ref={ tableRef } type="single" collapsible className='max-h-[570px] overflow-y-auto'>
                     {
-                        selectedQuestions?.map(q => (
-                            <AccordionItem key={ q.id } value={`item-${ q.id }`} className="border-0 border-t">
+                        selectedQuestions?.map((q, index) => (
+                            <AccordionItem 
+                                key={ q.id } 
+                                value={ `item-${ q.id }` } 
+                                className="border-0 border-t"
+                                ref={ el => itemsRef.current[index] = el }
+                                onClick={ () => scrollToItem(index) }
+                            >
                                 <AccordionTrigger>
                                     <div className='flex gap-10 text-left'>
                                         {
