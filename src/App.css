@@ -11,6 +11,11 @@
   margin: 0;
 }
 
+.button-number-decoration::-webkit-inner-spin-button,
+.button-number-decoration::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 16px;
   height: 16px;
