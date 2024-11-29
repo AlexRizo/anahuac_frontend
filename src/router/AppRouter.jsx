@@ -7,7 +7,7 @@ export const AppRouter = (status = 'checking', role = null, exam_level = 1) => {
         if (role === 'ASPIRANT_ROLE') {
             return UserRoutes(exam_level);
         } else {
-            return AdminRoutes;
+            return AdminRoutes(role);
         }
     } else {
         return AuthRoutes;

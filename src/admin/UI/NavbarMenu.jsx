@@ -33,7 +33,7 @@ const menu = [
 ]
 
 export const NavbarMenu = () => {
-    const { startLogout } = useAuthStore();
+    const { startLogout, user } = useAuthStore();
     const { systemStatus, setSystemStatus } = useUiStore();
     const navigate = useNavigate();
 
@@ -58,11 +58,18 @@ export const NavbarMenu = () => {
                 <SAPAC className="mb-8"/>
                 <nav className="flex flex-col items-center justify-center w-full gap-1">
                     {
-                        menu.map((item, index) => (
-                            <NavItem key={ index } path={ item.path }>
-                                { item.children }
-                            </NavItem>
-                        ))
+                        menu.map((item, index) => {
+                            if (item.path === '/staff' && user.role !== 'ADMIN_ROLE') return;
+
+                            return (
+                                <NavItem 
+                                    key={ index }
+                                    path={ item.path }
+                                >
+                                    { item.children }
+                                </NavItem>
+                            )
+                        })
                     }
                     <Button 
                         className="w-full justify-start gap-2"

@@ -5,71 +5,73 @@ import { ExamQuestionsPage } from "@/admin/pages/ExamQuestionsPage";
 
 const lastRoute = localStorage.getItem('lastRoute') || '/';
 
-export const AdminRoutes = [
-    {
-        path: '/',
-        element: <AdminLayout/>,
-        children: [
-            {
-                path: '/',
-                element: <HomePage/>
-            },
-            {
-                path: '/aplicaciones',
-                element: <ApplicationsPage />,
-            },
-            {
-                path:'/aplicaciones/nueva',
-                element: <NewApplicationPage />
-            },
-            {
-                path: '/aplicaciones/:id/claves',
-                element: <ApplicationKeysPage />
-            },
-            {
-                path: '/aplicaciones/editar/:id',
-                element: <EditApplicationPage />
-            },
-            {
-                path: '/aspirantes',
-                element: <AspirantsPage />
-            },
-            {
-                path: '/aspirantes/nuevo',
-                element: <NewAspirantPage />
-            },
-            {
-                path: '/aspirantes/editar/:id',
-                element: <EditAspirantPage />
-            },
-            {
-                path: '/staff',
-                element: <StaffPage />
-            },
-            {
-                path: '/staff/nuevo',
-                element: <NewStaffPage />
-            },
-            {
-                path: '/staff/editar/:id',
-                element: <EditStaffPage />
-            },
-            {
-                path: '/resultados',
-                element: <ResultsPage />
-            },
-            {
-                path: '/examenes',
-                element: <ExamenesPage />
-            },
-            {
-                path: '/examenes/:id/preguntas',
-                element: <ExamQuestionsPage />
-            }
-        ]
-    },
-    {
-        path: '/*',
-        element: <Navigate to={ lastRoute }/>
-    }
-];
+export const AdminRoutes = (role) => {
+    return [
+        {
+            path: '/',
+            element: <AdminLayout/>,
+            children: [
+                {
+                    path: '/',
+                    element: <HomePage/>
+                },
+                {
+                    path: '/aplicaciones',
+                    element: <ApplicationsPage />,
+                },
+                {
+                    path:'/aplicaciones/nueva',
+                    element: <NewApplicationPage />
+                },
+                {
+                    path: '/aplicaciones/:id/claves',
+                    element: <ApplicationKeysPage />
+                },
+                {
+                    path: '/aplicaciones/editar/:id',
+                    element: <EditApplicationPage />
+                },
+                {
+                    path: '/aspirantes',
+                    element: <AspirantsPage />
+                },
+                {
+                    path: '/aspirantes/nuevo',
+                    element: <NewAspirantPage />
+                },
+                {
+                    path: '/aspirantes/editar/:id',
+                    element: <EditAspirantPage />
+                },
+                {
+                    path: '/staff',
+                    element: (role !== 'ADMIN_ROLE') ? <Navigate to={ lastRoute }/> : <StaffPage />
+                },
+                {
+                    path: '/staff/nuevo',
+                    element: (role !== 'ADMIN_ROLE') ? <Navigate to={ lastRoute }/> : <NewStaffPage />
+                },
+                {
+                    path: '/staff/editar/:id',
+                    element: (role !== 'ADMIN_ROLE') ? <Navigate to={ lastRoute }/> : <EditStaffPage />
+                },
+                {
+                    path: '/resultados',
+                    element: <ResultsPage />
+                },
+                {
+                    path: '/examenes',
+                    element: <ExamenesPage />
+                },
+                {
+                    path: '/examenes/:id/preguntas',
+                    element: <ExamQuestionsPage />
+                }
+            ]
+        },
+        {
+            path: '/*',
+            element: <Navigate to={ lastRoute }/>
+        }
+    ];
+}
