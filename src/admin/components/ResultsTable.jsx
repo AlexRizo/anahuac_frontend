@@ -1,34 +1,31 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle, CircleX, FileBadge, LoaderCircle, X } from "lucide-react"
+import { CheckCircle, CircleX, FileBadge, FileSearch, LoaderCircle, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { PDF, PDFRejected, SelectApp, SelectOrigin } from ".";
-import { useNavigate } from "react-router-dom";
+import { PDF, PDFRejected, ResultsWithAnswersTable, SelectApp, SelectOrigin } from ".";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
 import { pdf } from "@react-pdf/renderer";
+import { useResultStore } from "@/hooks";
 
 export const ResultsTable = () => {
-    const { aspirants, startLoadingAspirants, startDeleteAspirant, startSetActiveAspirant, loading } = useAspirantsStore();
+    const { aspirants, startLoadingAspirants, loading } = useAspirantsStore();
+    const { result, startLoadingAspirantResult, isLoading } = useResultStore();
     const aRef = useRef(null);
+    const resultsMenuRef = useRef(null);
 
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [fileName, setFileName] = useState('');
 
     const [filterStatus, setFilterStatus] = useState([]);
     const [selectedApp, setSelectedApp] = useState('');
     const [searchedTerm, setSearchedTerm] = useState('');
     const [isFirstTime, setIsFirstTime] = useState(true);
+    const [aspirantResults, setAspirantResults] = useState({});
 
     const isLoadingAspirants = useMemo(() => loading === 'loading', [loading]);
-
-    const navigate = useNavigate();
+    const isLoadingResults = useMemo(() => isLoading === 'loading', [isLoading]);
 
     const handlePageChange = (page) => setPage(page);
-
-    const handleNavigate = (path) => {
-        navigate(path);
-    };
 
     const handleSearch = (e) => {
         setSearchedTerm(e.target.value);
@@ -109,6 +106,19 @@ export const ResultsTable = () => {
         aRef.current.click();
     };
 
+    const handleAspirantExamResults = (aspirantId) => {
+        if (aspirantId === aspirantResults.id) return;
+        
+        startLoadingAspirantResult(aspirantId);
+
+        resultsMenuRef.current.click();
+    };
+
+    useEffect(() => {
+        if (result) {
+            setAspirantResults(result);
+        }
+    }, [result]);
 
     return (
         <>
@@ -146,6 +156,7 @@ export const ResultsTable = () => {
                             <TableHead className="text-center">H. Mental</TableHead>
                             <TableHead className="text-center">Total</TableHead>
                             <TableHead className="text-center">Admisión</TableHead>
+                            <TableHead className="text-center">Confirmación</TableHead>
                             <TableHead className="text-center">Documento</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -177,6 +188,11 @@ export const ResultsTable = () => {
                                                ? <CheckCircle strokeWidth={ 1.25 } className="text-green-600" /> : <CircleX strokeWidth={ 1.25 } className="text-red-600" />
                                             }
                                         </div>
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                            <Button onClick={() => handleAspirantExamResults(aspirant.id)}>
+                                                <FileSearch size={20} strokeWidth={1.50} absoluteStrokeWidth />
+                                            </Button>
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <Button
@@ -226,6 +242,9 @@ export const ResultsTable = () => {
                     </Button>
                 </div>
             </div>
+            <ResultsWithAnswersTable aspirantResults={ aspirantResults } isLoading={ isLoadingResults }>
+                <div ref={ resultsMenuRef } className="hidden">Click Here!</div>
+            </ResultsWithAnswersTable>
         </>
     )
 }

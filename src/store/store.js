@@ -6,6 +6,7 @@ import { aspirantsSlice } from "./aspirants/aspirantsSlice";
 import { keysSlice, keyValidationSlice } from "./keys";
 import { adminsSlice } from "./admins/adminsSlice";
 import { examSlice } from "./exam/examSlice";
+import { resultsSlice } from "./results/resultsSlice";
 
 export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware(
@@ -22,6 +23,7 @@ export const store = configureStore({
         keyValidation: keyValidationSlice.reducer,
         aspirant: aspirantsSlice.reducer,
         admins: adminsSlice.reducer,
-        exam: examSlice.reducer
+        exam: examSlice.reducer,
+        result: resultsSlice.reducer,
     },
 });

@@ -24,7 +24,6 @@ export const MathematicAnswers = ({ answers, value, type, onChange, isLoadingIma
                                         className="size-28 object-cover cursor-pointer"
                                         src={ answer.answer }
                                         onClick={ () => handleChange(answer.opt) }
-                                        alt={ answer.opt }
                                         onLoad={() => setIsLoadingImages(index + 1) }
                                     />
                                     {

@@ -20,3 +20,4 @@ export * from './progress';
 export * from './checkbox';
 export * from './accordion';
 export * from './hover-card';
+export * from './sheet';

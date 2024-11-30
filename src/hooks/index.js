@@ -8,3 +8,4 @@ export * from './useKeysStore';
 export * from './useAspirantsStore';
 export * from './useAdminsStore';
 export * from './useExamStore';
+export * from './useResultStore';

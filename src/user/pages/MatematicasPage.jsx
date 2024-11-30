@@ -46,13 +46,14 @@ export const MatematicasPage = () => {
     }, []);
 
     useEffect(() => {
+        if (isLoadingImages.some(image => image === false)) {
+            setIsLoadingImages([true, true, true, true, true]);
+        }
+        
         if (questions.length > 0) {
             startLoadingActiveQuestion(questions[index]);
         }
 
-        if (isLoadingImages.some(image => image === false)) {
-            setIsLoadingImages([true, true, true, true, true]);
-        }
     }, [questions, index]);
 
     useEffect(() => {
@@ -153,7 +154,6 @@ export const MatematicasPage = () => {
                                 <img 
                                     src={`${ activeQuestion.attachment }`} 
                                     className="w-[540px]" 
-                                    alt={ activeQuestion.attachment }
                                     onLoad={() => handleLoadImage(0)}
                                 />
                             </div>

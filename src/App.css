@@ -48,16 +48,6 @@
   animation: fadeIn 1s ease-in-out infinite alternate; 
 }
 
-/* input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type=number] {
-    -moz-appearance: textfield;
-} */
-
 .login-loading-bar-animation {
   animation: login-loading-bar 1.5s infinite;
   top: 0;
