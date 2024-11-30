@@ -155,8 +155,8 @@ export const ResultsTable = () => {
                             <TableHead className="text-center">H. Mat.</TableHead>
                             <TableHead className="text-center">H. Mental</TableHead>
                             <TableHead className="text-center">Total</TableHead>
+                            <TableHead className="text-center">Respuestas</TableHead>
                             <TableHead className="text-center">Admisión</TableHead>
-                            <TableHead className="text-center">Confirmación</TableHead>
                             <TableHead className="text-center">Documento</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -181,6 +181,14 @@ export const ResultsTable = () => {
                                     <TableCell className="text-center">{ 
                                         (aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore) || 0
                                     }</TableCell>
+                                    <TableCell className="text-center">
+                                            <Button 
+                                                variant="ghost"
+                                                onClick={() => handleAspirantExamResults(aspirant.id)}
+                                            >
+                                                <FileSearch size={20} strokeWidth={1.50} absoluteStrokeWidth />
+                                            </Button>
+                                    </TableCell>
                                     <TableCell>
                                         <div className="flex justify-center">
                                             {
@@ -188,11 +196,6 @@ export const ResultsTable = () => {
                                                ? <CheckCircle strokeWidth={ 1.25 } className="text-green-600" /> : <CircleX strokeWidth={ 1.25 } className="text-red-600" />
                                             }
                                         </div>
-                                    </TableCell>
-                                    <TableCell className="text-center">
-                                            <Button onClick={() => handleAspirantExamResults(aspirant.id)}>
-                                                <FileSearch size={20} strokeWidth={1.50} absoluteStrokeWidth />
-                                            </Button>
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <Button
