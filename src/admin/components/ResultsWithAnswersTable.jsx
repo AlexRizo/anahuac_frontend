@@ -57,7 +57,9 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
                                             aspirantResults?.lecturaAnswers.map((answer, index) => (
                                                 <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
                                                     <span ><span className="">{index + 1}</span></span>
-                                                    <span><span className="text-blue-600">{answer.response[0]}</span></span> 
+                                                    <span><span className="text-blue-600">
+                                                        { answer.response.length > 1 ? answer.response.join('') : answer.response[0] }
+                                                    </span></span> 
                                                 </span>
                                             ))
                                         }
