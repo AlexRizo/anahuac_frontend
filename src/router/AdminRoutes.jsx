@@ -65,7 +65,7 @@ export const AdminRoutes = (role) => {
                 },
                 {
                     path: '/examenes/:id/preguntas',
-                    element: (role === 'APPLICATOR_ROLE') ? <Navigate to={ lastRoute }/> : <ExamenesPage />
+                    element: (role === 'APPLICATOR_ROLE') ? <Navigate to={ lastRoute }/> : <ExamQuestionsPage />
                 }
             ]
         },
