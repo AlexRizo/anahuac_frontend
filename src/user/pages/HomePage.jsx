@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const HomePage = () => {
     const [active, setActive] = useState(false);
 
-    const [count, setCount] = useState(20);
+    const [count, setCount] = useState(10);
 
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export const HomePage = () => {
 
         const interval = setInterval(() => {
             setCount(count - 1);
-        }, 1500);
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [count]);
