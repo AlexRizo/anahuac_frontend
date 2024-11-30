@@ -56,7 +56,7 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
                                         {
                                             aspirantResults?.lecturaAnswers.map((answer, index) => (
                                                 <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
-                                                    <span ><span className="">{index + 1}</span></span>
+                                                    <span ><span className="">{ answer.questionNumber }</span></span>
                                                     <span><span className="text-blue-600">
                                                         { answer.response.length > 1 ? answer.response.join('') : answer.response[0] }
                                                     </span></span> 
@@ -67,7 +67,7 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
                                         {
                                             aspirantResults?.matematicasAnswers.map((answer, index) => (
                                                 <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
-                                                    <span > <span className="">{index + 21}</span></span>
+                                                    <span > <span className="">{ answer.questionNumber }</span></span>
                                                     <span> <span className="text-blue-600">{answer.response[0]}</span></span> 
                                                 </span>
                                             ))
@@ -75,7 +75,7 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
                                         {
                                             aspirantResults?.pensamientoAnswers.map((answer, index) => (
                                                 <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
-                                                    <span ><span className="">{index + 41}</span></span>
+                                                    <span ><span className="">{ answer.questionNumber }</span></span>
                                                     <span>
                                                         { answer.response.length > 1 ? (
                                                             <span className="text-blue-600">{ resolveFourDigits(answer.response) }</span>
