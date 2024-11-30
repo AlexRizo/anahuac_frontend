@@ -46,12 +46,12 @@ export const useAppStore = () => {
         }
     };
     
-    const startLoadingApps = async({ page = 1, limit = 10 }) => {
+    const startLoadingApps = async({ page = 1, limit = 10, app }) => {
         dispatch(setLoadState('loading'));
         startCleanKeys();
         
         try {
-            const { data } = await anahuacApi.get('/application/getapps', { params: { page, limit } });
+            const { data } = await anahuacApi.get('/application/getapps', { params: { page, limit, app } });
             dispatch(onLoadApplications(data.applications));
             return data.pages; // ? return the number of pages;
         } catch (error) {
@@ -60,11 +60,11 @@ export const useAppStore = () => {
         }
     };
 
-    const startLoadingAppsByDate = async ({ page, from = new Date(), to = addDays(new Date(), 7) }) => {
+    const startLoadingAppsByDate = async ({ page, from = new Date(), to = addDays(new Date(), 7), app }) => {
         dispatch(setLoadState('loading'));
 
         try {
-            const { data } = await anahuacApi.get('/application/getappsbydate', { params: { page, from, to } });
+            const { data } = await anahuacApi.get('/application/getappsbydate', { params: { page, from, to, app } });
             console.log({data});
             dispatch(onLoadApplications(data.applications));
             return data.pages; // ? return the number of pages;

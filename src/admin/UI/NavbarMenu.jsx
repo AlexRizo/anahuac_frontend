@@ -61,6 +61,8 @@ export const NavbarMenu = () => {
                         menu.map((item, index) => {
                             if (item.path === '/staff' && user.role !== 'ADMIN_ROLE') return;
 
+                            if (item.path === '/examenes' && user.role === 'APPLICATOR_ROLE') return;
+                            
                             return (
                                 <NavItem 
                                     key={ index }

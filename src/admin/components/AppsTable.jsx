@@ -5,6 +5,7 @@ import { useAppStore } from "@/hooks";
 import { AlertDialogDelete, DatePicker } from "./";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
+import debounce from "lodash.debounce";
 
 export const AppsTable = () => {
     const {
@@ -19,27 +20,41 @@ export const AppsTable = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [date, setDate] = useState({ from: null, to: null });
+    const [searchedTerm, setSearchedTerm] = useState('');
+    const [isFirstTime, setIsFirstTime] = useState(true);
+    
     const isLoadingApp = useMemo(() => isLoading === 'loading', [isLoading]);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchApps = async () => {
-            const pages = await startLoadingApps({ page });
+        const fetchAppsByDate = async (app = '') => {
+            const pages = await startLoadingAppsByDate({ page, from: date.from, to: date.to, app });
             setTotalPages(pages);
         };
 
-        const fetchAppsByDate = async () => {
-            const pages = await startLoadingAppsByDate({ page, from: date.from, to: date.to });
+        const fetchApps = async (app = '') => {
+            const pages = await startLoadingApps({ page, app });
             setTotalPages(pages);
         };
 
-        if (date?.from && date?.to) {
-            fetchAppsByDate();
+        const debouncedSearch = debounce( async(term) => {
+            if (date?.from && date?.to) {
+                fetchAppsByDate(term);
+            } else {
+                fetchApps(term);
+            }
+        }, 500);
+
+        if (isFirstTime) {
+            fetchApps(searchedTerm);
+            setIsFirstTime(false);
         } else {
-            fetchApps();
+            debouncedSearch(searchedTerm);
         }
-    }, [page, date]);
+
+        return () => debouncedSearch.cancel();
+    }, [page, date, searchedTerm]);
 
     const handlePageChange = (page) => setPage(page);
 
@@ -47,11 +62,20 @@ export const AppsTable = () => {
         navigate(path);
     };
 
+    const handleSearch = (e) => {
+        setSearchedTerm(e.target.value);
+    };
+
     return (
         <>
             <div className="flex justify-between mb-5">
                 <div>
-                    <Input type="text" placeholder="Buscar aplicación..." className="transition w-[251px] shadow-sm" />
+                    <Input 
+                        type="text"
+                        placeholder="Buscar aplicación..."
+                        className="transition w-[251px] shadow-sm"
+                        value={ searchedTerm } onChange={ handleSearch } 
+                    />
                 </div>
                 <div>
                     <Label className="mr-5">Selecciona una fecha de aplicación de examen:</Label>

@@ -41,7 +41,7 @@ export const AspirantsTable = () => {
     };
 
     useEffect(() => {
-        const fetchApps = async (name = '') => {
+        const fetchAspirants = async (name = '') => {
             const pages = await startLoadingAspirants({ 
                 page,
                 sec: filterStatus.includes('SECUNDARIA') ? 'SECUNDARIA' : '',
@@ -54,14 +54,14 @@ export const AspirantsTable = () => {
         
         const debouncedSearch = debounce( async(term) => {
             if (term) {
-                fetchApps(term);
+                fetchAspirants(term);
             } else {
-                fetchApps();
+                fetchAspirants();
             }
         }, 500);
 
         if (isFirstTime) {
-            fetchApps(searchedTerm);
+            fetchAspirants(searchedTerm);
             setIsFirstTime(false);
         } else {
             debouncedSearch(searchedTerm);
