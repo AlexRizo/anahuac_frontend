@@ -1,8 +1,11 @@
-# React + Vite
+# Anáhuac EXHA Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Instrucciones de uso
 
-Currently, two official plugins are available:
+Es necesario ejecutar ``npm i`` o ``npm install`` para instalar los módulos necesarios.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Asegúrate de crear el archivo ``.env`` en la raíz del proyecto y colocar los valores de las variables de entorno. En el archivo `.example.env` encontrarás la estructura.
+
+Para arrancar el proyecto de forma local ejecuta `npm run dev`.
+
+Para compilar el proyecto ejecuta `npm run build`,

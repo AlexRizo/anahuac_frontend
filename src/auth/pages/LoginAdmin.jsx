@@ -6,6 +6,7 @@ import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 import { useAuthStore } from "../../hooks";
 import { Anahuac, ModeloEducativo } from "../components";
 import { EXHA } from "@/components";
+import { NavLink } from "react-router-dom";
 
 export const LoginAdmin = () => {
     const { startLogin, errorMessage, status } = useAuthStore();
@@ -94,6 +95,7 @@ export const LoginAdmin = () => {
                         />
                         <Button disabled={ checkingStatus } type="submit" className="w-full" >{ checkingStatus ? 'Cargando...' : 'Iniciar Sesión' }</Button>
                         { errorMessage && <p className="text-red-500 text-sm text-center">{ errorMessage }</p> }
+                        <NavLink to="/admin/reset-password" className="text-sm text-primary text-center underline text-blue-950">¿Olvidaste tu contraseña?</NavLink>
                     </form>
                 </Form>
                 <div className="absolute bottom-10">

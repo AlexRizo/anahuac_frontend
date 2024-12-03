@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onChecking, onLogin, onLogout, onSetChecking } from "../store/auth/authSlice";
+import { onChecking, onClearErrorMessage, onLogin, onLogout, onSetChecking } from "../store/auth/authSlice";
 import { default as anahuacApi } from "../api/api";
 import { useToast } from "./use-toast";
 import { useUiStore } from "./useUiStore";
-import { useNavigate } from "react-router-dom";
 
 export const useAuthStore = () => {
     const { toast } = useToast();
@@ -127,6 +126,62 @@ export const useAuthStore = () => {
         }
     };
 
+    const startCheckEmailForResetPassword = async (email) => {
+        dispatch(onChecking());
+        
+        try {
+            const { data } = await anahuacApi.patch('/auth/reset-password', { email });
+            console.log( data.message );
+            dispatch(onSetChecking('reset-requested'));
+        } catch (error) {
+            console.error(error);
+
+            const errorMessage = error?.response?.data.message ||
+                (error?.response?.data?.errors && Object.values(error.response.data.errors).map((err) => err.msg).join(", ")) ||
+                "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
+            
+            dispatch(onLogout('* ' + errorMessage));
+
+            toast({
+                title: "Ha ocurrido un error",
+                description: errorMessage,
+                variant: "destructive",
+            });
+        }
+    };
+
+    const checkResetToken = async (token) => {
+        try {
+            await anahuacApi.get(`/auth/reset-password/${ token }`);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const startResetPassword = async (token, password) => {
+        dispatch(onChecking());
+
+        try {
+            const { data } = await anahuacApi.patch(`/auth/reset-password/${ token }`, { password });
+            console.log( data.message );
+            dispatch(onSetChecking('reset-success'));
+        } catch (error) {
+            console.error(error);
+
+            const errorMessage = error?.response?.data.message ||
+                (error?.response?.data?.errors && Object.values(error.response.data.errors).map((err) => err.msg).join(", ")) ||
+                "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
+            
+            dispatch(onLogout('* ' + errorMessage));
+
+            toast({
+                title: "Ha ocurrido un error",
+                description: errorMessage,
+                variant: "destructive",
+            });
+        }
+    }
+
     return {
         // ? values
         status,
@@ -139,5 +194,8 @@ export const useAuthStore = () => {
         checkAuthToken,
         startLoginAspirant,
         startSavingAspirant,
+        startCheckEmailForResetPassword,
+        checkResetToken,
+        startResetPassword,
     }
 };
