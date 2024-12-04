@@ -52,7 +52,48 @@ export const ConfirmPassword = () => {
 
             <Form { ...form }>
                 {
-                    expiredMessage ? (
+                    !expiredMessage ? (
+                        <>
+                            {
+                                status === 'reset-success' ? (
+                                <div className="max-w-96">
+                                <p className="text-lg font-light text-gray-600">Ya puedes iniciar sesión con tu nueva contraseña.</p>
+                                    <NavLink to="/admin">
+                                        <Button className="w-full mt-4" >
+                                            Iniciar sesión
+                                        </Button>
+                                    </NavLink>
+                                </div>
+                                ) : (
+                                    <form onSubmit={ onSubmit } className={`max-w-96 w-full space-y-6 ${ loading && 'opacity-60 pointer-events-none' }`}>
+                                        <FormField
+                                            control={ control }
+                                            name="password"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Ingresa tu nueva contraseña</FormLabel>
+                                                    <FormControl>
+                                                    <Input className="mt-1 mb-4 transition" type="text" placeholder="Nueva contraseña" { ...field } />
+                                                    </FormControl>
+                                                    <FormMessage >
+                                                        { errors.password && errors.password.message }
+                                                    </FormMessage>
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <Button type="submit" className="w-full">
+                                            { loading ? (
+                                                <>
+                                                    <LoaderCircle size={ 20 } className="mr-2 animate-spin" />
+                                                    Cambiando...
+                                                </>
+                                            ) : 'Cambiar' }
+                                        </Button>
+                                    </form>
+                                )
+                            }
+                        </>
+                    ) : (
                         <div className="max-w-96">
                             <p className="text-lg font-light text-gray-600">{ expiredMessage }</p>
                             <NavLink to="/admin/reset-password">
@@ -61,46 +102,7 @@ export const ConfirmPassword = () => {
                                 </Button>
                             </NavLink>
                         </div>
-                    ) : (<>
-                        {
-                            status === 'reset-success' ? (
-                            <div className="max-w-96">
-                            <p className="text-lg font-light text-gray-600">Ya puedes iniciar sesión con tu nueva contraseña.</p>
-                                <NavLink to="/admin">
-                                    <Button className="w-full mt-4" >
-                                        Iniciar sesión
-                                    </Button>
-                                </NavLink>
-                            </div>
-                            ) : (
-                                <form onSubmit={ onSubmit } className={`max-w-96 w-full space-y-6 ${ loading && 'opacity-60 pointer-events-none' }`}>
-                                    <FormField
-                                        control={ control }
-                                        name="password"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Ingresa tu nueva contraseña</FormLabel>
-                                                <FormControl>
-                                                <Input className="mt-1 mb-4 transition" type="text" placeholder="Nueva contraseña" { ...field } />
-                                                </FormControl>
-                                                <FormMessage >
-                                                    { errors.password && errors.password.message }
-                                                </FormMessage>
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <Button type="submit" className="w-full">
-                                        { loading ? (
-                                            <>
-                                                <LoaderCircle size={ 20 } className="mr-2 animate-spin" />
-                                                Cambiando...
-                                            </>
-                                        ) : 'Cambiar' }
-                                    </Button>
-                                </form>
-                            )
-                        }
-                    </>)
+                    )
                 }
             </Form>
         </main>
