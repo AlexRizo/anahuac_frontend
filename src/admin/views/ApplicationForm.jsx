@@ -49,7 +49,7 @@ export const ApplicationForm = () => {
     const zodSchema = z.object({
         date: z.date({ 
             required_error: '* Este campo es obligatorio.'
-        }).min(new Date(), '* La fecha debe ser mayor a la actual.'),
+        }), // TODO: .min(add, '* La fecha debe ser mayor a la actual.')
         admin: z.string().min(1, '* El aplicador es obligatorio.'),
         type: z.enum(['SECUNDARIA', 'PREPARATORIA'], '* Este campo es obligatorio.'),
         keys: z.preprocess((val) => Number(val), z.number().max(35, '* Sólo puedes crear 35 claves en lote.').optional()),
@@ -141,9 +141,9 @@ export const ApplicationForm = () => {
                                                     mode="single"
                                                     selected={field.value}
                                                     onSelect={field.onChange}
-                                                    disabled={(date) =>
-                                                    date < addDays(new Date().setHours(0, 0, 0, 0), 1)
-                                                    }
+                                                    // TODO: disabled={(date) =>
+                                                    // date < addDays(new Date().setHours(0, 0, 0, 0), 1)
+                                                    // }
                                                     initialFocus
                                                     locale={ localCustom }
                                                 />
