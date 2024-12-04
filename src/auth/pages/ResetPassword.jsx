@@ -1,11 +1,10 @@
-import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label, Toaster } from "@/components/ui"
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Toaster } from "@/components/ui"
 import { InfoIcon, LoaderCircle } from "lucide-react"
 import { Anahuac } from "../components";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAuthStore } from "@/hooks";
-import { EXHA } from "@/components";
 import { NavLink } from "react-router-dom";
 
 export const ResetPassword = () => {

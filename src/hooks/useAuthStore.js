@@ -131,8 +131,8 @@ export const useAuthStore = () => {
         
         try {
             const { data } = await anahuacApi.patch('/auth/reset-password', { email });
-            console.log( data.message );
-            dispatch(onSetChecking('reset-requested'));
+            dispatch(onSetChecking(data.status || 'token-expired'));
+            console.log({ data });
         } catch (error) {
             console.error(error);
 
@@ -152,9 +152,14 @@ export const useAuthStore = () => {
 
     const checkResetToken = async (token) => {
         try {
-            await anahuacApi.get(`/auth/reset-password/${ token }`);
+            const { data } = await anahuacApi.get(`/auth/reset-password/${ token }`);
+
+            if (data.status === 'token-expired') {
+                dispatch(onSetChecking(data.status || 'token-expired'));
+            }
         } catch (error) {
             console.error(error);
+            dispatch(onSetChecking('token-expired'));
         }
     }
 
