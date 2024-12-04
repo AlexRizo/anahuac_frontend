@@ -82,12 +82,16 @@ export const NavbarMenu = () => {
                     </Button>
                 </nav>
             </div>
-            <div className="flex items-center justify-center gap-2">
-                <Label htmlFor="system_status">
-                    Estado del sistema
-                </Label>
-                <Switch id="system_status" checked={ isChecked } onCheckedChange={ handleSwitchChange } />
-            </div>
+            {
+                user.role === 'ADMIN_ROLE' && (
+                    <div className="flex items-center justify-center gap-2">
+                        <Label htmlFor="system_status">
+                            Estado del sistema
+                        </Label>
+                        <Switch id="system_status" checked={ isChecked } onCheckedChange={ handleSwitchChange } />
+                    </div>
+                )
+            }
         </div>
     )
 }

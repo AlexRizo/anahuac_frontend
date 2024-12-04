@@ -1,10 +1,11 @@
-import { Button, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui"
+import { Button, Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui"
 import { useAppStore, useKeysStore } from "@/hooks";
 import { CalendarDays, CirclePlus, LoaderCircle, Printer, Users } from "lucide-react"
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
-import { AddKeysDialog } from "../components";
+import { AddKeysDialog, KeysPDF } from "../components";
+import { pdf } from "@react-pdf/renderer";
 
 export const ApplicationKeysPage = () => {
     const { keys, total, startLoadingKeys } = useKeysStore();
@@ -22,9 +23,29 @@ export const ApplicationKeysPage = () => {
             startLoadActiveApplication(id);
         }
     }, []);
+
+    const aRef = useRef(null);
+
+    const handleDownloadPDF = async () => {
+        const activeKeys = keys.filter(key => !key.used);
+
+        if (!activeKeys.length) {
+            return;
+        }
+        
+        const document = <KeysPDF keys={ activeKeys } />
+
+        const blob = await pdf(document).toBlob();
+        const url = window.URL.createObjectURL(blob);
+
+        aRef.current.href = url;
+        aRef.current.download = `claves-activacion-${ activeApp.name }.pdf`;
+        aRef.current.click();
+    };
     
     return (
         <main className="w-full">
+            <a ref={ aRef } target="_blank" rel="noopener noreferrer" className="hidden"></a>
             <div>
                 <nav className="flex items-center gap-5 px-14 py-8">
                     <h1 className="text-3xl font-semibold">Aplicaciones</h1>
@@ -113,7 +134,7 @@ export const ApplicationKeysPage = () => {
                         <Users size={18} strokeWidth={1.25} className="mr-2"/>
                         Aspirantes
                     </Button>
-                    <Button>
+                    <Button onClick={ handleDownloadPDF } disabled={ keys.length === 0 }>
                         <Printer size={18} strokeWidth={1.25} className="mr-2"/>
                         Imprimir
                     </Button>

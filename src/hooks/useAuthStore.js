@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onChecking, onClearErrorMessage, onLogin, onLogout, onSetChecking } from "../store/auth/authSlice";
+import { onChecking, onLogin, onLogout, onSetChecking } from "../store/auth/authSlice";
 import { default as anahuacApi } from "../api/api";
 import { useToast } from "./use-toast";
 import { useUiStore } from "./useUiStore";
+import { onCleanKeyValidation } from "@/store/keys";
 
 export const useAuthStore = () => {
     const { toast } = useToast();
@@ -35,6 +36,7 @@ export const useAuthStore = () => {
 
     const startLogout = (message = undefined) => {
         localStorage.clear();
+        dispatch(onCleanKeyValidation());
         dispatch(onLogout(message));
     };
 

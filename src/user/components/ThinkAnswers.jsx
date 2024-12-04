@@ -26,7 +26,7 @@ export const ThinkAnswers = ({ answers, value, type, onChange }) => {
                         {
                             type === 'single-image' ? (
                                 <img 
-                                    className="size-28 object-cover cursor-pointer"
+                                    className="size-36 object-cover cursor-pointer"
                                     src={ answer.answer }
                                     onClick={ () => handleChange(answer.opt) }
                                     alt={ answer.opt }

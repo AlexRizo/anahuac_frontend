@@ -9,7 +9,7 @@ import { useResultStore } from "@/hooks";
 
 export const ResultsTable = () => {
     const { aspirants, startLoadingAspirants, loading } = useAspirantsStore();
-    const { result, startLoadingAspirantResult, isLoading } = useResultStore();
+    const { result, aspirant:$aspirant, startLoadingAspirantResult, isLoading } = useResultStore();
     const aRef = useRef(null);
     const resultsMenuRef = useRef(null);
 
@@ -116,7 +116,10 @@ export const ResultsTable = () => {
 
     useEffect(() => {
         if (result) {
-            setAspirantResults(result);
+            setAspirantResults({
+                aspirant: $aspirant,
+                aspirantResults: result
+            });
         }
     }, [result]);
 
@@ -192,7 +195,7 @@ export const ResultsTable = () => {
                                     <TableCell>
                                         <div className="flex justify-center">
                                             {
-                                               aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 780 
+                                               aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 1000 
                                                ? <CheckCircle strokeWidth={ 1.25 } className="text-green-600" /> : <CircleX strokeWidth={ 1.25 } className="text-red-600" />
                                             }
                                         </div>
@@ -245,7 +248,7 @@ export const ResultsTable = () => {
                     </Button>
                 </div>
             </div>
-            <ResultsWithAnswersTable aspirantResults={ aspirantResults } isLoading={ isLoadingResults }>
+            <ResultsWithAnswersTable { ...aspirantResults } isLoading={ isLoadingResults }>
                 <div ref={ resultsMenuRef } className="hidden">Click Here!</div>
             </ResultsWithAnswersTable>
         </>

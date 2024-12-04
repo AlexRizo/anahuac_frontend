@@ -1,7 +1,7 @@
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui"
 import { evaluate } from "mathjs";
 
-export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading = true }) => {    
+export const ResultsWithAnswersTable = ({ children, aspirant, aspirantResults, isLoading = true }) => {    
     const resolveMagicTriangle = (jsonString) => {
         const object = JSON.parse(jsonString);
 
@@ -18,7 +18,13 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
         return `${sumA}, ${sumB}, ${sumC}`; // ? A1 - B1 | B1 - C1 | C1 - A1
     };
 
-    const resolveFourDigits = (array) => {
+    const resolveFourDigits = (array = ['']) => {
+        array = [...array];
+
+        if (array[array.length - 1] === '+') {
+            array.pop();
+        }
+
         const evaluation = evaluate(array.join(''));
         return evaluation;
     };
@@ -28,7 +34,7 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
             <SheetTrigger>{ children }</SheetTrigger>
             <SheetContent>
                 <SheetHeader>
-                    { isLoading || !aspirantResults || !aspirantResults.aspirant ? (
+                    { isLoading || !aspirant || !aspirantResults ? (
                         <>
                             <SheetTitle>Loading...</SheetTitle>
                             <SheetDescription></SheetDescription>
@@ -37,9 +43,7 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
                         <>
                             <SheetTitle className="whitespace-pre-wrap break-words">
                                 <span className="font-normal">Resultados obtenidos por</span><br/>
-                                { aspirantResults.aspirant.first_name }&nbsp;
-                                { aspirantResults.aspirant.last_name_1 }&nbsp;
-                                { aspirantResults.aspirant.last_name_2 && aspirantResults.aspirant.last_name_2 }
+                                { aspirantResults.aspirant }
                             </SheetTitle>
                             <SheetDescription>
                                     <span className="grid grid-cols-2 mb-1">
@@ -54,39 +58,19 @@ export const ResultsWithAnswersTable = ({ children, aspirantResults, isLoading =
                                     </span>
                                     <span className="max-h-[800px] overflow-y-auto grid grid-cols-2 custom-scrollbar">
                                         {
-                                            aspirantResults?.lecturaAnswers.map((answer, index) => (
+                                            aspirantResults.map((answer, index) => (
                                                 <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
                                                     <span ><span className="">{ answer.questionNumber }</span></span>
                                                     <span><span className="text-blue-600">
-                                                        { answer.response.length > 1 ? answer.response.join('') : answer.response[0] }
+                                                        { 
+                                                            answer.response.length === 2 ? answer.response.join(', ') 
+                                                                : answer.response[0].length > 1 ? resolveMagicTriangle(answer.response[0])
+                                                                : answer.response.length > 2 ? resolveFourDigits(answer.response)
+                                                                : answer.response[0]
+                                                        }
                                                     </span></span> 
                                                 </span>
-                                            ))
-                                        }
-
-                                        {
-                                            aspirantResults?.matematicasAnswers.map((answer, index) => (
-                                                <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
-                                                    <span > <span className="">{ answer.questionNumber }</span></span>
-                                                    <span> <span className="text-blue-600">{answer.response[0]}</span></span> 
-                                                </span>
-                                            ))
-                                        }
-                                        {
-                                            aspirantResults?.pensamientoAnswers.map((answer, index) => (
-                                                <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
-                                                    <span ><span className="">{ answer.questionNumber }</span></span>
-                                                    <span>
-                                                        { answer.response.length > 1 ? (
-                                                            <span className="text-blue-600">{ resolveFourDigits(answer.response) }</span>
-                                                        ) : (
-                                                            <span className="text-blue-600">
-                                                                { answer.response[0].length > 1 ? resolveMagicTriangle(answer.response[0]) : answer.response[0]}
-                                                            </span>
-                                                        ) }
-                                                    </span> 
-                                                </span>
-                                            ))
+                                            )).sort((a, b) => a.questionNumber - b.questionNumber)
                                         }
                                     </span>
                             </SheetDescription>

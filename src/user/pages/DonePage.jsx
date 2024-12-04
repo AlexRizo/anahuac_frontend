@@ -8,7 +8,7 @@ export const DonePage = () => {
     useEffect(() => {
         setTimeout(() => {
             startLogout();
-        }, 60000 * 5)
+        }, 60000) // 5 minutes
     }, [])
     
     return (
