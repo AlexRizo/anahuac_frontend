@@ -61,7 +61,7 @@ export const RegisterUser = () => {
                     </div>
                 ) : (
                     <Form { ...form }>
-                        <form action="POST" className={`flex flex-col gap-4 ${ isValidatingKey && 'opacity-60 pointer-events-none' }`} onSubmit={ onSubmit }>
+                        <form action="POST" className={`flex flex-col gap-2 2xl:gap-4 ${ isValidatingKey && 'opacity-60 pointer-events-none' }`} onSubmit={ onSubmit }>
                             <FormField
                                 control={ control }
                                 name="first_name"
@@ -71,47 +71,49 @@ export const RegisterUser = () => {
                                         <FormControl>
                                             <Input placeholder="Nombre completo" { ...field } type="text" className="transition" />
                                         </FormControl>
-                                        <FormMessage >
+                                        <FormMessage className="text-xs 2xl:text-sm" >
                                             { errors.first_name && errors.first_name.message }
                                         </FormMessage>
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={ control }
-                                name="last_name_1"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Apellido Paterno</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Apellido paterno" { ...field } type="text" className="transition" />
-                                        </FormControl>
-                                        <FormMessage >
-                                            { errors.last_name_1 && errors.last_name_1.message }
-                                        </FormMessage>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={ control }
-                                name="last_name_2"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Apellido Materno</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Apellido materno" { ...field } type="text" className="transition" />
-                                        </FormControl>
-                                        <FormMessage >
-                                            { errors.last_name_2 && errors.last_name_2.message }
-                                        </FormMessage>
-                                    </FormItem>
-                                )}
-                            />
+                            <div className="flex gap-2 2xl:flex-col 2xl:gap-0">
+                                <FormField
+                                    control={ control }
+                                    name="last_name_1"
+                                    render={({ field }) => (
+                                        <FormItem className="w-full">
+                                            <FormLabel>Apellido Paterno</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Apellido paterno" { ...field } type="text" className="transition" />
+                                            </FormControl>
+                                            <FormMessage className="text-xs 2xl:text-sm" >
+                                                { errors.last_name_1 && errors.last_name_1.message }
+                                            </FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={ control }
+                                    name="last_name_2"
+                                    render={({ field }) => (
+                                        <FormItem className="w-full">
+                                            <FormLabel>Apellido Materno</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Apellido materno" { ...field } type="text" className="transition" />
+                                            </FormControl>
+                                            <FormMessage className="text-xs 2xl:text-sm" >
+                                                { errors.last_name_2 && errors.last_name_2.message }
+                                            </FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
                             <FormField
                                 name="sex"
                                 control={ control }
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem className="flex items-center gap-4 2xl:block 2xl:gap-0">
                                         <FormLabel>Sexo:</FormLabel>
                                         <FormControl>
                                             <RadioGroup
@@ -137,7 +139,7 @@ export const RegisterUser = () => {
                                                 </FormItem>
                                             </RadioGroup>
                                         </FormControl>
-                                        <FormMessage >
+                                        <FormMessage className="text-xs 2xl:text-sm" >
                                             { errors.sex && errors.sex.message }
                                         </FormMessage>
                                     </FormItem>
@@ -153,7 +155,7 @@ export const RegisterUser = () => {
                                             <FormControl>
                                                 <Input placeholder="Clave de activación" { ...field } type="text" className="transition" disabled />
                                             </FormControl>
-                                            <FormMessage >
+                                            <FormMessage className="text-xs 2xl:text-sm" >
                                                 { errors.key && errors.key.message }
                                             </FormMessage>
                                         </FormItem>
@@ -177,7 +179,7 @@ export const RegisterUser = () => {
                                             }
                                         )}
                                     />
-                                    <FormMessage >
+                                    <FormMessage className="text-xs 2xl:text-sm" >
                                         { errors.birthdate && errors.birthdate.message }
                                     </FormMessage>
                                 </div>
@@ -191,7 +193,7 @@ export const RegisterUser = () => {
                                             <FormControl>
                                                 <Input placeholder="Escuela de procedencia" { ...field } type="text" className="transition" />
                                             </FormControl>
-                                            <FormMessage >
+                                            <FormMessage className="text-xs 2xl:text-sm" >
                                                 { errors.old_school && errors.old_school.message }
                                             </FormMessage>
                                         </FormItem>

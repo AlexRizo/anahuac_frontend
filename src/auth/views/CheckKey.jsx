@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export const CheckKey = () => {
-    const { keys, validateKeyStatus, startValidateKey, errorMessage } = useKeysStore();
+    const { validateKeyStatus, startValidateKey } = useKeysStore();
 
     const isValidating = useMemo(() => validateKeyStatus === 'validating', [validateKeyStatus]);
     
@@ -38,7 +38,7 @@ export const CheckKey = () => {
                             <FormControl>
                                 <Input placeholder="Introduce tu clave de admisión" { ...field } type="text" className="transition" />
                             </FormControl>
-                            <FormMessage >
+                            <FormMessage className="text-xs 2xl:text-sm" >
                                 { errors.key && errors.key.message }
                             </FormMessage>
                         </FormItem>

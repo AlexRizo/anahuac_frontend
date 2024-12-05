@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthStore, useKeysStore, useUiStore } from "@/hooks";
+import { useKeysStore, useUiStore } from "@/hooks";
 import { Anahuac } from "../components"
 import { CheckKey, Login, RegisterUser } from "../views";
 import { Toaster } from "@/components/ui";
@@ -7,7 +7,6 @@ import { Toaster } from "@/components/ui";
 export const LoginUser = () => {
     const { systemStatus } = useUiStore();
     const { validateKeyStatus } = useKeysStore();
-    const { aspirant } = useAuthStore();
     const [ isRegister, setIsRegister ] = useState(false);
 
     return (
@@ -20,21 +19,21 @@ export const LoginUser = () => {
                     <div className="absolute top-0 left-0 h-full w-full bg-[url('/img/login_user/login-user-bg.jpg')] opacity-20 bg-cover bg-center z-10"></div>
                     <div className="flex flex-col justify-between h-full w-full relative z-20 text-white">
                         <div className="uppercase text-center drop-shadow-xl">
-                            <h1 className="text-[40px]">La experiencia</h1>
-                            <h2 className="font-black text-[70px]">Anáhuac</h2>
+                            <h1 className="text-4xl 2xl:text-[40px] mb-1">La experiencia</h1>
+                            <h2 className="font-black text-6xl 2xl:text-[70px]">Anáhuac</h2>
                         </div>
                         <div>
-                            <h1 className="text-[70px] permanent-maker text-center drop-shadow-xl">Comienza hoy</h1>
+                            <h1 className="text-6xl 2xl:text-[70px] permanent-maker text-center drop-shadow-xl">Comienza hoy</h1>
                         </div>
                     </div>
                 </div>
                 { systemStatus &&
-                    <div className="border shadow p-6 h-full bg-white flex w-[45%]">
-                        <div className="w-[493px] m-auto">
-                            <div className="mb-6 flex flex-col gap-4">
-                                <Anahuac fill="#2B3844" className="mb-8" />
-                                <h1 className="text-2xl font-medium text-primary">Bienvenido/a al Examen de Admisión de Prepa Anáhuac</h1>
-                                <h2 className="text-sm text-slate-500">Atiende las instrucciones del aplicador, él te guiará para acceder a la prueba.</h2>
+                    <div className="border shadow p-1 2xl:p-6 h-full bg-white flex w-[45%]">
+                        <div className="w-3/4 2xl:w-[493px] m-auto">
+                            <div className="mb-4 2xl:mb-6 flex flex-col gap-2 2xl:gap-4">
+                                <Anahuac fill="#2B3844" className="mb-3 2xl:mb-8" />
+                                <h1 className="text-xl 2xl:text-2xl font-medium text-primary">Bienvenido/a al Examen de Admisión de Prepa Anáhuac</h1>
+                                <h2 className="text-xs 2xl:text-sm text-slate-500">Atiende las instrucciones del aplicador, él te guiará para acceder a la prueba.</h2>
                             </div>
                             {
                                 isRegister ? (
@@ -48,7 +47,7 @@ export const LoginUser = () => {
                                 )
 
                             }
-                            <p className="py-2 mt-4 text-slate-500 text-sm text-center">
+                            <p className="py-2 mt-4 text-slate-500 text-xs 2xl:text-sm text-center">
                                 {
                                     isRegister ? "Si aún no te has registrado, hazlo con tu " : "Si ya realizaste el registro, ingresa con tu "
                                 }

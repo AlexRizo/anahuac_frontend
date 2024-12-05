@@ -39,7 +39,7 @@ export const Login = () => {
                             <FormControl>
                                 <Input placeholder="Nombre de usuario" type="text" { ...field } className="transition shadow-sm" />
                             </FormControl>
-                            <FormMessage >
+                            <FormMessage className="text-xs 2xl:text-sm" >
                                 { errors.aspirant_id && errors.aspirant_id.message }
                             </FormMessage>
                         </FormItem>
@@ -54,7 +54,7 @@ export const Login = () => {
                             <FormControl>
                                 <Input placeholder="Contraseña" type="password" { ...field } className="transition shadow-sm" />
                             </FormControl>
-                            <FormMessage >
+                            <FormMessage className="text-xs 2xl:text-sm" >
                                 { errors.password && errors.password.message }
                             </FormMessage>
                         </FormItem>
