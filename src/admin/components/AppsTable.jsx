@@ -6,6 +6,7 @@ import { AlertDialogDelete, DatePicker } from "./";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
 import debounce from "lodash.debounce";
+import { differenceInDays, startOfDay } from "date-fns";
 
 export const AppsTable = () => {
     const {
@@ -66,6 +67,22 @@ export const AppsTable = () => {
         setSearchedTerm(e.target.value);
     };
 
+    const setAppStatus = (date) => {
+        const today = startOfDay(new Date());
+
+        const normalizedDate = startOfDay(new Date(date));
+
+        const diff = differenceInDays(normalizedDate, today);
+
+        if (diff > 0) {
+            return 'Programada';
+        } else if (diff === 0) {
+            return 'En proceso';
+        } else {
+            return 'Realizada';
+        }
+    }
+
     return (
         <>
             <div className="flex justify-between mb-5">
@@ -115,7 +132,7 @@ export const AppsTable = () => {
                                     <TableCell>{ app.name }</TableCell>
                                     <TableCell>{ capitalizeFirstLetter(app.origin) }</TableCell>
                                     <TableCell>{ customParseISO(app.date) }</TableCell>
-                                    <TableCell>{ capitalizeFirstLetter(app.status) }</TableCell>
+                                    <TableCell>{ setAppStatus(app.date) }</TableCell>
                                     <TableCell className="flex gap-1">
                                             <User size={20} absoluteStrokeWidth strokeWidth={1.50} />
                                             <p className="truncate">

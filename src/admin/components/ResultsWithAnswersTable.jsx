@@ -43,37 +43,37 @@ export const ResultsWithAnswersTable = ({ children, aspirant, aspirantResults, i
                         <>
                             <SheetTitle className="whitespace-pre-wrap break-words">
                                 <span className="font-normal">Resultados obtenidos por</span><br/>
-                                { aspirantResults.aspirant }
                             </SheetTitle>
-                            <SheetDescription>
-                                    <span className="grid grid-cols-2 mb-1">
-                                        <span className="flex justify-evenly">
-                                            <span>Reactivo</span>
-                                            <span>Respuesta</span>
-                                        </span>
-                                        <span className="flex justify-evenly">
-                                            <span>Reactivo</span>
-                                            <span>Respuesta</span>
-                                        </span>
-                                    </span>
-                                    <span className="max-h-[800px] overflow-y-auto grid grid-cols-2 custom-scrollbar">
-                                        {
-                                            aspirantResults.map((answer, index) => (
-                                                <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
-                                                    <span ><span className="">{ answer.questionNumber }</span></span>
-                                                    <span><span className="text-blue-600">
-                                                        { 
-                                                            answer.response.length === 2 ? answer.response.join(', ') 
-                                                                : answer.response[0].length > 1 ? resolveMagicTriangle(answer.response[0])
-                                                                : answer.response.length > 2 ? resolveFourDigits(answer.response)
-                                                                : answer.response[0]
-                                                        }
-                                                    </span></span> 
-                                                </span>
-                                            )).sort((a, b) => a.questionNumber - b.questionNumber)
-                                        }
-                                    </span>
+                            <SheetDescription className="text-base font-medium">
+                                { aspirant }
                             </SheetDescription>
+                            <span className="grid grid-cols-2 mb-1">
+                                <span className="flex justify-evenly">
+                                    <span>Reactivo</span>
+                                    <span>Respuesta</span>
+                                </span>
+                                <span className="flex justify-evenly">
+                                    <span>Reactivo</span>
+                                    <span>Respuesta</span>
+                                </span>
+                            </span>
+                            <span className="h-[600px] 2xl:h-[800px] overflow-y-auto grid grid-cols-2 custom-scrollbar">
+                                {
+                                    aspirantResults.map((answer, index) => (
+                                        <span key={ index } className="font-medium text-lg flex flex-row justify-evenly border">
+                                            <span ><span className="">{ answer.questionNumber }</span></span>
+                                            <span><span className="text-blue-600">
+                                                { 
+                                                    answer.response.length === 2 ? answer.response.join(', ') 
+                                                        : answer.response[0].length > 1 ? resolveMagicTriangle(answer.response[0])
+                                                        : answer.response.length > 2 ? resolveFourDigits(answer.response)
+                                                        : answer.response[0]
+                                                }
+                                            </span></span> 
+                                        </span>
+                                    )).sort((a, b) => a.questionNumber - b.questionNumber)
+                                }
+                            </span>
                         </>
                     )}
                 </SheetHeader>

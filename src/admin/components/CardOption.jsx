@@ -9,7 +9,7 @@ export const CardOption = ({title, description, icon, button, iconButton, path =
     };
     
     return (
-        <Card className="w-[300px] flex flex-col justify-between shadow-sm" > 
+        <Card className="w-[280px] 2xl:w-[300px] flex flex-col justify-between shadow-sm" > 
             <CardHeader>
                 <CardTitle>{ title }</CardTitle>
                 <CardDescription>{ description }</CardDescription>
@@ -20,7 +20,7 @@ export const CardOption = ({title, description, icon, button, iconButton, path =
                 </div>
             </CardContent>
             <CardFooter>
-                <Button className="gap-2 w-[70%] m-auto" onClick={ handleNavigate } >
+                <Button className="gap-2 2xl:w-[70%] m-auto" onClick={ handleNavigate } >
                     { iconButton }
                     { button }
                 </Button>

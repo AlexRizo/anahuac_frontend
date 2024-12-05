@@ -5,7 +5,7 @@ const dashboardOptions = [
     {
         title: 'Aplicaciones',
         description: 'Agrega una aplicación de examen',
-        icon: <CalendarPlus size={115} absoluteStrokeWidth />,
+        icon: <CalendarPlus className="size-[95px] 2xl:size-[115px]" strokeWidth={ .60 } absoluteStrokeWidth />,
         button: 'Nueva Fecha',
         iconButton: <CirclePlus size={20} strokeWidth={1.25} absoluteStrokeWidth />,
         path: '/aplicaciones'
@@ -13,7 +13,7 @@ const dashboardOptions = [
     {
         title: 'Aspirantes',
         description: 'Registra un nuevo aspirante',
-        icon: <Users size={115} absoluteStrokeWidth />,
+        icon: <Users className="size-[95px] 2xl:size-[115px]" strokeWidth={ .60 } absoluteStrokeWidth />,
         button: 'Nuevo Aspirante',
         iconButton: <CirclePlus size={20} strokeWidth={1.25} absoluteStrokeWidth />,
         path: '/aspirantes'
@@ -21,7 +21,7 @@ const dashboardOptions = [
     {
         title: 'Resultados',
         description: 'Consulta los resultados de la aplicación',
-        icon: <FileBadge size={115} absoluteStrokeWidth />,
+        icon: <FileBadge className="size-[95px] 2xl:size-[115px]" strokeWidth={ .60 } absoluteStrokeWidth />,
         button: 'Ver Resultados',
         iconButton: <FileBadge size={20} strokeWidth={1.25} absoluteStrokeWidth />,
         path: '/resultados'
@@ -29,7 +29,7 @@ const dashboardOptions = [
     {
         title: 'Reactivos',
         description: 'Visualiza los reactivos del examen',
-        icon: <ClipboardList size={115} absoluteStrokeWidth />,
+        icon: <ClipboardList className="size-[95px] 2xl:size-[115px]" strokeWidth={ .60 } absoluteStrokeWidth />,
         button: 'Ver Reactivos',
         iconButton: <ClipboardList size={20} strokeWidth={1.25} absoluteStrokeWidth />,
         path: '/examenes'
@@ -47,9 +47,9 @@ const dashboardOptions = [
 
 export const HomePage = () => {
     return (
-        <main className="py-20 px-24">
+        <main className="py-10 2xl:py-20 px-12 2xl:px-24 overflow-y-auto h-screen">
             <h1 className="text-3xl font-semibold text-[#09090B]">Dashboard</h1>
-            <div className="flex flex-wrap gap-10 mt-14">
+            <div className="flex flex-wrap gap-8 2xl:gap-10 mt-7 2xl:mt-14">
                 {
                     dashboardOptions.map((option, index) => (
                         <CardOption 

@@ -120,6 +120,8 @@ export const ResultsTable = () => {
                 aspirant: $aspirant,
                 aspirantResults: result
             });
+
+            console.log(result, $aspirant);
         }
     }, [result]);
 
