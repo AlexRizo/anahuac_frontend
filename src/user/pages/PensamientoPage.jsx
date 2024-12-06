@@ -95,7 +95,7 @@ export const PensamientoPage = () => {
                     <div className="mb-12 flex justify-between w-full">
                         <div>
                             <p className="text-sm font-semibold">Bloque:</p>
-                            <h1 className="text-3xl font-bold">Habilidades del Pensamiento</h1>
+                            <h1 className="text-2xl 2xl:text-3xl font-bold">Habilidades del Pensamiento</h1>
                         </div>
                         <div className="flex items-center justify-end gap-4">
                             <BlockProgress total={ total } done={ totalComplete } />
@@ -130,13 +130,13 @@ export const PensamientoPage = () => {
                 <div className="w-full px-24 flex justify-evenly items-center">
                     {
                         activeQuestion.attachment && (
-                            <div className="pr-5 h-[550px] flex items-center justify-center w-full">
-                                <img src={`${ activeQuestion.attachment }`} className="w-[540px]" alt={ activeQuestion.attachment } />
+                            <div className="pr-5 h-[400px] 2xl:h-[550px] flex items-center justify-center w-full">
+                                <img src={`${ activeQuestion.attachment }`} className="w-[400px] 2xl:w-[540px]" alt={ activeQuestion.attachment } />
                             </div>
                         )
                     }
-                    <div className={`${ activeQuestion.attachment ? 'w-full' : 'w-1/2 mt-10' }`}>
-                        <p className="text-lg font-medium mb-4">
+                    <div className={`${ activeQuestion.attachment ? 'w-full' : 'w-1/2 2xl:mt-10' }`}>
+                        <p className="text-sm 2xl:text-lg font-medium mb-4">
                             { activeQuestion.question }
                         </p>
                         <div>
@@ -170,7 +170,7 @@ export const PensamientoPage = () => {
             </div>
             <div className="flex justify-between items-end px-8">
                 <Anahuac fill="#2B3844" />
-                <p className="text-gray-500">© 2025 Colegio Anáhuac Colima. Todos los derechos Reservados.</p>
+                <p className="text-sm 2xl:text-base text-gray-500">© 2025 Colegio Anáhuac Colima. Todos los derechos Reservados.</p>
             </div>
         </main>
     )

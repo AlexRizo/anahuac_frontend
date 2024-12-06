@@ -1,8 +1,8 @@
 export const Article = ({ title, author, text = [], contentOrigin }) => {
     return (
         <article className="flex flex-col gap-2">
-            <h1 className="text-3xl font-semibold italic">{ title }</h1>
-            <h2 className="text-[22px] font-semibold italic">Por { author }</h2>
+            <h1 className="text-2xl 2xl:text-3xl font-semibold italic">{ title }</h1>
+            <h2 className="text-xl 2xl:text-[22px] font-semibold italic">Por { author }</h2>
             <p>
                 {
                     text.map((paragraph, index) => (

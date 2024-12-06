@@ -126,9 +126,9 @@ export const LecturaPage = () => {
                 <div className="w-1/2 px-24 h-full flex flex-col">
                     <div className="mb-12">
                         <p className="text-sm font-semibold">Bloque:</p>
-                        <h1 className="text-3xl font-bold">Comprensión lectora y escritura</h1>
+                        <h1 className="text-2xl 2xl:text-3xl font-bold">Comprensión lectora y escritura</h1>
                     </div>
-                    <div className="max-h-[550px] overflow-y-scroll custom-scrollbar pr-5">
+                    <div className="max-h-[400px] 2xl:max-h-[550px] overflow-y-scroll custom-scrollbar pr-5">
                         {
                             currentArticle ? 
                                 <Article
@@ -139,7 +139,7 @@ export const LecturaPage = () => {
                                 />
                             :
                                 (
-                                    <div className="flex items-center gap-2 h-[550px] justify-center fade-in-animation">
+                                    <div className="flex items-center gap-2 h-[400px] 2xl:h-[550px] justify-center fade-in-animation">
                                         <LoaderCircle size={32} strokeWidth={1.50} className="animate-spin" />
                                         <p className="">Cargando artículo...</p>
                                     </div>
@@ -147,7 +147,7 @@ export const LecturaPage = () => {
                         }
                     </div>
                 </div>
-                <div className="w-1/2 px-24 flex flex-col">
+                <div className="w-1/2 px-12 2xl:px-24 flex flex-col">
                     <div className="flex items-center justify-end gap-4">
                         <BlockProgress total={ total } done={ totalComplete } />
                         <Button 
@@ -176,8 +176,8 @@ export const LecturaPage = () => {
                             </Button>
                         </CustomAlertDialog>
                     </div>
-                    <div className="mt-36">
-                        <p className="text-lg font-medium mb-4">
+                    <div className="mt-14 2xl:mt-36">
+                        <p className="text-sm 2xl:text-lg font-medium mb-2 2xl:mb-4">
                             { activeQuestion.question }
                             {
                                 activeQuestion.type === "multiple" && (<>

@@ -32,7 +32,7 @@ export const LoginUser = () => {
                         <div className="w-3/4 2xl:w-[493px] m-auto">
                             <div className="mb-4 2xl:mb-6 flex flex-col gap-2 2xl:gap-4">
                                 <Anahuac fill="#2B3844" className="mb-3 2xl:mb-8" />
-                                <h1 className="text-xl 2xl:text-2xl font-medium text-primary">Bienvenido/a al Examen de Admisión de Prepa Anáhuac</h1>
+                                <h1 className="text-xl 2xl:text-2xl font-medium text-primary">Bienvenido/a al Examen de Admisión</h1>
                                 <h2 className="text-xs 2xl:text-sm text-slate-500">Atiende las instrucciones del aplicador, él te guiará para acceder a la prueba.</h2>
                             </div>
                             {

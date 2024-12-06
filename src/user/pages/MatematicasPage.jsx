@@ -112,7 +112,7 @@ export const MatematicasPage = () => {
                     <div className="mb-12 flex justify-between w-full">
                         <div>
                             <p className="text-sm font-semibold">Bloque:</p>
-                            <h1 className="text-3xl font-bold">Habilidades Lógico - Matemáticas</h1>
+                            <h1 className="text-2xl 2xl:text-3xl font-bold">Habilidades Lógico - Matemáticas</h1>
                         </div>
                         <div className="flex items-center justify-end gap-4">
                             <BlockProgress total={ total } done={ totalComplete } />
@@ -147,20 +147,20 @@ export const MatematicasPage = () => {
                 <div className="w-full px-24 flex justify-evenly items-center">
                     {
                         activeQuestion.attachment && (
-                            <div className="pr-5 h-[550px] flex items-center justify-center w-full relative">
+                            <div className="pr-5 h-[400px] 2xl:h-[550px] flex items-center justify-center w-full relative">
                                 {
-                                    isLoadingImages[0] && (<LoadingImage className="size-[550px] absolute" />)
+                                    isLoadingImages[0] && (<LoadingImage className="size-[400px] 2xl:size-[550px] absolute" />)
                                 }
                                 <img 
                                     src={`${ activeQuestion.attachment }`} 
-                                    className="w-[540px]" 
+                                    className="w-[390px] 2xl:w-[540px]" 
                                     onLoad={() => handleLoadImage(0)}
                                 />
                             </div>
                         )
                     }
                     <div className={`${ activeQuestion.attachment ? 'w-full' : 'w-1/2 mt-10' }`}>
-                        <p className="text-lg font-medium mb-4">
+                        <p className="2xl:text-lg font-medium mb-4">
                             { activeQuestion.question }
                         </p>
                         <div>
