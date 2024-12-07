@@ -6,6 +6,10 @@ export const customParseISO = (date) => {
     return format(date, 'dd MMMM y', { locale: localCustom });
 };
 
+export const customParseISODMY = (date) => {
+    return format(date, 'dd/MM/yy', { locale: localCustom });
+}
+
 export const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 };

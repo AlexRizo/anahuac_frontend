@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Ban, Edit, KeyRound, LoaderCircle, Trash, User } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { useAppStore } from "@/hooks";
+import { useAppStore, useScreen } from "@/hooks";
 import { AlertDialogDelete, DatePicker } from "./";
 import { useNavigate } from "react-router-dom";
-import { capitalizeFirstLetter, customParseISO } from "../helpers";
+import { capitalizeFirstLetter, customParseISO, customParseISODMY } from "../helpers";
 import debounce from "lodash.debounce";
 import { differenceInDays, startOfDay } from "date-fns";
 
@@ -83,6 +83,8 @@ export const AppsTable = () => {
         }
     }
 
+    const { width:screenWith } = useScreen();
+    
     return (
         <>
             <div className="flex justify-between mb-5">
@@ -113,7 +115,7 @@ export const AppsTable = () => {
                     }
                     <TableHeader>
                         <TableRow>
-                            <TableHead >#</TableHead>
+                            <TableHead className="hidden 2xl:block">#</TableHead>
                             <TableHead >ID Aplicación</TableHead>
                             <TableHead >Tipo</TableHead>
                             <TableHead >Fecha de Aplicación</TableHead>
@@ -128,15 +130,17 @@ export const AppsTable = () => {
                         {
                             applications.map((app, index) => (
                                 <TableRow key={ app.id }>
-                                    <TableCell>{ index + 1 }</TableCell>
+                                    <TableCell className="hidden 2xl:block">{ index + 1 }</TableCell>
                                     <TableCell>{ app.name }</TableCell>
                                     <TableCell>{ capitalizeFirstLetter(app.origin) }</TableCell>
-                                    <TableCell>{ customParseISO(app.date) }</TableCell>
+                                    <TableCell>
+                                        { screenWith < 1536 ? customParseISODMY(app.date) : customParseISO(app.date) }
+                                        </TableCell>
                                     <TableCell>{ setAppStatus(app.date) }</TableCell>
                                     <TableCell className="flex gap-1">
                                             <User size={20} absoluteStrokeWidth strokeWidth={1.50} />
                                             <p className="truncate">
-                                                { (`${ app.admin?.first_name } ${ app.admin?.last_name }`) ?? "Llave huerfana" }
+                                                { (`${ app.admin?.first_name } ${ screenWith >= 1536 && app.admin?.last_name ? app.admin.last_name : '' }`) ?? "Llave huerfana" }
                                             </p>
                                     </TableCell>
                                     <TableCell>

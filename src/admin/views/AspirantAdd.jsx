@@ -81,41 +81,43 @@ export const AspirantAdd = () => {
     return (
         <Card className={`w-[500px] h-min flex flex-col justify-between shadow-sm ${ isLoadingData && 'opacity-60 pointer-events-none' }`} > 
             <CardHeader>
-                <CardTitle>Registro de aspirante</CardTitle>
+                <CardTitle className="text-xl 2xl:text-2xl">Registro de aspirante</CardTitle>
             </CardHeader>
             <CardContent>
                 <Form { ...form }>
-                    <form action="POST" className="flex flex-col gap-4" onSubmit={ onSubmit }>
-                        <FormField
-                            control={ control }
-                            name="first_name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Nombre(s)</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Nombre completo" { ...field } type="text" className="transition" />
-                                    </FormControl>
-                                    <FormMessage >
-                                        { errors.first_name && errors.first_name.message }
-                                    </FormMessage>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={ control }
-                            name="last_name_1"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Apellido Paterno</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Apellido paterno" { ...field } type="text" className="transition" />
-                                    </FormControl>
-                                    <FormMessage >
-                                        { errors.last_name_1 && errors.last_name_1.message }
-                                    </FormMessage>
-                                </FormItem>
-                            )}
-                        />
+                    <form action="POST" className="flex flex-col gap-3 2xl:gap-4" onSubmit={ onSubmit }>
+                        <div className="flex gap-2">
+                            <FormField
+                                control={ control }
+                                name="first_name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Nombre(s)</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Nombre completo" { ...field } type="text" className="transition" />
+                                        </FormControl>
+                                        <FormMessage >
+                                            { errors.first_name && errors.first_name.message }
+                                        </FormMessage>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={ control }
+                                name="last_name_1"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Apellido Paterno</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Apellido paterno" { ...field } type="text" className="transition" />
+                                        </FormControl>
+                                        <FormMessage >
+                                            { errors.last_name_1 && errors.last_name_1.message }
+                                        </FormMessage>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         <FormField
                             control={ control }
                             name="last_name_2"
@@ -135,7 +137,7 @@ export const AspirantAdd = () => {
                             name="sex"
                             control={ control }
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="flex items-center gap-4 2xl:flex-col 2xl:gap-0">
                                     <FormLabel>Sexo:</FormLabel>
                                     <FormControl>
                                         <RadioGroup
@@ -183,12 +185,12 @@ export const AspirantAdd = () => {
                                             <SelectContent>
                                                 { applications.map((app) => (
                                                     <SelectItem key={ app.id } value={ app.id }>
-                                                        { capitalizeFirstLetter(app.origin) }, { customParseISO(app.date) }
+                                                        { capitalizeFirstLetter(app.origin).slice(0, 3) }, { customParseISO(app.date) }
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
-                                        <FormDescription className="text-xs">
+                                        <FormDescription className="text-xs hidden 2xl:block">
                                             Selecciona una fecha de aplicación.
                                             Se le asignará una clave de activación automáticamente.
                                         </FormDescription>

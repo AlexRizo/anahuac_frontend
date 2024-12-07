@@ -47,8 +47,8 @@ export const ApplicationKeysPage = () => {
         <main className="w-full">
             <a ref={ aRef } target="_blank" rel="noopener noreferrer" className="hidden"></a>
             <div>
-                <nav className="flex items-center gap-5 px-14 py-8">
-                    <h1 className="text-3xl font-semibold">Aplicaciones</h1>
+                <nav className="flex items-center gap-5 px-14 py-5 2xl:py-8">
+                    <h1 className="text-2xl 2xl:text-3xl font-semibold">Aplicaciones</h1>
                     <p className="text-gray-400 pt-1"> / Claves de activación</p>
                 </nav>
                 <hr />

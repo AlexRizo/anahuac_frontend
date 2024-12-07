@@ -98,11 +98,11 @@ export const AspirantsTable = () => {
                     }
                     <TableHeader>
                         <TableRow>
-                            <TableHead>#</TableHead>
+                            <TableHead className="hidden 2xl:block">#</TableHead>
                             <TableHead>ID Aspirante</TableHead>
                             <TableHead>Nombre</TableHead>
                             <TableHead>Sexo</TableHead>
-                            <TableHead>Escuela de origen</TableHead>
+                            <TableHead className="hidden 2xl:block">Escuela de origen</TableHead>
                             <TableHead>Fecha de nacimiento</TableHead>
                             <TableHead className="text-center">Acciones</TableHead>
                         </TableRow>
@@ -111,7 +111,7 @@ export const AspirantsTable = () => {
                         {
                             aspirants.map((aspirant, index) => (
                                 <TableRow key={ aspirant.id }>
-                                    <TableCell>{ index + 1 }</TableCell>
+                                    <TableCell className="hidden 2xl:block">{ index + 1 }</TableCell>
                                     <TableCell>{ aspirant.aspirant_id }</TableCell>
                                     <TableCell>
                                         { 
@@ -123,7 +123,7 @@ export const AspirantsTable = () => {
                                         }
                                     </TableCell>
                                     <TableCell>{ capitalizeFirstLetter(aspirant.sex) }</TableCell>
-                                    <TableCell>{ aspirant.origin }</TableCell>
+                                    <TableCell className="hidden 2xl:block">{ aspirant.origin }</TableCell>
                                     <TableCell>{ customParseISO(aspirant.birthdate) }</TableCell>
                                     <TableCell>
                                         <div className="flex items-center justify-center gap-5">

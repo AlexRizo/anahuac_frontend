@@ -48,7 +48,7 @@ const dashboardOptions = [
 export const HomePage = () => {
     return (
         <main className="py-10 2xl:py-20 px-12 2xl:px-24 overflow-y-auto h-screen">
-            <h1 className="text-3xl font-semibold text-[#09090B]">Dashboard</h1>
+            <h1 className="text-2xl 2xl:text-3xl font-semibold text-[#09090B]">Dashboard</h1>
             <div className="flex flex-wrap gap-8 2xl:gap-10 mt-7 2xl:mt-14">
                 {
                     dashboardOptions.map((option, index) => (
