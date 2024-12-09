@@ -134,7 +134,7 @@ export const MatematicasPage = () => {
                                 onConfirm={ startSavingExamAndNextLevel }
                             >
                                 <Button 
-                                    className={`bg-green-700 hover:bg-green-800 gap-1 ${ totalResponded === questions.length && 'animated-border-button' }`}
+                                    className={`gap-1 ${ totalResponded === questions.length ? 'animated-border-button bg-green-700 hover:bg-green-800' : 'bg-gray-500 hover:bg-gray-600' }`}
 
                                 >
                                     Terminar bloque

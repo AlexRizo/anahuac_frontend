@@ -50,6 +50,10 @@ export const useAuthStore = () => {
             localStorage.setItem("token", data.token);
             localStorage.setItem("token-init-date", new Date().getTime());
 
+            if (data.user.role !== 'ASPIRANT_ROLE') {
+                alert('Cierra tu sesión como administrador para poder continuar a esta vista.');
+            };
+
             dispatch(onLogin({
                 user: {
                     uid: data.user.uid,
