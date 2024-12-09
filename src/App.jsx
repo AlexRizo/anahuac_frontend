@@ -20,7 +20,7 @@ export const App = () => {
             <div className="absolute w-full h-full bg-[url('/img/login_user/login-user-bg.jpg')] bg-cover bg-no-repeat opacity-60"></div>
             <div className="bg-white shadow rounded p-5 relative">
                 <h1 className="text-4xl mb-5">¡Ups!</h1>
-                <h1 className="text-2xl">Parece que estás usando un dispositivo móvil.</h1>
+                <h1 className="text-2xl">Esta aplicación no está disponible en dispositivos móviles o tablets. Por favor, usa un equipo de escritorio.</h1>
             </div>
         </div>
     );
