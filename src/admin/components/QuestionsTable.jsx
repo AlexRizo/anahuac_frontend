@@ -129,7 +129,7 @@ export const QuestionsTable = () => {
                                         {
                                             q.attachment ? (
                                                 <HoverCard>
-                                                    <HoverCardTrigger className='cursor-help font-semibold inline-flex'>
+                                                    <HoverCardTrigger className='cursor-help font-semibold'>
                                                         <span className='underline mr-1'>{ q.question }</span>
                                                         &nbsp;
                                                         <span className='no-underline !text-gray-500 flex items-center gap-1 text-sm'>
