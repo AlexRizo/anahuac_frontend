@@ -8,7 +8,7 @@ import { pdf } from "@react-pdf/renderer";
 import { useResultStore } from "@/hooks";
 
 export const ResultsTable = () => {
-    const { aspirants, startLoadingAspirants, loading } = useAspirantsStore();
+    const { aspirants, startLoadingAspirants, loading, startClearState } = useAspirantsStore();
     const { result, aspirant:$aspirant, startLoadingAspirantResult, isLoading } = useResultStore();
     const aRef = useRef(null);
     const resultsMenuRef = useRef(null);
@@ -40,6 +40,12 @@ export const ResultsTable = () => {
     };
 
     useEffect(() => {
+        if (isFirstTime) {
+            startClearState();
+            setIsFirstTime(false);
+            return;
+        }
+
         const fetchAspirants = async (name = '') => {
             const pages = await startLoadingAspirants({ 
                 page,
@@ -60,12 +66,8 @@ export const ResultsTable = () => {
             }
         }, 500);
 
-        if (isFirstTime) {
-            fetchAspirants(searchedTerm);
-            setIsFirstTime(false);
-        } else {
-            debouncedSearch(searchedTerm);
-        }
+
+        debouncedSearch(searchedTerm);
 
         return () => debouncedSearch.cancel();
     }, [searchedTerm, page, filterStatus, selectedApp]);

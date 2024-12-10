@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onLoadAspirants, onRemoveAspirant, setActiveAspirant, setLoadState, setMessage, setOk } from "@/store/aspirants/aspirantsSlice";
+import { onClearState, onLoadAspirants, onRemoveAspirant, setActiveAspirant, setLoadState, setMessage, setOk } from "@/store/aspirants/aspirantsSlice";
 import { useToast } from "./";
 import anahuacApi from "@/api/api";
 
@@ -109,6 +109,10 @@ export const useAspirantsStore = () => {
         dispatch(setActiveAspirant(null));
     }
 
+    const startClearState = () => {
+        dispatch(onClearState());
+    }
+
     return {
         // ? properties
         activeAspirant,
@@ -125,5 +129,6 @@ export const useAspirantsStore = () => {
         startClearActiveAspirant,
         startManualSavingAspirant,
         startLoadingActiveAspirant,
+        startClearState,
     };
 }

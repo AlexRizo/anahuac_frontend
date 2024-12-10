@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     aspirants: [],
     activeAspirant: null,
-    loading: 'loading', // error, loading, loaded
+    loading: 'loaded', // error, loading, loaded
     message: null,
     ok: false,
 };
@@ -53,6 +53,13 @@ export const aspirantsSlice = createSlice({
         setOk: (state, { payload }) => {
             state.ok = payload;
         },
+        onClearState: (state) => {
+            state.aspirants = [];
+            state.activeAspirant = null;
+            state.loading = 'loaded';
+            state.message = null;
+            state.ok = false;
+        }
     },
 });
 
@@ -65,4 +72,5 @@ export const {
     setLoadState,
     setMessage,
     setOk,
+    onClearState,
 } = aspirantsSlice.actions;

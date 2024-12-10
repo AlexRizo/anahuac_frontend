@@ -1,43 +1,74 @@
-import { useEffect } from "react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui";
+import { useEffect, useState } from "react";
+import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Popover, PopoverContent, PopoverTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui";
 import { useAppStore } from "@/hooks";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const SelectApp = ({ selectedApp, setSelectedApp }) => {
     const { applications, startLoadingAllApps } = useAppStore();
-    // const [selectedApp, setSelectedApp] = useState(null); // ? This is the original state;
-    
+    const [open, setOpen] = useState(false);
+
     useEffect(() => {
         startLoadingAllApps();
     }, []);
 
-    const handleSelectApp = (id) => {
-        if (id === 'todas') {
-            setSelectedApp('');
+    const handleSelectApp = (name) => {
+        // Busca el id correspondiente al name seleccionado
+        const appId = applications.find((app) => app.name === name)?.id;
+
+        // Si no se encuentra, limpia la selección
+        if (!appId) {
+            setSelectedApp("");
             return;
         }
-        setSelectedApp(id);
+
+        // Almacena el id en selectedApp
+        setSelectedApp(appId);
     };
-    
+
     return (
-        <Select onValueChange={ handleSelectApp } value={ selectedApp } >
-            <SelectTrigger className="w-auto">
-            <SelectValue placeholder="Selecciona una aplicación"/>
-            </SelectTrigger>
-            <SelectContent>
-            <SelectGroup>
-                <SelectLabel>Fechas de aplicación</SelectLabel>
-                <SelectItem value="todas" className="text-slate-500">
-                        Sin filtro de aplicación
-                </SelectItem>
-                {
-                    applications.map((app) => (
-                        <SelectItem key={ app.id } value={ app.id }>
-                            { app.name }
-                        </SelectItem>
-                    ))
-                }
-            </SelectGroup>
-            </SelectContent>
-        </Select>
-    )
-}
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-[220px] justify-between"
+                >
+                    {selectedApp
+                        ? applications.find((app) => app.id === selectedApp)?.name
+                        : "Selecciona una aplicación..."}
+                    <ChevronsUpDown className="opacity-50" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[200px] p-0">
+                <Command>
+                    <CommandInput placeholder="Busca una aplicación..." />
+                    <CommandList>
+                        <CommandEmpty>No se encontró una aplicación.</CommandEmpty>
+                        <CommandGroup>
+                            { applications.map((app) => (
+                                <CommandItem
+                                    key={app.id}
+                                    value={app.name} // Busca por el nombre
+                                    onSelect={(currentValue) => {
+                                        handleSelectApp(currentValue);
+                                        setOpen(false);
+                                    }}
+                                >
+                                    {app.name}
+                                    <Check
+                                        className={cn(
+                                            "ml-auto",
+                                            selectedApp === app.id ? "opacity-100" : "opacity-0"
+                                        )}
+                                    />
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </CommandList>
+                </Command>
+            </PopoverContent>
+        </Popover>
+    );
+};

@@ -21,3 +21,4 @@ export * from './checkbox';
 export * from './accordion';
 export * from './hover-card';
 export * from './sheet';
+export * from './command';
