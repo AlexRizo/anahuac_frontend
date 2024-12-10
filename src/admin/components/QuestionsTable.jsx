@@ -3,7 +3,7 @@ import { useExamStore } from '@/hooks';
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { LecturaCard, SelectBlock, SelectLect } from '.';
-import { BookOpenCheck } from 'lucide-react';
+import { BookOpenCheck, Eye } from 'lucide-react';
 
 export const QuestionsTable = () => {
     const { questions, specials, startLoadingAllQuestionsWithCorrectAnswer, startLoadingSpecials } = useExamStore();
@@ -129,9 +129,13 @@ export const QuestionsTable = () => {
                                         {
                                             q.attachment ? (
                                                 <HoverCard>
-                                                    <HoverCardTrigger className='cursor-help font-semibold underline'>
-                                                        { q.question } &nbsp;
-                                                        <span>(Ver imágen)</span>
+                                                    <HoverCardTrigger className='cursor-help font-semibold inline-flex'>
+                                                        <span className='underline mr-1'>{ q.question }</span>
+                                                        &nbsp;
+                                                        <span className='no-underline !text-gray-500 flex items-center gap-1 text-sm'>
+                                                            <Eye size={ 18 } />
+                                                            (Ver imágen)
+                                                        </span>
                                                         </HoverCardTrigger>
                                                     <HoverCardContent>
                                                         <img src={ q.attachment } alt="image" />
