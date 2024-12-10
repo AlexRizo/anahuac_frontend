@@ -103,7 +103,7 @@ export const PDF = (
                         es&nbsp; 
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
                             { totalScore >= 1000 ? 'sobresaliente' : totalScore <= 999 && totalScore >= 780 ? 'satisfactorio' : 'insuficiente' }
-                        </Text>, lo cual te hace candidata a ser parte de la&nbsp;
+                        </Text>, lo cual te hace { sex === 'MASCULINO' ? 'candidato' : 'candidata' } a ser parte de la&nbsp;
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
                             { origin === 'PREPARATORIA' ? 'Preparatoria' : 'Secundaria' } Anáhuac.
                         </Text>&nbsp;
