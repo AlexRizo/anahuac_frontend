@@ -129,7 +129,10 @@ export const QuestionsTable = () => {
                                         {
                                             q.attachment ? (
                                                 <HoverCard>
-                                                    <HoverCardTrigger className='cursor-help font-semibold underline'>{ q.question }</HoverCardTrigger>
+                                                    <HoverCardTrigger className='cursor-help font-semibold underline'>
+                                                        { q.question } &nbsp;
+                                                        <span>(Ver imágen)</span>
+                                                        </HoverCardTrigger>
                                                     <HoverCardContent>
                                                         <img src={ q.attachment } alt="image" />
                                                     </HoverCardContent>
