@@ -73,10 +73,13 @@ export const ResultsTable = () => {
     }, [searchedTerm, page, filterStatus, selectedApp]);
 
     const handleDownloadPDF = async (aspirant) => {
-        const isAccepted = 
-            (aspirant?.examResult?.lecturaScore || 0) +
-            (aspirant?.examResult?.matematicasScore || 0) +
-            (aspirant?.examResult?.pensamientoScore || 0) > 999;
+        let isAccepted = true;
+
+        if (aspirant.app_origin === 'PREPARATORIA') {
+            isAccepted = aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 780;
+        } else {
+            isAccepted = aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 600;
+        }
 
         const document = isAccepted ? (
             <PDF 
@@ -115,6 +118,14 @@ export const ResultsTable = () => {
 
         resultsMenuRef.current.click();
     };
+
+    const validateAppOrigin = (aspirant) => {
+        if (aspirant.app_origin === 'PREPARATORIA') {
+            return aspirant.examResult.lecturaScore + aspirant.examResult.matematicasScore + aspirant.examResult.pensamientoScore >= 780;
+        } else {
+            return aspirant.examResult.lecturaScore + aspirant.examResult.matematicasScore + aspirant.examResult.pensamientoScore >= 600;
+        }
+    }
 
     useEffect(() => {
         if (result) {
@@ -197,8 +208,9 @@ export const ResultsTable = () => {
                                     <TableCell>
                                         <div className="flex justify-center">
                                             {
-                                               aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 1000 
-                                               ? <CheckCircle strokeWidth={ 1.25 } className="text-green-600" /> : <CircleX strokeWidth={ 1.25 } className="text-red-600" />
+                                               validateAppOrigin(aspirant) ? 
+                                                <CheckCircle strokeWidth={ 1.25 } className="text-green-600" /> :
+                                                <CircleX strokeWidth={ 1.25 } className="text-red-600" />
                                             }
                                         </div>
                                     </TableCell>

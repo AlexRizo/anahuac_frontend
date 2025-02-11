@@ -77,6 +77,14 @@ export const PDF = (
             padding: 2,
         }
     })
+
+    const validateScoreByExam = () => {
+        if (origin === 'PREPARATORIA') {
+            return totalScore >= 1000 ? 'sobresaliente' : totalScore <= 999 && totalScore >= 780 ? 'satisfactorio' : 'insuficiente';
+        } else {
+            return totalScore >= 800 ? 'sobresaliente' : totalScore <= 799 && totalScore >= 600 ? 'satisfactorio' : 'insuficiente';
+        }
+    }
     
     return (
         <Document style={ styles.gloablFont }>
@@ -84,7 +92,7 @@ export const PDF = (
                 <View style={ styles.header }>
                     <Image style={{ position: 'absolute', top: 0, width: '100%', zIndex: 2 }} src="/img/pdf/header.png" />
                     <View style={ styles.headerImages }>
-                        <Image style={{ width: 90, position: "absolute", left: 65, top: 15 }} src="/img/pdf/prepa_anahuac_logo.png" />
+                        <Image style={{ width: 90, position: "absolute", left: 65, top: 15 }} src={ origin === 'PREPARATORIA' ? '/img/pdf/prepa_anahuac_logo.png' : '/img/pdf/secundaria_anahuac_logo.png' } />
                         <Image style={{ width: 105 }} src="/img/pdf/logo_anahuac_exha.png" />
                         <Image style={{ width: 125, position: "absolute", right: 65, top: 20 }} src="/img/pdf/exha_logo.png" />
                     </View>
@@ -102,7 +110,7 @@ export const PDF = (
                         </Text>
                         es&nbsp; 
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
-                            { totalScore >= 1000 ? 'sobresaliente' : totalScore <= 999 && totalScore >= 780 ? 'satisfactorio' : 'insuficiente' }
+                            { validateScoreByExam() }
                         </Text>, lo cual te hace { sex === 'MASCULINO' ? 'candidato' : 'candidata' } a ser parte de la&nbsp;
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
                             { origin === 'PREPARATORIA' ? 'Preparatoria' : 'Secundaria' } Anáhuac.
@@ -115,7 +123,7 @@ export const PDF = (
                     <Text style={{ marginTop: 8 }}>
                         Estás por concluir la&nbsp;
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
-                            { origin.includes('PREPARATORIA') ? 'Secundaria' : 'Preparatoria' }
+                            { origin.includes('PREPARATORIA') ? 'Secundaria' : 'Primaria' }
                         </Text>, una etapa de muchos aprendizajes y logros que te 
                         permitirá iniciar la&nbsp;
                         <Text style={{ fontWeight: 600, fontSize: 12 }}>
@@ -144,7 +152,7 @@ export const PDF = (
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 20,
-                    marginTop: 60,
+                    marginTop: 100,
                     fontSize: 12,
                 }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
@@ -155,9 +163,9 @@ export const PDF = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src="/img/pdf/firma-prepa.png" style={{ width: 200 }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.png' } style={{ height: 150 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
-                        <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
+                        <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
                         <Text>Directora Académica</Text>
                     </View>
                 </View>
@@ -167,7 +175,7 @@ export const PDF = (
 
             <Page style={{ fontSize: 12 }}>
                 <View>
-                    <Image src={'/img/pdf/header-p2.jpg'} style={{ width: '100%', height: 'auto' }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/header-p2.jpg' : '/img/pdf/header-s2.jpg' } style={{ width: '100%', height: 'auto' }} />
                 </View>
                 <View style={{ paddingHorizontal: 40 }}>
                     <Text style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginVertical: 20 }}>RESULTADOS DE EXAMEN DE ADMISIÓN</Text>
@@ -273,7 +281,7 @@ export const PDF = (
                                 fill="black"
                             />
                         </Svg>
-                        <Text>Certificado de Secundaria</Text>
+                        <Text>Certificado de { origin === 'PREPARATORIA' ? 'Preparatoria' : 'Secundaria' }</Text>
                     </View>
 
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4, paddingLeft: 15 }}>
@@ -331,7 +339,7 @@ export const PDF = (
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 20,
-                    marginTop: 60,
+                    marginTop: 100,
                     fontSize: 12,
                 }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
@@ -342,9 +350,9 @@ export const PDF = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src="/img/pdf/firma-prepa.png" style={{ width: 200 }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.png' } style={{ width: 200 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
-                        <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
+                        <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
                         <Text>Directora Académica</Text>
                     </View>
                 </View>

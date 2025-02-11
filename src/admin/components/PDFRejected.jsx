@@ -48,7 +48,7 @@ export const PDFRejected = (
         <Document>
             <Page style={{ fontSize: 12, ...styles.globalFont }}>
                 <View>
-                    <Image src={'/img/pdf/header-p2.jpg'} style={{ width: '100%', height: 'auto' }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/header-p2.jpg' : '/img/pdf/header-s2.jpg'} style={{ width: '100%', height: 'auto' }} />
                 </View>
                 <View style={{ paddingHorizontal: 40 }}>
                     <Text style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginVertical: 20 }}>RESULTADOS DE EXAMEN DE ADMISIÓN</Text>
@@ -100,7 +100,7 @@ export const PDFRejected = (
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 20,
-                    marginTop: 60,
+                    marginTop: 350,
                     fontSize: 12,
                 }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
@@ -111,9 +111,9 @@ export const PDFRejected = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src="/img/pdf/firma-prepa.png" style={{ width: 200 }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.png' } style={{ width: 200 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
-                        <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
+                        <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
                         <Text>Directora Académica</Text>
                     </View>
                 </View>
