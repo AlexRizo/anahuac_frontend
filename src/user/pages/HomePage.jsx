@@ -42,7 +42,7 @@ export const HomePage = () => {
                 <div className="w-[493px] m-auto">
                     <div className="mb-6 flex flex-col gap-4">
                         <Anahuac fill="#2B3844" className="mb-8" />
-                        <h1 className="text-2xl font-medium text-primary">Bienvenido/a al Examen de Admisión de Prepa Anáhuac</h1>
+                        <h1 className="text-2xl font-medium text-primary">Bienvenido/a al Examen de Admisión del Colegio Anáhuac</h1>
                         <p className="text-gray-600 test-base">
                             Atiende las indicaciones de tu docente. 
                             Él te indicará cuando puedes empezar.

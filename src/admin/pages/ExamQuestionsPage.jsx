@@ -11,7 +11,6 @@ export const ExamQuestionsPage = () => {
     
     useEffect(() => {
         startLoadingAllQuestionsWithCorrectAnswer(id);
-        console.log(exam);
     }, []);
     
     return (
