@@ -6,7 +6,7 @@ import { LecturaCard, SelectBlock, SelectLect } from '.';
 import { BookOpenCheck, Eye } from 'lucide-react';
 
 export const QuestionsTable = () => {
-    const { questions, specials, startLoadingAllQuestionsWithCorrectAnswer, startLoadingSpecials } = useExamStore();
+    const { currentExam, questions, specials, startLoadingSpecials } = useExamStore();
 
     const { id } = useParams();
 
@@ -30,10 +30,6 @@ export const QuestionsTable = () => {
     }
 
     useEffect(() => {
-        startLoadingAllQuestionsWithCorrectAnswer(id);
-    }, []);
-
-    useEffect(() => {
         if (specials.length === 0) return;
         setSpecial(specials.find(s => s.number === selectedLect));
     }, [specials, selectedLect]);
@@ -50,7 +46,7 @@ export const QuestionsTable = () => {
             setSelectedQuestions(questions.filter(q => q.block === selectedBlock.toUpperCase()));
         }
 
-        setBlockPoints(selectedBlock === 'lectura' ? 440 : selectedBlock === 'matematicas' ? 470 : selectedBlock === 'pensamiento' ? 390 : 0);
+        setBlockPoints(currentExam?.score?.[selectedBlock] || 0);
     }, [selectedBlock, selectedLect]);
 
     if (!id) return <h1>Selecciona un examen</h1>;

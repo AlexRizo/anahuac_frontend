@@ -4,7 +4,7 @@ import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
 
 export const useExamStore = () => {
-    const { questions, exams, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level } = useSelector(state => state.exam);
+    const { questions, exams, answeredQuestions, activeQuestion, total, totalResponded, isLoading, specials, exam_level, currentExam } = useSelector(state => state.exam);
     const { user } = useSelector(state => state.auth);
     const { toast } = useToast();
     const dispatch = useDispatch();
@@ -217,7 +217,8 @@ export const useExamStore = () => {
         specials,
         answeredQuestions,
         exam_level,
-
+        currentExam,
+        
         // ! methods
         startLoadingAllQuestionsWithCorrectAnswer,
         startLoadingAllBlockQuestions,
