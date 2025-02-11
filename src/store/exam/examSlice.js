@@ -58,4 +58,14 @@ export const examSlice = createSlice({
     },
 });
 
-export const { onSetAnsweredQuestions, onLoadQuestions, onSetActiveQuestion, setIsLoading, onLoadSpecial, onLoadExamLevel, onRestartExam, onLoadExams, setScorePerExam } = examSlice.actions;
+export const {
+    onSetAnsweredQuestions,
+    onLoadQuestions,
+    onSetActiveQuestion,
+    setIsLoading,
+    onLoadSpecial,
+    onLoadExamLevel,
+    onRestartExam,
+    onLoadExams,
+    setScorePerExam,
+} = examSlice.actions;
