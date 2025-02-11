@@ -6,11 +6,12 @@ import { useParams } from "react-router-dom";
 export const ExamQuestionsPage = () => {
     const { startLoadingAllQuestionsWithCorrectAnswer } = useExamStore();
     const { id } = useParams();
-
+    
     const [ exam ] = useState(id === '6712e526aa2479c2a9e3d3b4' ? 'SECUNDARIA' : 'PREPARATORIA');
     
     useEffect(() => {
         startLoadingAllQuestionsWithCorrectAnswer(id);
+        console.log(exam);
     }, []);
     
     return (
