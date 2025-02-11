@@ -197,10 +197,8 @@ export const useExamStore = () => {
 
         try {
             const { data } = await anahuacApi.get(`/exam/get/questions/${ origin }`);
-
-            console.log({data});
             dispatch(onLoadQuestions(data.questions));
-            dispatch(setScorePerExam(data.score));
+            dispatch(setScorePerExam(data.exam));
             dispatch(setIsLoading('loaded'));
         } catch (error) {
             startSetExceptionMessage(error);

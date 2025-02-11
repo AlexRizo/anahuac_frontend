@@ -10,7 +10,7 @@ const initialState = {
     isLoading: 'loading',
     exam_level: 0,
     exams: [],
-    exam: null,
+    currentExam: null,
 };
 
 export const examSlice = createSlice({
@@ -22,7 +22,7 @@ export const examSlice = createSlice({
             state.total = payload.length;
         },
         setScorePerExam: (state, { payload }) => {
-            state.exam = payload;
+            state.currentExam = payload;
         },
         onSetActiveQuestion: (state, { payload }) => {
             state.activeQuestion = payload;
@@ -41,7 +41,7 @@ export const examSlice = createSlice({
             state.isLoading = payload;
             if (payload === 'loading') {
                 state.exams = [];
-                state.exam = {};
+                state.currentExam = {};
             }
         },
         onRestartExam: (state) => {
@@ -49,7 +49,7 @@ export const examSlice = createSlice({
             state.specials = [];
             state.total = 0;
             state.totalResponded = 0;
-            state.exam = null;
+            state.currentExam = null;
         },
         onLoadExams: (state, { payload }) => {
             state.exams = payload;
