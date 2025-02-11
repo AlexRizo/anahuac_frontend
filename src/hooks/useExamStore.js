@@ -1,4 +1,4 @@
-import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel, onRestartExam, onLoadExams } from "@/store/exam/examSlice";
+import { onSetAnsweredQuestions, onLoadQuestions, onLoadSpecial, onSetActiveQuestion, setIsLoading, onLoadExamLevel, onRestartExam, onLoadExams, setScorePerExam } from "@/store/exam/examSlice";
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
@@ -198,6 +198,7 @@ export const useExamStore = () => {
         try {
             const { data } = await anahuacApi.get(`/exam/get/questions/${ origin }`);
             dispatch(onLoadQuestions(data.questions));
+            dispatch(setScorePerExam(data.score));
             dispatch(setIsLoading('loaded'));
         } catch (error) {
             startSetExceptionMessage(error);

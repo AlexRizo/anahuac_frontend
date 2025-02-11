@@ -57,7 +57,7 @@ export const QuestionsTable = () => {
     
     return (
         <div>
-            <div className='flex justify-between'>
+            <div className='flex justify-between items-start'>
                 <div>
                     <SelectBlock value={ selectedBlock } onChange={ setSelectedBlock } />
                     {
