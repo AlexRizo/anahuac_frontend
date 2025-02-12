@@ -121,9 +121,10 @@ export const ResultsTable = () => {
 
     const validateAppOrigin = (aspirant) => {
         if (aspirant.app_origin === 'PREPARATORIA') {
-            return aspirant.examResult.lecturaScore + aspirant.examResult.matematicasScore + aspirant.examResult.pensamientoScore >= 780;
+            console.log(aspirant.examResult)
+            return (aspirant.examResult.lecturaScore || 0) + (aspirant.examResult.matematicasScore || 0) + (aspirant.examResult.pensamientoScore || 0) >= 780;
         } else {
-            return aspirant.examResult.lecturaScore + aspirant.examResult.matematicasScore + aspirant.examResult.pensamientoScore >= 600;
+            return (aspirant.examResult.lecturaScore || 0) + (aspirant.examResult.matematicasScore || 0) + (aspirant.examResult.pensamientoScore || 0) >= 600;
         }
     }
 
@@ -195,7 +196,7 @@ export const ResultsTable = () => {
                                     <TableCell className="text-center">{ aspirant?.examResult?.matematicasScore || 0 }</TableCell>
                                     <TableCell className="text-center">{ aspirant?.examResult?.pensamientoScore || 0 }</TableCell>
                                     <TableCell className="text-center">{ 
-                                        (aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore) || 0
+                                        ((aspirant?.examResult?.lecturaScore || 0) + (aspirant?.examResult?.matematicasScore || 0) + (aspirant?.examResult?.pensamientoScore || 0))
                                     }</TableCell>
                                     <TableCell className="text-center">
                                             <Button 

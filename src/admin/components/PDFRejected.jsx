@@ -100,8 +100,11 @@ export const PDFRejected = (
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 20,
-                    marginTop: 350,
                     fontSize: 12,
+                    position: 'absolute',
+                    bottom: 50,
+                    left: "50%",
+                    transform: 'translateX(-100%)',
                 }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>
@@ -111,7 +114,7 @@ export const PDFRejected = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.png' } style={{ width: 200 }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.jpg' } style={{ width: 200 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
                         <Text>Directora Académica</Text>

@@ -152,8 +152,11 @@ export const PDF = (
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 20,
-                    marginTop: 100,
                     fontSize: 12,
+                    position: 'absolute',
+                    bottom: 50,
+                    left: "50%",
+                    transform: 'translateX(-100%)',
                 }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>
@@ -163,7 +166,7 @@ export const PDF = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.png' } style={{ height: 150 }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.jpg' } style={{ width: 200 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
                         <Text>Directora Académica</Text>
@@ -223,7 +226,7 @@ export const PDF = (
                     </View>
                 </View>
                 <View style={{ paddingHorizontal: 40 }}>
-                    <Text style={{ marginBottom: 20 }}>Ya llevas 2 de los 3 simples pasos para ser parte del <Text style={{ fontWeight: 700 }}>{ origin === 'PREPARATORIA' ? 'Preparatoria' : 'Secundaria' } Anáhuac</Text>:</Text>
+                    <Text style={{ marginBottom: 20 }}>Ya llevas 2 de los 3 simples pasos para ser parte de la <Text style={{ fontWeight: 700 }}>{ origin === 'PREPARATORIA' ? 'Preparatoria' : 'Secundaria' } Anáhuac</Text>:</Text>
                     
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: "center", gap: 4 }}>
                         <Text>Examen de Admisión</Text>
@@ -339,8 +342,11 @@ export const PDF = (
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 20,
-                    marginTop: 100,
                     fontSize: 12,
+                    position: 'absolute',
+                    bottom: 50,
+                    left: "50%",
+                    transform: 'translateX(-100%)',
                 }}>
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>
@@ -350,7 +356,7 @@ export const PDF = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.png' } style={{ width: 200 }} />
+                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.jpg' } style={{ width: 200 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
                         <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
                         <Text>Directora Académica</Text>
