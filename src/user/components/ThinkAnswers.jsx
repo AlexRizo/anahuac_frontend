@@ -32,7 +32,7 @@ export const ThinkAnswers = ({ answers, value, type, onChange }) => {
                                     alt={ answer.opt }
                                 />
                             ) : (
-                                <label className="text-sm 2xl:text-base cursor-pointer" htmlFor={ answer.opt }>
+                                <label className="text-base 2xl:text-lg cursor-pointer" htmlFor={ answer.opt }>
                                     { answer.answer }
                                 </label>
                             )

@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, CheckSquare, Save } from "lucide-react"
-import { ActualProgress, BlockProgress, CustomAlertDialog, LoadingImage, LoadingQuestionPage, MathematicAnswers } from "../components"
+import { BlockProgress, CustomAlertDialog, LoadingImage, LoadingQuestionPage, MathematicAnswers } from "../components"
 import { Button, Label } from "@/components/ui"
 import { Anahuac } from "@/auth/components"
 import { useExamStore } from "@/hooks"
@@ -160,7 +160,7 @@ export const MatematicasPage = () => {
                         )
                     }
                     <div className={`${ activeQuestion.attachment ? 'w-full' : 'w-1/2 mt-10' }`}>
-                        <p className="2xl:text-lg font-medium mb-4">
+                        <p className="text-base 2xl:text-lg font-medium mb-4">
                             { activeQuestion.question }
                         </p>
                         <div>

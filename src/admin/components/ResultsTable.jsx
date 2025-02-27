@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle, CircleX, FileBadge, FileSearch, LoaderCircle, X } from "lucide-react"
 import { Label, Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, TableCaption } from "@/components/ui"
-import { PDF, PDFRejected, ResultsWithAnswersTable, SelectApp, SelectOrigin } from ".";
+import { PDFPrepa, PDFPrepaRejected, ResultsWithAnswersTable, SelectApp, SelectOrigin } from ".";
 import { useAspirantsStore } from "@/hooks/useAspirantsStore";
 import debounce from "lodash.debounce";
 import { pdf } from "@react-pdf/renderer";
 import { useResultStore } from "@/hooks";
+import { PDFSecundaria } from "./PDFSecundaria";
+import { PDFSecundariaRejected } from "./PDFSecundariaRejected";
 
 export const ResultsTable = () => {
     const { aspirants, startLoadingAspirants, loading, startClearState } = useAspirantsStore();
@@ -73,35 +75,36 @@ export const ResultsTable = () => {
     }, [searchedTerm, page, filterStatus, selectedApp]);
 
     const handleDownloadPDF = async (aspirant) => {
-        let isAccepted = true;
+        let isAccepted = undefined;
+        let document = null;
 
-        if (aspirant.app_origin === 'PREPARATORIA') {
-            isAccepted = aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 780;
-        } else {
-            isAccepted = aspirant?.examResult?.lecturaScore + aspirant?.examResult?.matematicasScore + aspirant?.examResult?.pensamientoScore >= 600;
+        const docData = {
+            aspirant: `${aspirant.first_name} ${aspirant.last_name_1} ${aspirant.last_name_2 || ''}`,
+            lecturaScore: aspirant?.examResult?.lecturaScore,
+            matematicasScore: aspirant?.examResult?.matematicasScore,
+            pensamientoScore: aspirant?.examResult?.pensamientoScore,
+            sex: aspirant.sex,
+            date: aspirant.application.date,
         }
 
-        const document = isAccepted ? (
-            <PDF 
-                aspirant={`${aspirant.first_name} ${aspirant.last_name_1} ${aspirant.last_name_2 || ''}`}
-                lecturaScore={aspirant?.examResult?.lecturaScore}
-                matematicasScore={aspirant?.examResult?.matematicasScore}
-                pensamientoScore={aspirant?.examResult?.pensamientoScore}
-                sex={aspirant.sex}
-                date={aspirant.application.date}
-                origin={aspirant.app_origin}
-            />
-        ) : (
-            <PDFRejected
-                aspirant={`${aspirant.first_name} ${aspirant.last_name_1} ${aspirant.last_name_2 || ''}`}
-                lecturaScore={aspirant?.examResult?.lecturaScore || 0}
-                matematicasScore={aspirant?.examResult?.matematicasScore || 0}
-                pensamientoScore={aspirant?.examResult?.pensamientoScore || 0}
-                sex={aspirant.sex}
-                date={aspirant.application.date}
-                origin={aspirant.app_origin}
-            />
-        );
+        if (aspirant.app_origin === 'PREPARATORIA') {
+            isAccepted = (aspirant?.examResult?.lecturaScore || 0) + (aspirant?.examResult?.matematicasScore || 0) + (aspirant?.examResult?.pensamientoScore || 0) >= 779;
+            
+            document = isAccepted ? (
+                <PDFPrepa { ...docData } />
+            ) : (
+                <PDFPrepaRejected { ...docData } />
+            );
+        } else {
+            isAccepted = (aspirant?.examResult?.lecturaScore || 0) + (aspirant?.examResult?.matematicasScore || 0) + (aspirant?.examResult?.pensamientoScore || 0) >= 599;
+
+            document = isAccepted ? (
+                <PDFSecundaria { ...docData } />
+            ) : (
+                <PDFSecundariaRejected { ...docData } />
+            );
+        }
+
 
         const blob = await pdf(document).toBlob();
         const url = window.URL.createObjectURL(blob);

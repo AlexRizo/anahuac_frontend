@@ -3,15 +3,14 @@ import { format } from 'date-fns'
 import { localCustom } from '../helpers'
 import { useEffect, useState } from 'react';
 
-export const PDFRejected = (
+export const PDFPrepaRejected = (
     {
-        aspirant,
-        lecturaScore,
-        matematicasScore,
-        pensamientoScore,
+        aspirant = '',
+        lecturaScore = 0,
+        matematicasScore = 0,
+        pensamientoScore = 0,
         date,
         sex,
-        origin,
     }
 ) => {
     const [ totalScore, setTotalScore ] = useState(lecturaScore + matematicasScore + pensamientoScore);
@@ -48,7 +47,7 @@ export const PDFRejected = (
         <Document>
             <Page style={{ fontSize: 12, ...styles.globalFont }}>
                 <View>
-                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/header-p2.jpg' : '/img/pdf/header-s2.jpg'} style={{ width: '100%', height: 'auto' }} />
+                    <Image src={'/img/pdf/header-p2.jpg'} style={{ width: '100%', height: 'auto' }} />
                 </View>
                 <View style={{ paddingHorizontal: 40 }}>
                     <Text style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginVertical: 20 }}>RESULTADOS DE EXAMEN DE ADMISIÓN</Text>
@@ -114,9 +113,9 @@ export const PDFRejected = (
                             Atentamente
                         </Text>
                     </View>
-                    <Image src={ origin === 'PREPARATORIA' ? '/img/pdf/firma-prepa.png' : '/img/pdf/firma-secundaria.jpg' } style={{ width: 200 }} />
+                    <Image src={'/img/pdf/firma-prepa.png'} style={{ width: 200 }} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
-                        <Text>{ origin === 'PREPARATORIA' ? 'Imelda Ivonne Ávalos Vizcaíno' : 'Rosalba Rodríguez Barragán' }</Text>
+                        <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
                         <Text>Directora Académica</Text>
                     </View>
                 </View>

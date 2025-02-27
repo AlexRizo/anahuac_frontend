@@ -31,7 +31,7 @@ export const MathematicAnswers = ({ answers, value, type, onChange, isLoadingIma
                                     }
                                 </>
                             ) : (
-                                <label className="cursor-pointer text-sm" htmlFor={ answer.opt }>
+                                <label className="cursor-pointer text-base 2xl:text-lg" htmlFor={ answer.opt }>
                                     { answer.answer }
                                 </label>
                             )

@@ -63,7 +63,21 @@ export const useExamStore = () => {
                 dispatch(onLoadQuestions(data.questions.sort(() => Math.random() - 0.5)));
             } else if (model === 'pensamiento') {
                 const { data } = await anahuacApi.get('/exam/pensamiento/questions');
-                dispatch(onLoadQuestions(data.questions.sort(() => Math.random() - 0.5)));
+
+                const questions = data.questions || [];
+                const blocks = [(questions[questions.length - 3]).questionNumber, (questions[questions.length - 2]).questionNumber, (questions[questions.length - 1]).questionNumber];
+
+                const questionsBlock = questions.filter(question => blocks.includes(question.questionNumber));
+                const sortedQuestions = questions.filter(question => !blocks.includes(question.questionNumber)).sort(() => Math.random() - 0.5);
+
+                
+                const randomIndex = Math.floor(Math.random() * (sortedQuestions.length + 1));
+                
+                sortedQuestions.splice(randomIndex, 0, ...questionsBlock);
+                
+                // console.log(finalQuestions, randomIndex);
+
+                dispatch(onLoadQuestions(sortedQuestions));
             }
 
             await startLoadingUserExamResults(user.uid, model);

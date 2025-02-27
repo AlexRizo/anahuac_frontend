@@ -177,7 +177,7 @@ export const LecturaPage = () => {
                         </CustomAlertDialog>
                     </div>
                     <div className="mt-14 2xl:mt-36">
-                        <p className="text-sm 2xl:text-lg font-medium mb-2 2xl:mb-4">
+                        <p className="text-base 2xl:text-lg font-medium mb-2 2xl:mb-4">
                             { activeQuestion.question }
                             {
                                 activeQuestion.type === "multiple" && (<>

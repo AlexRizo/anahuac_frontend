@@ -136,7 +136,7 @@ export const PensamientoPage = () => {
                         )
                     }
                     <div className={`${ activeQuestion.attachment ? 'w-full' : 'w-1/2 2xl:mt-10' }`}>
-                        <p className="text-sm 2xl:text-lg font-medium mb-4">
+                        <p className="text-base 2xl:text-lg font-medium mb-4">
                             { activeQuestion.question }
                         </p>
                         <div>
