@@ -72,7 +72,7 @@ export const AspirantEdit = () => {
                 last_name_1: aspirant.last_name_1,
                 last_name_2: aspirant.last_name_2,
                 sex: aspirant.sex,
-                key: getAspirantKey(aspirant.aspirant_id),
+                key: aspirant.aspirant_id,
                 birthdate: parseDateForInput(new Date(aspirant.birthdate)),
                 old_school: aspirant.origin
             });
