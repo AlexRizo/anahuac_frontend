@@ -23,7 +23,7 @@ import {
   RadioGroupItem,
 } from "@/components/ui";
 import { useAspirantsStore } from "@/hooks";
-import { getAspirantKey, parseDateForInput } from "../helpers";
+import { parseDateForInput } from "../helpers";
 import { CustomAlert } from "../components";
 import { useParams } from "react-router-dom";
 
@@ -54,7 +54,7 @@ export const AspirantEdit = () => {
             last_name_1: aspirant?.last_name_1 || '',
             last_name_2: aspirant?.last_name_2 || '',
             sex: aspirant?.sex || '',
-            key: getAspirantKey(aspirant?.aspirant_id) || '',
+            key: aspirant?.aspirant_id || '',
             birthdate: undefined,
             old_school: aspirant?.origin || ''
         },
