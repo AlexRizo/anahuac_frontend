@@ -125,9 +125,9 @@ export const ResultsTable = () => {
     const validateAppOrigin = (aspirant) => {
         if (aspirant.app_origin === 'PREPARATORIA') {
             console.log(aspirant.examResult)
-            return (aspirant.examResult.lecturaScore || 0) + (aspirant.examResult.matematicasScore || 0) + (aspirant.examResult.pensamientoScore || 0) >= 780;
+            return (aspirant.examResult?.lecturaScore || 0) + (aspirant.examResult?.matematicasScore || 0) + (aspirant.examResult?.pensamientoScore || 0) >= 780;
         } else {
-            return (aspirant.examResult.lecturaScore || 0) + (aspirant.examResult.matematicasScore || 0) + (aspirant.examResult.pensamientoScore || 0) >= 600;
+            return (aspirant.examResult?.lecturaScore || 0) + (aspirant.examResult?.matematicasScore || 0) + (aspirant.examResult?.pensamientoScore || 0) >= 600;
         }
     }
 
