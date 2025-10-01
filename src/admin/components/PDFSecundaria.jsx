@@ -96,40 +96,17 @@ export const PDFSecundaria = (
 
   return (
     <Document style={styles.gloablFont}>
-      <Page>
-        <View style={styles.header}>
-          <Image
-            style={{ position: "absolute", top: 0, width: "100%", zIndex: 2 }}
-            src="/img/pdf/header.png"
-          />
-          <View style={styles.headerImages}>
-            <Image
-              style={{ width: 90, position: "absolute", left: 65, top: 15 }}
-              src="/img/pdf/secundaria_anahuac_logo.png"
-            />
-            <Image
-              style={{ width: 105 }}
-              src="/img/pdf/logo_anahuac_exha.png"
-            />
-            <Image
-              style={{ width: 125, position: "absolute", right: 65, top: 20 }}
-              src="/img/pdf/exha_logo.png"
-            />
-          </View>
-          <Text style={styles.title}>CERTIFICADO DE</Text>
-          <Text style={styles.subTitle}>ACEPTACIÓN</Text>
-        </View>
+      <Page size="LETTER">
         <View
           style={{
-            marginTop: 35,
+            marginTop: 140,
             display: "flex",
             flexDirection: "column",
             gap: 10,
             paddingLeft: 65,
             paddingRight: 65,
             textAlign: "justify",
-            fontSize: 12,
-            lineHeight: 1.5,
+            fontSize: 10,
             position: "relative",
             zIndex: 1,
           }}
@@ -144,17 +121,17 @@ export const PDFSecundaria = (
           <Text style={{ marginTop: 8 }}>
             A través de estas líneas quiero reconocer tu esfuerzo y compartirte
             que el resultado en el examen de admisión que presentaste el&nbsp;
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>
+            <Text style={{ fontWeight: 600 }}>
               {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom })}
               &nbsp;
             </Text>
             es&nbsp;
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>
+            <Text style={{ fontWeight: 600 }}>
               {validateScoreByExam()}
             </Text>
             , lo cual te hace {sex === "MASCULINO" ? "candidato " : "candidata "}
             a ser parte de la&nbsp;
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>
+            <Text style={{ fontWeight: 600 }}>
               Secundaria Anáhuac.&nbsp;
             </Text>
             Estamos conscientes que las habilidades que demostraste tener son
@@ -163,10 +140,10 @@ export const PDFSecundaria = (
 
           <Text style={{ marginTop: 8 }}>
             Estás por concluir la&nbsp;
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>Primaria</Text>,
+            <Text style={{ fontWeight: 600 }}>Primaria</Text>,
             una etapa de muchos aprendizajes y logros que te permitirá iniciar
             la&nbsp;
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>
+            <Text style={{ fontWeight: 600 }}>
               Secundaria
             </Text>
             , un periodo de gran trascendencia para tu futuro personal y
@@ -175,7 +152,7 @@ export const PDFSecundaria = (
 
           <Text style={{ marginTop: 8 }}>
             En&nbsp;
-            <Text style={{ fontWeight: 600, fontSize: 12 }}>
+            <Text style={{ fontWeight: 600 }}>
               Secundaria Anáhuac,&nbsp;
             </Text>
             estamos muy contentos que formes parte de nuestra familia Anáhuac,
@@ -191,10 +168,10 @@ export const PDFSecundaria = (
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 20,
-            fontSize: 12,
+            gap: 15,
+            fontSize: 10,
             position: "absolute",
-            bottom: 50,
+            bottom: 110,
             left: "50%",
             transform: "translateX(-100%)",
           }}
@@ -203,13 +180,13 @@ export const PDFSecundaria = (
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 5,
+              gap: 4,
               alignItems: "center",
             }}
           >
             <Text>
               Colima, Col. a{" "}
-              <Text style={{ fontWeight: 600, fontSize: 12 }}>
+              <Text style={{ fontWeight: 600 }}>
                 {format(new Date(), "dd 'de' MMMM 'del' y", {
                   locale: localCustom,
                 })}
@@ -222,7 +199,7 @@ export const PDFSecundaria = (
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 5,
+              gap: 4,
               alignItems: "center",
             }}
           >
@@ -230,42 +207,15 @@ export const PDFSecundaria = (
             <Text>Directora Académica</Text>
           </View>
         </View>
-        <Image
-          src={"/img/pdf/footer_left.png"}
-          style={{
-            position: "absolute",
-            width: 215,
-            left: 0,
-            bottom: 0,
-            zIndex: 2,
-          }}
-        />
-        <Image
-          src={"/img/pdf/footer_right.png"}
-          style={{
-            position: "absolute",
-            width: 215,
-            right: 0,
-            bottom: 0,
-            zIndex: 2,
-          }}
-        />
       </Page>
 
-      <Page style={{ fontSize: 12 }}>
-        <View>
-          <Image
-            src="/img/pdf/header-s2.jpg"
-            style={{ width: "100%", height: "auto" }}
-          />
-        </View>
-        <View style={{ paddingHorizontal: 40 }}>
+      <Page style={{ fontSize: 10 }} size="LETTER">
+        <View style={{ paddingHorizontal: 40, marginTop: 140 }}>
           <Text
             style={{
-              fontSize: 20,
               fontWeight: 700,
               textAlign: "center",
-              marginVertical: 20,
+              marginBottom: 20,
             }}
           >
             RESULTADOS DE EXAMEN DE ADMISIÓN
@@ -305,7 +255,7 @@ export const PDFSecundaria = (
               </Text>
               <Text style={{ width: 100 }}>Habilidades lógico-matemáticas</Text>
               <Text style={{ width: 100 }}>Habilidades del pensamiento</Text>
-              <Text style={{ width: 100, fontWeight: 700, fontSize: 14 }}>
+              <Text style={{ width: 100, fontWeight: 700 }}>
                 Total
               </Text>
             </View>
@@ -321,14 +271,14 @@ export const PDFSecundaria = (
                 borderColor: "#E4E4E7",
                 color: "#103CCA",
                 fontWeight: 700,
-                fontSize: 20,
+                fontSize: 11,
                 paddingVertical: 5,
               }}
             >
               <Text style={{ width: 100 }}>{lecturaScore}</Text>
               <Text style={{ width: 100 }}>{matematicasScore}</Text>
               <Text style={{ width: 100 }}>{pensamientoScore}</Text>
-              <Text style={{ width: 100, fontSize: 24 }}>{totalScore}</Text>
+              <Text style={{ width: 100, fontSize: 12 }}>{totalScore}</Text>
             </View>
           </View>
         </View>
@@ -498,10 +448,9 @@ export const PDFSecundaria = (
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 20,
-            fontSize: 12,
+            gap: 15,
             position: "absolute",
-            bottom: 50,
+            bottom: 110,
             left: "50%",
             transform: "translateX(-100%)",
           }}
@@ -510,13 +459,13 @@ export const PDFSecundaria = (
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 5,
+              gap: 4,
               alignItems: "center",
             }}
           >
             <Text>
               Colima, Col. a{" "}
-              <Text style={{ fontWeight: 600, fontSize: 12 }}>
+              <Text style={{ fontWeight: 600 }}>
                 {format(new Date(), "dd 'de' MMMM 'del' y", {
                   locale: localCustom,
                 })}
@@ -524,12 +473,12 @@ export const PDFSecundaria = (
             </Text>
             <Text>Atentamente</Text>
           </View>
-          <Image src="/img/pdf/firma-secundaria.jpg" style={{ width: 200 }} />
+          <Image src="/img/pdf/firma-secundaria.jpg" style={{ height: 45 }} />
           <View
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 5,
+              gap: 4,
               alignItems: "center",
             }}
           >
@@ -537,26 +486,6 @@ export const PDFSecundaria = (
             <Text>Directora Académica</Text>
           </View>
         </View>
-        <Image
-          src={"/img/pdf/footer_left.png"}
-          style={{
-            position: "absolute",
-            width: 215,
-            left: 0,
-            bottom: 0,
-            zIndex: 2,
-          }}
-        />
-        <Image
-          src={"/img/pdf/footer_right.png"}
-          style={{
-            position: "absolute",
-            width: 215,
-            right: 0,
-            bottom: 0,
-            zIndex: 2,
-          }}
-        />
       </Page>
     </Document>
   );

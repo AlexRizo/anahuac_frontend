@@ -45,16 +45,13 @@ export const PDFPrepaRejected = (
     
     return (
         <Document>
-            <Page style={{ fontSize: 12, ...styles.globalFont }}>
-                <View>
-                    <Image src={'/img/pdf/header-p2.jpg'} style={{ width: '100%', height: 'auto' }} />
-                </View>
-                <View style={{ paddingHorizontal: 40 }}>
-                    <Text style={{ fontSize: 20, fontWeight: 700, textAlign: 'center', marginVertical: 20 }}>RESULTADOS DE EXAMEN DE ADMISIÓN</Text>
+            <Page style={{ fontSize: 10, ...styles.globalFont }} size="LETTER">
+                <View style={{ paddingHorizontal: 40, marginTop: 140 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 700, textAlign: 'center', marginBottom: 20 }}>RESULTADOS DE EXAMEN DE ADMISIÓN</Text>
                     <Text>
                         Nombre { sex === 'MASCULINO' ? 'del alumno' : 'de la alumna' }: <Text style={{ fontWeight: 700 }}>{ aspirant }</Text>
                     </Text>
-                    <Text>
+                    <Text style={{ fontSize: 10 }}>
                         Fecha de aplicación: <Text style={{ fontWeight: 700 }}>{ format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }) }</Text>
                     </Text>
                     <View style={{ display: 'flex', flexDirection: 'column', width: '100%', marginTop: 20, marginBottom: 20 }}>
@@ -71,7 +68,7 @@ export const PDFPrepaRejected = (
                             <Text style={{ width: 100 }}>Comprensión lectora y escritura</Text>
                             <Text style={{ width: 100 }}>Habilidades lógico-matemáticas</Text>
                             <Text style={{ width: 100 }}>Habilidades del pensamiento</Text>
-                            <Text style={{ width: 100, fontWeight: 700, fontSize: 14 }}>Total</Text>
+                            <Text style={{ width: 100, fontWeight: 700 }}>Total</Text>
                         </View>
                         <View style={{ 
                             display: 'flex', 
@@ -84,13 +81,13 @@ export const PDFPrepaRejected = (
                             borderColor: '#E4E4E7', 
                             color: '#103CCA', 
                             fontWeight: 700, 
-                            fontSize: 20, 
+                            fontSize: 11, 
                             paddingVertical: 5
                         }}>
                             <Text style={{ width: 100 }}>{ lecturaScore }</Text>
                             <Text style={{ width: 100 }}>{ matematicasScore }</Text>
                             <Text style={{ width: 100 }}>{ pensamientoScore }</Text>
-                            <Text style={{ width: 100, fontSize: 24 }}>{ totalScore }</Text>
+                            <Text style={{ width: 100, fontSize: 12 }}>{ totalScore }</Text>
                         </View>
                     </View>
                 </View>
@@ -98,29 +95,27 @@ export const PDFPrepaRejected = (
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: 20,
-                    fontSize: 12,
+                    gap: 15,
+                    fontSize: 10,
                     position: 'absolute',
-                    bottom: 50,
+                    bottom: 110,
                     left: "50%",
                     transform: 'translateX(-100%)',
                 }}>
-                    <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
+                    <View style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: "center" }}>
                         <Text>
-                            Colima, Col. a <Text style={{ fontWeight: 600, fontSize: 12 }}>{ format(new Date(), "dd 'de' MMMM 'del' y", { locale: localCustom }) }</Text>
+                            Colima, Col. a <Text style={{ fontWeight: 600 }}>{ format(new Date(), "dd 'de' MMMM 'del' y", { locale: localCustom }) }</Text>
                         </Text>
                         <Text>
                             Atentamente
                         </Text>
                     </View>
                     <Image src={'/img/pdf/firma-prepa.png'} style={{ width: 200 }} />
-                    <View style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: "center" }}>
+                    <View style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: "center" }}>
                         <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
                         <Text>Directora Académica</Text>
                     </View>
                 </View>
-                <Image src={'/img/pdf/footer_left.png'} style={{ position: 'absolute', width: 215, left: 0, bottom: 0, zIndex: 2 }} />
-                <Image src={'/img/pdf/footer_right.png'} style={{ position: 'absolute', width: 215, right: 0, bottom: 0, zIndex: 2 }} />
             </Page>
         </Document>
     )
