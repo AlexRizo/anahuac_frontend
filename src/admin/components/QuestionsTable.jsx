@@ -138,7 +138,7 @@ export const QuestionsTable = () => {
                                                     </HoverCardContent>
                                                 </HoverCard>
                                             ) : (
-                                                <p>{ q.question }</p>
+                                                <p dangerouslySetInnerHTML={{ __html: q.question }}></p>
                                             )
                                         }
 
@@ -165,7 +165,7 @@ export const QuestionsTable = () => {
                                                             q.type === 'single-image' ? (
                                                                 <img src={ o.answer } alt={ o.opt } className='w-10 h-10' />
                                                             ) : (
-                                                                <span>{ o.answer }</span>
+                                                                <span dangerouslySetInnerHTML={{ __html: o.answer }}></span>
                                                             )
                                                         }
                                                     </li>
