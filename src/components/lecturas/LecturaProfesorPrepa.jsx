@@ -113,6 +113,12 @@ export const LecturaProfesorPrepa = () => {
         Internet, Inglés e Instrucción seguirán siendo solamente la primera
         parte de un rebuzno de asno que no asciende al cielo.
       </p>
+      <br />
+      <br />
+      <small>
+        (Traducción: Mirta Rosenberg). Publicado originalmente en La Nación.
+        http://www.lanacion.com.ar/910427-de-que-sirve-el-profesor
+      </small>
     </article>
   );
 };

@@ -19,6 +19,12 @@ export const LecturaPrincipePrepa = () => {
         Eran 30 de hecho y 90 de nombre. Para mantener una fama inmerecida, el
         príncipe sacrificó la verdad.
       </p>
+      <br />
+      <br />
+      <small>
+        Disponible en
+        https://portalacademico.cch.unam.mx/alumno/tlriid1/unidad1/propositosdelrelato/ejercicio1
+      </small>
     </article>
   );
 };

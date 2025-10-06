@@ -122,6 +122,12 @@ export const LecturaAnticienciaPrepa = () => {
         física o sexual por hablar sobre el coronavirus. Estos ataques han sido
         por parte de grupos antivacunas y, en muchos países, por políticos.
       </p>
+      <br />
+      <br />
+      <small>
+        Disponible en
+        https://observatorio.tec.mx/edu-news/la-era-de-la-anticiencia/
+      </small>
     </article>
   );
 };
