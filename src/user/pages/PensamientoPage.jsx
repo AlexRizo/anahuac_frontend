@@ -160,9 +160,16 @@ export const PensamientoPage = () => {
               activeQuestion.attachment ? "w-full" : "w-3/4 2xl:mt-10"
             }`}
           >
-            <p className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif">
-              {questions.indexOf(activeQuestion) + 1}. {activeQuestion.question}
-            </p>
+            <p
+              className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
+              dangerouslySetInnerHTML={{
+                __html:
+                  questions.indexOf(activeQuestion) +
+                  1 +
+                  ". " +
+                  activeQuestion.question,
+              }}
+            ></p>
             <div>
               <ThinkAnswers
                 answers={activeQuestion.answers}
