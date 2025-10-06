@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, CheckSquare, Save } from "lucide-react";
 import {
   BlockProgress,
@@ -9,7 +10,8 @@ import {
 import { Button, Label } from "@/components/ui";
 import { Anahuac } from "@/auth/components";
 import { useExamStore } from "@/hooks";
-import { useEffect, useMemo, useState } from "react";
+import "katex/dist/katex.min.css";
+import { InlineMath } from "react-katex";
 
 export const MatematicasPage = () => {
   const {
@@ -118,6 +120,8 @@ export const MatematicasPage = () => {
     return <LoadingQuestionPage />;
   }
 
+  const isEcuation = activeQuestion.question.split(/(\[.*?\])/g);
+
   return (
     <main className="w-full grid min-h-dvh grid-rows-[auto_1fr_auto] py-5">
       <div className="flex flex-col items-center">
@@ -185,16 +189,24 @@ export const MatematicasPage = () => {
               activeQuestion.attachment ? "w-full" : "w-1/2 mt-10"
             }`}
           >
-            <p
-              className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
-              dangerouslySetInnerHTML={{
-                __html:
-                  questions.indexOf(activeQuestion) +
-                  1 +
-                  ". " +
-                  activeQuestion.question,
-              }}
-            ></p>
+            {isEcuation.length > 1 ? (
+              <span className="flex gap-1">
+                <p
+                  className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
+                  dangerouslySetInnerHTML={{
+                    __html: isEcuation[0],
+                  }}
+                ></p>
+                <InlineMath math={isEcuation[1] + isEcuation[2]} />
+              </span>
+            ) : (
+              <p
+                className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
+                dangerouslySetInnerHTML={{
+                  __html: activeQuestion.question,
+                }}
+              ></p>
+            )}
             <div>
               <MathematicAnswers
                 answers={activeQuestion.answers}
