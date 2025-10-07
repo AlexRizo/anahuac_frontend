@@ -194,7 +194,11 @@ export const MatematicasPage = () => {
                 <p
                   className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
                   dangerouslySetInnerHTML={{
-                    __html: isEcuation[0],
+                    __html:
+                      questions.indexOf(activeQuestion) +
+                      1 +
+                      ". " +
+                      isEcuation[0],
                   }}
                 ></p>
                 <InlineMath math={isEcuation[1] + isEcuation[2]} />
@@ -203,7 +207,11 @@ export const MatematicasPage = () => {
               <p
                 className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
                 dangerouslySetInnerHTML={{
-                  __html: activeQuestion.question,
+                  __html:
+                    questions.indexOf(activeQuestion) +
+                    1 +
+                    ". " +
+                    activeQuestion.question,
                 }}
               ></p>
             )}
