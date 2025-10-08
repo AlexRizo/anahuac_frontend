@@ -116,11 +116,14 @@ export const MatematicasPage = () => {
     }, 15000);
   };
 
+  const isEcuation = useMemo(
+    () => activeQuestion.question.split(/(\[.*?\])/g),
+    [activeQuestion.question]
+  );
+
   if (isLoadingData) {
     return <LoadingQuestionPage />;
   }
-
-  const isEcuation = activeQuestion.question.split(/(\[.*?\])/g);
 
   return (
     <main className="w-full grid min-h-dvh grid-rows-[auto_1fr_auto] py-5">

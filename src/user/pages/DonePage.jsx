@@ -15,7 +15,7 @@ export const DonePage = () => {
         <main className="h-screen w-screen text-center flex flex-col justify-center items-center">
             <Anahuac fill='orange' />
             <h1 className="text-2xl font-semibold mt-5">¡Ya has terminado la prueba!</h1>
-            <p>Pronto recibiras tus resultados.</p>
+            <p>Pronto recibirás tus resultados.</p>
         </main>
     )
 }
