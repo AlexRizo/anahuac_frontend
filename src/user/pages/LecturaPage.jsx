@@ -19,8 +19,8 @@ import {
 } from "../components";
 import { Navigate } from "react-router-dom";
 import { LecturaAnticienciaPrepa } from "@/components/lecturas/LecturaAnticienciaPrepa";
-import { LecturaProfesorPrepa } from "@/components/lecturas/LecturaProfesorPrepa";
 import { LecturaPrincipePrepa } from "@/components/lecturas/LecturaPrincipePrepa";
+import { LecturaProfesor } from "@/components/lecturas/LecturaProfesor";
 
 export const LecturaPage = () => {
   const {
@@ -138,6 +138,11 @@ export const LecturaPage = () => {
     }, 15000);
   };
 
+  const questionLevel = useMemo(
+    () => activeQuestion?.exam.origin,
+    [activeQuestion?.exam.origin]
+  );
+
   if (isLoadingData) {
     return <LoadingQuestionPage />;
   }
@@ -169,7 +174,7 @@ export const LecturaPage = () => {
             )}
 
             {currentArticle && currentArticle.number === 1 ? (
-              <LecturaProfesorPrepa />
+              <LecturaProfesor exam={questionLevel} />
             ) : currentArticle && currentArticle.number === 2 ? (
               <LecturaAnticienciaPrepa />
             ) : (
