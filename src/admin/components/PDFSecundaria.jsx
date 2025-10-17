@@ -134,7 +134,7 @@ export const PDFSecundaria = (
             <Text style={{ fontWeight: 600 }}>
               Secundaria Anáhuac.&nbsp;
             </Text>
-            Estamos conscientes que las habilidades que demostraste tener son
+            Estamos conscientes que las habilidades que demostraste son
             producto de tu esfuerzo y la dedicación de tus padres.
           </Text>
 

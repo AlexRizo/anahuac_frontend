@@ -134,11 +134,8 @@ export const PDFPrepa = ({
               {validateScoreByExam()}
             </Text>
             , lo cual te hace {sex === "MASCULINO" ? "candidato" : "candidata"}{" "}
-            a ser parte de la&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              Preparatoria Anáhuac.&nbsp;
-            </Text>
-            Estamos conscientes que las habilidades que demostraste tener son
+            a ser parte de la <Text style={{ fontWeight: 600 }}>Preparatoria Anáhuac.&nbsp;</Text>
+            Estamos conscientes que las habilidades que demostraste son
             producto de tu esfuerzo y la dedicación de tus padres.
           </Text>
 
@@ -146,8 +143,7 @@ export const PDFPrepa = ({
             Estás por concluir la&nbsp;
             <Text style={{ fontWeight: 600 }}>Secundaria</Text>,
             una etapa de muchos aprendizajes y logros que te permitirá iniciar
-            la&nbsp;
-            <Text style={{ fontWeight: 600 }}>Preparatoria</Text>,
+            la <Text style={{ fontWeight: 600 }}>&nbsp;Preparatoria</Text>,
             un periodo de gran trascendencia para tu futuro personal y
             profesional.
           </Text>
