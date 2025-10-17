@@ -105,7 +105,7 @@ export const PDFSecundaria = (
             gap: 10,
             paddingLeft: 65,
             paddingRight: 65,
-            textAlign: "justify",
+            textAlign: "center",
             fontSize: 10,
             position: "relative",
             zIndex: 1,
@@ -284,7 +284,7 @@ export const PDFSecundaria = (
         </View>
         <View style={{ paddingHorizontal: 40 }}>
           <Text style={{ marginBottom: 20 }}>
-            Ya llevas 2 de los 3 simples pasos para ser parte de la&nbsp;
+            Ya llevas 2 de los 3 pasos para ser parte de la&nbsp;
             <Text style={{ fontWeight: 700 }}>Secundaria Anáhuac</Text>:
           </Text>
 

@@ -108,7 +108,7 @@ export const PDFPrepa = ({
             gap: 10,
             paddingLeft: 65,
             paddingRight: 65,
-            textAlign: "justify",
+            textAlign: "center",
             fontSize: 10,
             lineHeight: 1.5,
             position: "relative",
@@ -282,7 +282,7 @@ export const PDFPrepa = ({
         </View>
         <View style={{ paddingHorizontal: 40 }}>
           <Text style={{ marginBottom: 20 }}>
-            Ya llevas 2 de los 3 simples pasos para ser parte de la{" "}
+            Ya llevas 2 de los 3 pasos para ser parte de la{" "}
             <Text style={{ fontWeight: 700 }}>Preparatoria Anáhuac</Text>:
           </Text>
 
@@ -371,7 +371,7 @@ export const PDFPrepa = ({
             <Svg viewBox="0 0 20 20" width={5} height={5}>
               <Circle cx="10" cy="10" r="9" fill="black" />
             </Svg>
-            <Text>Certificado de Preparatoria</Text>
+            <Text>Certificado de Secundaria</Text>
           </View>
 
           <View
