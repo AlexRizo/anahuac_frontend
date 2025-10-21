@@ -92,8 +92,10 @@ export const PDFPrepa = ({
     return totalScore >= 1000
       ? "sobresaliente"
       : totalScore <= 999 && totalScore >= 780
+      ? "muy satisfactorio"
+      : totalScore <= 779 && totalScore >= 650
       ? "satisfactorio"
-      : "insuficiente";
+      : "aún no satisfactorio";
     // return totalScore >= 800 ? 'sobresaliente' : totalScore <= 799 && totalScore >= 600 ? 'satisfactorio' : 'insuficiente';
   };
 
@@ -102,13 +104,13 @@ export const PDFPrepa = ({
       <Page size="LETTER">
         <View
           style={{
-            marginTop: 140,
+            marginTop: 180,
             display: "flex",
             flexDirection: "column",
             gap: 10,
             paddingLeft: 65,
             paddingRight: 65,
-            textAlign: "center",
+            textAlign: "justify",
             fontSize: 10,
             lineHeight: 1.5,
             position: "relative",
@@ -130,29 +132,25 @@ export const PDFPrepa = ({
               &nbsp;
             </Text>
             es&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              {validateScoreByExam()}
-            </Text>
-            , lo cual te hace {sex === "MASCULINO" ? "candidato" : "candidata"}{" "}
-            a ser parte de la <Text style={{ fontWeight: 600 }}>Preparatoria Anáhuac.&nbsp;</Text>
-            Estamos conscientes que las habilidades que demostraste son
-            producto de tu esfuerzo y la dedicación de tus padres.
+            <Text style={{ fontWeight: 600 }}>{validateScoreByExam()}</Text>, lo
+            cual te hace {sex === "MASCULINO" ? "candidato" : "candidata"} a ser
+            parte de la{" "}
+            <Text style={{ fontWeight: 600 }}>Preparatoria Anáhuac.&nbsp;</Text>
+            Estamos conscientes que las habilidades que demostraste son producto
+            de tu esfuerzo y la dedicación de tus padres.
           </Text>
 
           <Text style={{ marginTop: 8 }}>
             Estás por concluir la&nbsp;
-            <Text style={{ fontWeight: 600 }}>Secundaria</Text>,
-            una etapa de muchos aprendizajes y logros que te permitirá iniciar
-            la <Text style={{ fontWeight: 600 }}>&nbsp;Preparatoria</Text>,
-            un periodo de gran trascendencia para tu futuro personal y
-            profesional.
+            <Text style={{ fontWeight: 600 }}>Secundaria</Text>, una etapa de
+            muchos aprendizajes y logros que te permitirá iniciar la{" "}
+            <Text style={{ fontWeight: 600 }}>&nbsp;Preparatoria</Text>, un
+            periodo de gran trascendencia para tu futuro personal y profesional.
           </Text>
 
           <Text style={{ marginTop: 8 }}>
             En&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              Preparatoria Anáhuac,&nbsp;
-            </Text>
+            <Text style={{ fontWeight: 600 }}>Preparatoria Anáhuac,&nbsp;</Text>
             estamos muy contentos que formes parte de nuestra familia Anáhuac,
             trabajando juntos podemos ayudarte a adquirir las herramientas que
             te permitirán tener una mejor y más amplia visión del mundo que te
@@ -168,10 +166,11 @@ export const PDFPrepa = ({
             alignItems: "center",
             gap: 15,
             fontSize: 10,
-            position: "absolute",
-            bottom: 110,
-            left: "50%",
-            transform: "translateX(-100%)",
+            marginTop: 60,
+            // position: "absolute",
+            // bottom: 110,
+            // left: "50%",
+            // transform: "translateX(-100%)",
           }}
         >
           <View

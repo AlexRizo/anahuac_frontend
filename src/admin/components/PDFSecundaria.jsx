@@ -99,13 +99,13 @@ export const PDFSecundaria = (
       <Page size="LETTER">
         <View
           style={{
-            marginTop: 140,
+            marginTop: 180,
             display: "flex",
             flexDirection: "column",
             gap: 10,
             paddingLeft: 65,
             paddingRight: 65,
-            textAlign: "center",
+            textAlign: "justify",
             fontSize: 10,
             position: "relative",
             zIndex: 1,
@@ -170,10 +170,11 @@ export const PDFSecundaria = (
             alignItems: "center",
             gap: 15,
             fontSize: 10,
-            position: "absolute",
-            bottom: 110,
-            left: "50%",
-            transform: "translateX(-100%)",
+            marginTop: 60,
+            // position: "absolute",
+            // bottom: 110,
+            // left: "50%",
+            // transform: "translateX(-100%)",
           }}
         >
           <View
