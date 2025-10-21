@@ -101,110 +101,122 @@ export const PDFPrepa = ({
 
   return (
     <Document style={styles.gloablFont}>
-      <Page size="LETTER">
-        <View
-          style={{
-            marginTop: 180,
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-            paddingLeft: 65,
-            paddingRight: 65,
-            textAlign: "justify",
-            fontSize: 10,
-            lineHeight: 1.5,
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <Text>
-            {sex === "MASCULINO" ? "Estimado" : "Estimada"}:{" "}
-            <Text style={{ textTransform: "uppercase", fontWeight: 600 }}>
-              {aspirant}
-            </Text>
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>
-            A través de estas líneas quiero reconocer tu esfuerzo y compartirte
-            que el resultado en el examen de admisión que presentaste el&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom })}
-              &nbsp;
-            </Text>
-            es&nbsp;
-            <Text style={{ fontWeight: 600 }}>{validateScoreByExam()}</Text>, lo
-            cual te hace {sex === "MASCULINO" ? "candidato" : "candidata"} a ser
-            parte de la{" "}
-            <Text style={{ fontWeight: 600 }}>Preparatoria Anáhuac.&nbsp;</Text>
-            Estamos conscientes que las habilidades que demostraste son producto
-            de tu esfuerzo y la dedicación de tus padres.
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>
-            Estás por concluir la&nbsp;
-            <Text style={{ fontWeight: 600 }}>Secundaria</Text>, una etapa de
-            muchos aprendizajes y logros que te permitirá iniciar la{" "}
-            <Text style={{ fontWeight: 600 }}>&nbsp;Preparatoria</Text>, un
-            periodo de gran trascendencia para tu futuro personal y profesional.
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>
-            En&nbsp;
-            <Text style={{ fontWeight: 600 }}>Preparatoria Anáhuac,&nbsp;</Text>
-            estamos muy contentos que formes parte de nuestra familia Anáhuac,
-            trabajando juntos podemos ayudarte a adquirir las herramientas que
-            te permitirán tener una mejor y más amplia visión del mundo que te
-            rodea, además acceder a un futuro con mejores oportunidades.
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>¡Nos vemos pronto!</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 15,
-            fontSize: 10,
-            marginTop: 60,
-            // position: "absolute",
-            // bottom: 110,
-            // left: "50%",
-            // transform: "translateX(-100%)",
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-              alignItems: "center",
-            }}
-          >
-            <Text>
-              Colima, Col. a{" "}
-              <Text style={{ fontWeight: 600 }}>
-                {format(new Date(), "dd 'de' MMMM 'del' y", {
-                  locale: localCustom,
-                })}
+      {(validateScoreByExam() === "sobresaliente" || validateScoreByExam() === "muy satisfactorio") && (
+          <Page size="LETTER">
+            <View
+              style={{
+                marginTop: 180,
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                paddingLeft: 65,
+                paddingRight: 65,
+                textAlign: "justify",
+                fontSize: 10,
+                lineHeight: 1.5,
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <Text>
+                {sex === "MASCULINO" ? "Estimado" : "Estimada"}:{" "}
+                <Text style={{ textTransform: "uppercase", fontWeight: 600 }}>
+                  {aspirant}
+                </Text>
               </Text>
-            </Text>
-            <Text>Atentamente</Text>
-          </View>
-          <Image src="/img/pdf/firma-prepa.png" style={{ width: 200 }} />
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-              alignItems: "center",
-            }}
-          >
-            <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
-            <Text>Directora Académica</Text>
-          </View>
-        </View>
-      </Page>
+
+              <Text style={{ marginTop: 8 }}>
+                A través de estas líneas quiero reconocer tu esfuerzo y
+                compartirte que el resultado en el examen de admisión que
+                presentaste el&nbsp;
+                <Text style={{ fontWeight: 600 }}>
+                  {format(date, "dd 'de' MMMM 'del' y", {
+                    locale: localCustom,
+                  })}
+                  &nbsp;
+                </Text>
+                es&nbsp;
+                <Text style={{ fontWeight: 600 }}>{validateScoreByExam()}</Text>
+                , lo cual te hace{" "}
+                {sex === "MASCULINO" ? "candidato" : "candidata"} a ser parte de
+                la{" "}
+                <Text style={{ fontWeight: 600 }}>
+                  Preparatoria Anáhuac.&nbsp;
+                </Text>
+                Estamos conscientes que las habilidades que demostraste son
+                producto de tu esfuerzo y la dedicación de tus padres.
+              </Text>
+
+              <Text style={{ marginTop: 8 }}>
+                Estás por concluir la&nbsp;
+                <Text style={{ fontWeight: 600 }}>Secundaria</Text>, una etapa
+                de muchos aprendizajes y logros que te permitirá iniciar la{" "}
+                <Text style={{ fontWeight: 600 }}>&nbsp;Preparatoria</Text>, un
+                periodo de gran trascendencia para tu futuro personal y
+                profesional.
+              </Text>
+
+              <Text style={{ marginTop: 8 }}>
+                En&nbsp;
+                <Text style={{ fontWeight: 600 }}>
+                  Preparatoria Anáhuac,&nbsp;
+                </Text>
+                estamos muy contentos que formes parte de nuestra familia
+                Anáhuac, trabajando juntos podemos ayudarte a adquirir las
+                herramientas que te permitirán tener una mejor y más amplia
+                visión del mundo que te rodea, además acceder a un futuro con
+                mejores oportunidades.
+              </Text>
+
+              <Text style={{ marginTop: 8 }}>¡Nos vemos pronto!</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 15,
+                fontSize: 10,
+                marginTop: 60,
+                // position: "absolute",
+                // bottom: 110,
+                // left: "50%",
+                // transform: "translateX(-100%)",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  alignItems: "center",
+                }}
+              >
+                <Text>
+                  Colima, Col. a{" "}
+                  <Text style={{ fontWeight: 600 }}>
+                    {format(new Date(), "dd 'de' MMMM 'del' y", {
+                      locale: localCustom,
+                    })}
+                  </Text>
+                </Text>
+                <Text>Atentamente</Text>
+              </View>
+              <Image src="/img/pdf/firma-prepa.png" style={{ width: 200 }} />
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  alignItems: "center",
+                }}
+              >
+                <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
+                <Text>Directora Académica</Text>
+              </View>
+            </View>
+          </Page>
+        )}
 
       <Page style={{ fontSize: 10 }} size="LETTER">
         <View style={{ paddingHorizontal: 40, marginTop: 140 }}>
