@@ -130,7 +130,7 @@ export const ResultsTable = () => {
         (aspirant?.examResult?.lecturaScore || 0) +
           (aspirant?.examResult?.matematicasScore || 0) +
           (aspirant?.examResult?.pensamientoScore || 0) >=
-        779;
+        650;
 
       document = isAccepted ? (
         <PDFPrepa {...docData} />
@@ -142,7 +142,7 @@ export const ResultsTable = () => {
         (aspirant?.examResult?.lecturaScore || 0) +
           (aspirant?.examResult?.matematicasScore || 0) +
           (aspirant?.examResult?.pensamientoScore || 0) >=
-        599;
+        600;
 
       document = isAccepted ? (
         <PDFSecundaria {...docData} />
@@ -178,7 +178,7 @@ export const ResultsTable = () => {
         (aspirant.examResult?.lecturaScore || 0) +
           (aspirant.examResult?.matematicasScore || 0) +
           (aspirant.examResult?.pensamientoScore || 0) >=
-        780
+        650
       );
     } else {
       return (
