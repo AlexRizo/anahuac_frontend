@@ -67,7 +67,7 @@ export const RegisterUser = () => {
                                 name="first_name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Nombre(s)</FormLabel>
+                                        <FormLabel>Nombre(s) *</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Escribe tu/s nombre/s" { ...field } type="text" className="transition" />
                                         </FormControl>
@@ -98,7 +98,7 @@ export const RegisterUser = () => {
                                     name="last_name_2"
                                     render={({ field }) => (
                                         <FormItem className="w-full">
-                                            <FormLabel>Apellido Materno</FormLabel>
+                                            <FormLabel>Apellido Materno *</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Apellido materno (Tu segundo apellido)" { ...field } type="text" className="transition" />
                                             </FormControl>

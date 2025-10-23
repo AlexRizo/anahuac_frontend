@@ -91,7 +91,7 @@ export const PDFPrepaRejected = (
                         </View>
                     </View>
                 </View>
-                <View style={{
+                {/* <View style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -115,7 +115,7 @@ export const PDFPrepaRejected = (
                         <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
                         <Text>Directora Académica</Text>
                     </View>
-                </View>
+                </View> */}
             </Page>
         </Document>
     )
