@@ -452,7 +452,7 @@ export const PDFPrepa = ({
             Sesión de Inducción
           </Text>
         </View>
-        <View
+        {/* <View
           style={{
             display: "flex",
             flexDirection: "column",
@@ -495,7 +495,7 @@ export const PDFPrepa = ({
             <Text>Imelda Ivonne Ávalos Vizcaíno</Text>
             <Text>Directora Académica</Text>
           </View>
-        </View>
+        </View> */}
       </Page>
     </Document>
   );

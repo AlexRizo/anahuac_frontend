@@ -444,7 +444,7 @@ export const PDFSecundaria = (
             Sesión de Inducción
           </Text>
         </View>
-        <View
+        {/* <View
           style={{
             display: "flex",
             flexDirection: "column",
@@ -486,7 +486,7 @@ export const PDFSecundaria = (
             <Text>Rosalba Rodríguez Barragán</Text>
             <Text>Directora Académica</Text>
           </View>
-        </View>
+        </View> */}
       </Page>
     </Document>
   );

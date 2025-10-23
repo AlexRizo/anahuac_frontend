@@ -69,7 +69,7 @@ export const RegisterUser = () => {
                                     <FormItem>
                                         <FormLabel>Nombre(s)</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Nombre completo" { ...field } type="text" className="transition" />
+                                            <Input placeholder="Escribe tu/s nombre/s" { ...field } type="text" className="transition" />
                                         </FormControl>
                                         <FormMessage className="text-xs 2xl:text-sm" >
                                             { errors.first_name && errors.first_name.message }
@@ -85,7 +85,7 @@ export const RegisterUser = () => {
                                         <FormItem className="w-full">
                                             <FormLabel>Apellido Paterno</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Apellido paterno" { ...field } type="text" className="transition" />
+                                                <Input placeholder="Apellido paterno (Tu primer apellido)" { ...field } type="text" className="transition" />
                                             </FormControl>
                                             <FormMessage className="text-xs 2xl:text-sm" >
                                                 { errors.last_name_1 && errors.last_name_1.message }
@@ -100,7 +100,7 @@ export const RegisterUser = () => {
                                         <FormItem className="w-full">
                                             <FormLabel>Apellido Materno</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Apellido materno" { ...field } type="text" className="transition" />
+                                                <Input placeholder="Apellido materno (Tu segundo apellido)" { ...field } type="text" className="transition" />
                                             </FormControl>
                                             <FormMessage className="text-xs 2xl:text-sm" >
                                                 { errors.last_name_2 && errors.last_name_2.message }
