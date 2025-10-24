@@ -38,6 +38,7 @@ import { pdf } from "@react-pdf/renderer";
 import { useResultStore } from "@/hooks";
 import { PDFSecundaria } from "./PDFSecundaria";
 import { PDFSecundariaRejected } from "./PDFSecundariaRejected";
+import { Docx } from "./docs/Docx";
 
 export const ResultsTable = () => {
   const { aspirants, startLoadingAspirants, loading, startClearState } =
@@ -173,7 +174,6 @@ export const ResultsTable = () => {
 
   const validateAppOrigin = (aspirant) => {
     if (aspirant.app_origin === "PREPARATORIA") {
-      console.log(aspirant.examResult);
       return (
         (aspirant.examResult?.lecturaScore || 0) +
           (aspirant.examResult?.matematicasScore || 0) +
@@ -318,9 +318,18 @@ export const ResultsTable = () => {
                       size={20}
                       strokeWidth={1.5}
                       absoluteStrokeWidth
-                      className="mr-1"
+                      className="mr-1 text-red-800"
                     />
                   </Button>
+                  <Docx
+                    aspirant={aspirant.first_name + " " + aspirant.last_name_1 + " " + (aspirant.last_name_2 || "")}
+                    lecturaScore={aspirant?.examResult?.lecturaScore}
+                    matematicasScore={aspirant?.examResult?.matematicasScore}
+                    pensamientoScore={aspirant?.examResult?.pensamientoScore}
+                    date={aspirant?.application?.date}
+                    sex={aspirant?.sex}
+                    level={aspirant?.app_origin}
+                  />
                 </TableCell>
               </TableRow>
             ))}

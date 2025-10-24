@@ -36,6 +36,8 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.2.0",
+    "docx": "^9.5.1",
+    "file-saver": "^2.0.5",
     "heroicons": "^2.1.5",
     "katex": "^0.16.23",
     "lodash.debounce": "^4.0.8",
