@@ -13,16 +13,14 @@ import localCustom from "../helpers/localCustom";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
-export const PDFSecundaria = (
-  {
-    aspirant = "",
-    lecturaScore = 0,
-    matematicasScore = 0,
-    pensamientoScore = 0,
-    date,
-    sex,
-  }
-) => {
+export const PDFSecundaria = ({
+  aspirant = "",
+  lecturaScore = 0,
+  matematicasScore = 0,
+  pensamientoScore = 0,
+  date,
+  sex,
+}) => {
   const [totalScore, setTotalScore] = useState(
     lecturaScore + matematicasScore + pensamientoScore
   );
@@ -91,7 +89,11 @@ export const PDFSecundaria = (
   });
 
   const validateScoreByExam = () => {
-    return totalScore >= 800 ? 'sobresaliente' : totalScore <= 799 && totalScore >= 600 ? 'satisfactorio' : 'insuficiente';
+    return totalScore >= 800
+      ? "sobresaliente"
+      : totalScore <= 799 && totalScore >= 600
+      ? "satisfactorio"
+      : "insuficiente";
   };
 
   return (
@@ -126,35 +128,25 @@ export const PDFSecundaria = (
               &nbsp;
             </Text>
             es&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              {validateScoreByExam()}
-            </Text>
-            , lo cual te hace {sex === "MASCULINO" ? "candidato " : "candidata "}
-            a ser parte de la&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              Secundaria Anáhuac.&nbsp;
-            </Text>
-            Estamos conscientes que las habilidades que demostraste son
-            producto de tu esfuerzo y la dedicación de tus padres.
+            <Text style={{ fontWeight: 600 }}>{validateScoreByExam()}</Text>, lo
+            cual te hace {sex === "MASCULINO" ? "candidato " : "candidata "}a
+            ser parte de la{" "}
+            <Text style={{ fontWeight: 600 }}>Secundaria Anáhuac.&nbsp;</Text>
+            Estamos conscientes que las habilidades que demostraste son producto
+            de tu esfuerzo y la dedicación de tus padres.
           </Text>
 
           <Text style={{ marginTop: 8 }}>
             Estás por concluir la&nbsp;
-            <Text style={{ fontWeight: 600 }}>Primaria</Text>,
-            una etapa de muchos aprendizajes y logros que te permitirá iniciar
-            la&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              Secundaria
-            </Text>
-            , un periodo de gran trascendencia para tu futuro personal y
-            profesional.
+            <Text style={{ fontWeight: 600 }}>Primaria</Text>, una etapa de
+            muchos aprendizajes y logros que te permitirá iniciar la{" "}
+            <Text style={{ fontWeight: 600 }}>Secundaria</Text>, un periodo de
+            gran trascendencia para tu futuro personal y profesional.
           </Text>
 
           <Text style={{ marginTop: 8 }}>
             En&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              Secundaria Anáhuac,&nbsp;
-            </Text>
+            <Text style={{ fontWeight: 600 }}>Secundaria Anáhuac,&nbsp;</Text>
             estamos muy contentos que formes parte de nuestra familia Anáhuac,
             trabajando juntos podemos ayudarte a adquirir las herramientas que
             te permitirán tener una mejor y más amplia visión del mundo que te
@@ -256,9 +248,7 @@ export const PDFSecundaria = (
               </Text>
               <Text style={{ width: 100 }}>Habilidades lógico-matemáticas</Text>
               <Text style={{ width: 100 }}>Habilidades del pensamiento</Text>
-              <Text style={{ width: 100, fontWeight: 700 }}>
-                Total
-              </Text>
+              <Text style={{ width: 100, fontWeight: 700 }}>Total</Text>
             </View>
             <View
               style={{

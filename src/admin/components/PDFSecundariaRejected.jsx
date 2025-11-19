@@ -93,7 +93,7 @@ export const PDFSecundariaRejected = ({
       <Page size="LETTER" style={{ fontSize: 10 }}>
         <View
           style={{
-            marginTop: 140,
+            marginTop: 180,
             display: "flex",
             flexDirection: "column",
             gap: 10,
@@ -170,10 +170,11 @@ export const PDFSecundariaRejected = ({
             alignItems: "center",
             gap: 15,
             fontSize: 11,
-            position: "absolute",
-            bottom: 110,
-            left: "50%",
-            transform: "translateX(-100%)",
+            marginTop: 60,
+            // position: "absolute",
+            // bottom: 110,
+            // left: "50%",
+            // transform: "translateX(-100%)",
           }}
         >
           <View

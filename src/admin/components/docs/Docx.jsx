@@ -4,6 +4,7 @@ import { saveAs } from "file-saver";
 import { FileText } from "lucide-react";
 import PropTypes from "prop-types";
 import { getPrepaCert } from "./certs/prepa";
+import { getSecundariaCert } from "./certs/sec";
 
 export const Docx = ({
   aspirant,
@@ -24,16 +25,16 @@ export const Docx = ({
 
     let examIs = "";
 
-    if (level === "PREPARATORIA") {
-      examIs =
-        totalScore >= 1000
-          ? "sobresaliente"
-          : totalScore <= 999 && totalScore >= 780
-          ? "muy satisfactorio"
-          : totalScore <= 779 && totalScore >= 650
-          ? "satisfactorio"
-          : "aún no satisfactorio";
+    examIs =
+      totalScore >= 1000
+        ? "sobresaliente"
+        : totalScore <= 999 && totalScore >= 780
+        ? "muy satisfactorio"
+        : totalScore <= 779 && totalScore >= 650
+        ? "satisfactorio"
+        : "aún no satisfactorio";
 
+    if (level === "PREPARATORIA") {
       doc = await getPrepaCert(
         aspirant,
         lecturaScore,
@@ -45,8 +46,16 @@ export const Docx = ({
         examIs
       );
     } else if (level === "SECUNDARIA") {
-      alert("Certificado de secundaria no disponible aún");
-      return;
+      doc = await getSecundariaCert(
+        aspirant,
+        lecturaScore,
+        matematicasScore,
+        pensamientoScore,
+        totalScore,
+        isMale,
+        date,
+        examIs
+      );
     }
 
     const blob = await Packer.toBlob(doc);
@@ -55,7 +64,12 @@ export const Docx = ({
 
   return (
     <Button variant="ghost" onClick={printDoc} size="icon">
-      <FileText size={20} strokeWidth={1.5} absoluteStrokeWidth className="text-blue-700" />
+      <FileText
+        size={20}
+        strokeWidth={1.5}
+        absoluteStrokeWidth
+        className="text-blue-700"
+      />
     </Button>
   );
 };
