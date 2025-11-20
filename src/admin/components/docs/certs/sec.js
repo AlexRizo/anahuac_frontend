@@ -152,7 +152,7 @@ export const getSecundariaCert = async (
       }),
       new Paragraph({
         alignment: "center",
-        text: "Rosalva Rodríguez Barragán",
+        text: "Rosalba Rodríguez Barragán",
       }),
       new Paragraph({
         alignment: "center",
@@ -289,7 +289,7 @@ export const getSecundariaCert = async (
       }),
       new Paragraph({
         alignment: "center",
-        text: "Rosalva Rodríguez Barragán",
+        text: "Rosalba Rodríguez Barragán",
       }),
       new Paragraph({
         alignment: "center",
