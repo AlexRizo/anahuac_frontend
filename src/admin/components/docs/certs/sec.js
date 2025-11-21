@@ -58,7 +58,7 @@ export const getSecundariaCert = async (
           new TextRun({
             text: format(date, "dd 'de' MMMM 'del' y", {
               locale: localCustom,
-            }),
+            }).toLocaleLowerCase(),
             bold: true,
           }),
           new TextRun({
@@ -128,9 +128,9 @@ export const getSecundariaCert = async (
       new Paragraph({
         spacing: { before: 400 },
         alignment: "center",
-        text: `Colima, Col. a ${format(new Date(), "dd 'de' MMMM 'de' y", {
+        text: `Colima, Col. a ${format(new Date(), "dd 'de' MMMM 'del' y", {
           locale: localCustom,
-        })}`,
+        }).toLocaleLowerCase()}`,
       }),
       new Paragraph({
         alignment: "center",
@@ -189,7 +189,7 @@ export const getSecundariaCert = async (
           new TextRun({
             text: format(date, "dd 'de' MMMM 'del' y", {
               locale: localCustom,
-            }),
+            }).toLocaleLowerCase(),
             bold: true,
           }),
           new TextRun({
@@ -265,9 +265,9 @@ export const getSecundariaCert = async (
       new Paragraph({
         spacing: { before: 400 },
         alignment: "center",
-        text: `Colima, Col. a ${format(new Date(), "dd 'de' MMMM 'de' y", {
+        text: `Colima, Col. a ${format(new Date(), "dd 'de' MMMM 'del' y", {
           locale: localCustom,
-        })}`,
+        }).toLocaleLowerCase()}`,
       }),
       new Paragraph({
         alignment: "center",
@@ -342,7 +342,7 @@ export const getSecundariaCert = async (
             new TextRun({
               text: format(date, "dd 'de' MMMM 'del' y", {
                 locale: localCustom,
-              }),
+              }).toLocaleLowerCase(),
               bold: true,
             }),
           ],
@@ -652,7 +652,7 @@ export const getSecundariaCert = async (
             new TextRun({
               text: format(date, "dd 'de' MMMM 'del' y", {
                 locale: localCustom,
-              }),
+              }).toLocaleLowerCase(),
               bold: true,
             }),
           ],
@@ -968,7 +968,7 @@ export const getSecundariaCert = async (
             new TextRun({
               text: format(date, "dd 'de' MMMM 'del' y", {
                 locale: localCustom,
-              }),
+              }).toLocaleLowerCase(),
               bold: true,
             }),
           ],

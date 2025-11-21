@@ -58,7 +58,7 @@ export const getPrepaCert = async (
           new TextRun({
             text: format(date, "dd 'de' MMMM 'del' y", {
               locale: localCustom,
-            }),
+            }).toLocaleLowerCase(),
             bold: true,
           }),
           new TextRun({
@@ -130,7 +130,7 @@ export const getPrepaCert = async (
         alignment: "center",
         text: `Colima, Col. a ${format(new Date(), "dd 'de' MMMM 'de' y", {
           locale: localCustom,
-        })}`,
+        }).toLocaleLowerCase()}`,
       }),
       new Paragraph({
         alignment: "center",
@@ -202,7 +202,7 @@ export const getPrepaCert = async (
             new TextRun({
               text: format(date, "dd 'de' MMMM 'del' y", {
                 locale: localCustom,
-              }),
+              }).toLocaleLowerCase(),
               bold: true,
             }),
           ],
@@ -511,7 +511,7 @@ export const getPrepaCert = async (
             new TextRun({
               text: format(date, "dd 'de' MMMM 'del' y", {
                 locale: localCustom,
-              }),
+              }).toLocaleLowerCase(),
               bold: true,
             }),
           ],

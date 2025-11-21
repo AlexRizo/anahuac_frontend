@@ -126,7 +126,7 @@ export const PDFSecundaria = ({
             A través de estas líneas quiero reconocer tu esfuerzo y compartirte
             que el resultado en el examen de admisión que presentaste el&nbsp;
             <Text style={{ fontWeight: 600 }}>
-              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom })}
+              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase()}
               &nbsp;
             </Text>
             es&nbsp;
@@ -184,7 +184,7 @@ export const PDFSecundaria = ({
               <Text style={{ fontWeight: 600 }}>
                 {format(new Date(), "dd 'de' MMMM 'del' y", {
                   locale: localCustom,
-                })}
+                }).toLocaleLowerCase()}
               </Text>
             </Text>
             <Text>Atentamente</Text>
@@ -222,7 +222,7 @@ export const PDFSecundaria = ({
           <Text>
             Fecha de aplicación:{" "}
             <Text style={{ fontWeight: 700 }}>
-              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom })}
+              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase()}
             </Text>
           </Text>
           <View

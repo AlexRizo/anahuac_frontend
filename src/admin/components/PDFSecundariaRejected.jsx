@@ -117,7 +117,7 @@ export const PDFSecundariaRejected = ({
               compartirte que el resultado en el examen de admisión que
               presentaste el&nbsp;
               <Text style={{ fontWeight: 600, fontSize: 10 }}>
-                {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom })}
+                {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase()}
                 &nbsp;
               </Text>
               es&nbsp;
@@ -190,7 +190,7 @@ export const PDFSecundariaRejected = ({
                 <Text style={{ fontWeight: 600 }}>
                   {format(new Date(), "dd 'de' MMMM 'del' y", {
                     locale: localCustom,
-                  })}
+                  }).toLocaleLowerCase()}
                 </Text>
               </Text>
               <Text>Atentamente</Text>
@@ -229,7 +229,7 @@ export const PDFSecundariaRejected = ({
           <Text>
             Fecha de aplicación:{" "}
             <Text style={{ fontWeight: 700 }}>
-              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom })}
+              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase()}
             </Text>
           </Text>
           <View

@@ -52,7 +52,7 @@ export const PDFPrepaRejected = (
                         Nombre { sex === 'MASCULINO' ? 'del alumno' : 'de la alumna' }: <Text style={{ fontWeight: 700 }}>{ aspirant }</Text>
                     </Text>
                     <Text style={{ fontSize: 10 }}>
-                        Fecha de aplicación: <Text style={{ fontWeight: 700 }}>{ format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }) }</Text>
+                        Fecha de aplicación: <Text style={{ fontWeight: 700 }}>{ format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase() }</Text>
                     </Text>
                     <View style={{ display: 'flex', flexDirection: 'column', width: '100%', marginTop: 20, marginBottom: 20 }}>
                         <View style={{ 
