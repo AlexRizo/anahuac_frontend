@@ -25,16 +25,16 @@ export const Docx = ({
 
     let examIs = "";
 
-    examIs =
-      totalScore >= 1000
-        ? "sobresaliente"
-        : totalScore <= 999 && totalScore >= 780
-        ? "muy satisfactorio"
-        : totalScore <= 779 && totalScore >= 650
-        ? "satisfactorio"
-        : "aún no satisfactorio";
-
     if (level === "PREPARATORIA") {
+      examIs =
+        totalScore >= 1000
+          ? "sobresaliente"
+          : totalScore <= 999 && totalScore >= 780
+          ? "muy satisfactorio"
+          : totalScore <= 779 && totalScore >= 650
+          ? "satisfactorio"
+          : "aún no satisfactorio";
+
       doc = await getPrepaCert(
         aspirant,
         lecturaScore,
@@ -46,6 +46,14 @@ export const Docx = ({
         examIs
       );
     } else if (level === "SECUNDARIA") {
+      examIs =
+        totalScore >= 800
+          ? "sobresaliente"
+          : totalScore <= 799 && totalScore >= 600
+          ? "satisfactorio"
+          : totalScore <= 599 && totalScore >= 500
+          ? "aún no satisfactorio"
+          : "insuficiente";
       doc = await getSecundariaCert(
         aspirant,
         lecturaScore,

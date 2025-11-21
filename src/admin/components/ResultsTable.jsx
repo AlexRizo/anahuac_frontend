@@ -185,7 +185,7 @@ export const ResultsTable = () => {
         (aspirant.examResult?.lecturaScore || 0) +
           (aspirant.examResult?.matematicasScore || 0) +
           (aspirant.examResult?.pensamientoScore || 0) >=
-        600
+        500
       );
     }
   };

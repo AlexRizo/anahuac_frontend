@@ -93,6 +93,8 @@ export const PDFSecundaria = ({
       ? "sobresaliente"
       : totalScore <= 799 && totalScore >= 600
       ? "satisfactorio"
+      : totalScore <= 599 && totalScore >= 500
+      ? "aún no satisfactorio"
       : "insuficiente";
   };
 

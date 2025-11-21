@@ -300,13 +300,14 @@ export const getSecundariaCert = async (
 
   const sections = [];
 
-  if (totalScore >= 780) {
+  if (totalScore >= 600) {
     sections.push(CongratsFile);
-  } else {
+  } else if (totalScore < 600 && totalScore >= 500) {
     sections.push(NormalFile);
   }
 
   if (totalScore >= 650) {
+    // ? Certificado de admisión para usuarios aprobados de secundaria
     sections.push({
       properties: {},
       children: [
@@ -615,8 +616,8 @@ export const getSecundariaCert = async (
         }),
       ],
     });
-  } else {
-    // ! Certificado de pre-admisión para usuarios reprobados de secundaria
+  } else if (totalScore < 650 && totalScore >= 500) {
+    // * Certificado de pre-admisión para usuarios reprobados de secundaria
     sections.push({
       properties: {},
       children: [
@@ -928,6 +929,218 @@ export const getSecundariaCert = async (
         }),
         new Paragraph({
           text: "Posteriormente se realizará el Examen de Ubicación de Idiomas y la Sesión de Inducción.",
+        }),
+      ],
+    });
+  } else {
+    // ! Certificado para usuarios reprobados de secundaria
+    sections.push({
+      properties: {},
+      children: [
+        new Paragraph({
+          alignment: "center",
+          children: [
+            new TextRun({
+              text: "RESULTADOS DEL EXAMEN DE ADMISIÓN",
+
+              bold: true,
+            }),
+          ],
+          spacing: { after: 400, before: 400 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: `Nombre ${isMale ? "del alumno" : "de la alumna"}: `,
+            }),
+            new TextRun({
+              text: aspirant,
+              bold: true,
+            }),
+          ],
+        }),
+        new Paragraph({
+          spacing: { after: 400 },
+          children: [
+            new TextRun({
+              text: "Fecha de aplicación: ",
+            }),
+            new TextRun({
+              text: format(date, "dd 'de' MMMM 'del' y", {
+                locale: localCustom,
+              }),
+              bold: true,
+            }),
+          ],
+        }),
+        new Table({
+          width: {
+            size: 100,
+            type: "pct",
+          },
+          layout: "fixed",
+          borders: {
+            top: { size: 0, color: "FFFFFF" },
+            bottom: { style: "single", size: 5, color: "#E4E4E7" },
+            left: { size: 0, color: "FFFFFF" },
+            right: { size: 0, color: "FFFFFF" },
+            insideHorizontal: {
+              style: "single",
+              size: 5,
+              color: "#E4E4E7",
+            },
+            insideVertical: { size: 0, color: "FFFFFF" },
+          },
+          rows: [
+            // ? Encabezado
+            new TableRow({
+              children: [
+                new TableCell({
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: "Comprensión lectora",
+                          color: "#71717A",
+                        }),
+                        new TextRun({
+                          text: "y escritura",
+                          color: "#71717A",
+                          break: 1,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                new TableCell({
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: "Habilidades",
+                          color: "#71717A",
+                        }),
+                        new TextRun({
+                          text: "lógico-matemáticas",
+                          color: "#71717A",
+                          break: 1,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                new TableCell({
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: "Habilidades del",
+                          color: "#71717A",
+                        }),
+                        new TextRun({
+                          text: "pensamiento",
+                          color: "#71717A",
+                          break: 1,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                new TableCell({
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: "Total",
+                          color: "#71717A",
+                          size: 25,
+                          bold: true,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            // ? Resultados
+            new TableRow({
+              children: [
+                new TableCell({
+                  verticalAlign: "center",
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: `${lecturaScore || 0}`,
+                          color: "#103CCA",
+                          bold: true,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                new TableCell({
+                  verticalAlign: "center",
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: `${matematicasScore || 0}`,
+                          color: "#103CCA",
+                          bold: true,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                new TableCell({
+                  verticalAlign: "center",
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: `${pensamientoScore || 0}`,
+                          color: "#103CCA",
+                          bold: true,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                new TableCell({
+                  verticalAlign: "center",
+                  children: [
+                    new Paragraph({
+                      spacing: { after: 50, before: 50 },
+                      alignment: "center",
+                      children: [
+                        new TextRun({
+                          text: `${totalScore || 0}`,
+                          color: "#103CCA",
+                          size: 25,
+                          bold: true,
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
         }),
       ],
     });
