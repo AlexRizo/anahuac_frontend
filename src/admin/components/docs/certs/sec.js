@@ -306,7 +306,7 @@ export const getSecundariaCert = async (
     sections.push(NormalFile);
   }
 
-  if (totalScore >= 650) {
+  if (totalScore >= 600) {
     // ? Certificado de admisión para usuarios aprobados de secundaria
     sections.push({
       properties: {},
@@ -616,7 +616,7 @@ export const getSecundariaCert = async (
         }),
       ],
     });
-  } else if (totalScore < 650 && totalScore >= 500) {
+  } else if (totalScore < 600 && totalScore >= 500) {
     // * Certificado de pre-admisión para usuarios reprobados de secundaria
     sections.push({
       properties: {},
