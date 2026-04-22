@@ -2,6 +2,7 @@ import { Navigate } from "react-router-dom";
 import { AdminLayout } from "../admin/layout/AdminLayout";
 import { HomePage, ApplicationsPage, NewApplicationPage, EditApplicationPage, ApplicationKeysPage, AspirantsPage, NewAspirantPage, EditAspirantPage, StaffPage, NewStaffPage, EditStaffPage, ResultsPage, ExamenesPage  } from "@/admin/pages";
 import { ExamQuestionsPage } from "@/admin/pages/ExamQuestionsPage";
+import { MetricsPage } from "@/admin/pages/MetricsPage";
 
 const lastRoute = localStorage.getItem('lastRoute') || '/';
 
@@ -66,6 +67,10 @@ export const AdminRoutes = (role) => {
                 {
                     path: '/examenes/:id/preguntas',
                     element: (role === 'APPLICATOR_ROLE') ? <Navigate to={ lastRoute }/> : <ExamQuestionsPage />
+                },
+                {
+                    path: '/metricas',
+                    element: <MetricsPage />
                 }
             ]
         },
