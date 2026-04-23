@@ -1,4 +1,5 @@
 import { SelectApp } from "../components";
+import { GapByOrigins } from "../components/metrics/GapByOrigins";
 import { GeneralEvaluations } from "../components/metrics/GeneralEvaluations";
 import { MetricsHeader } from "../components/metrics/MetricsHeader";
 import { PercentageByBlock } from "../components/metrics/PercentageByBlock";
@@ -19,6 +20,7 @@ export const MetricsPage = () => {
       <GeneralEvaluations />
       <div className="grid grid-cols-2 gap-4 px-20">
         <PercentageByBlock />
+        <GapByOrigins />
       </div>
     </section>
   );
