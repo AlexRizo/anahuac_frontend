@@ -83,3 +83,7 @@ body {
 .font-roboto-serif {
   font-family: "Roboto Serif", serif;
 }
+
+html {
+  overflow-y: hidden;
+}
