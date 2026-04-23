@@ -11,7 +11,7 @@ export const MetricsPage = () => {
   const [appId, setAppId] = useState(null);
 
   return (
-    <section className="w-full space-y-10">
+    <section className="w-full space-y-10 h-screen overflow-y-auto">
       <MetricsHeader />
       <div className="px-20 flex items-center justify-between">
         <SelectLevel level={level} setLevel={setLevel} />

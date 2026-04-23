@@ -1,4 +1,4 @@
-import { Bar, BarChart, XAxis } from "recharts";
+import { Bar, BarChart, XAxis, YAxis } from "recharts";
 
 import {
   Card,
@@ -15,20 +15,20 @@ import {
 import { GapByOriginBlock } from "./GapByOriginBlock";
 
 const chartData = [
-  { block: "Comprensión Lectora", intern: 450, extern: 300 },
-  { block: "R. Lógico Matemático", intern: 380, extern: 420 },
-  { block: "Habilidades del Pensamiento", intern: 520, extern: 120 },
-  { block: "General", intern: 520, extern: 120 },
+  { block: "Comprensión Lectora", intern: 60, extern: 40 },
+  { block: "R. Lógico Matemático", intern: 80, extern: 20 },
+  { block: "Habilidades del Pensamiento", intern: 52, extern: 48 },
+  { block: "General", intern: 52, extern: 48 },
 ];
 
 const chartConfig = {
   intern: {
     label: "Internos",
-    color: "#3b82f6",
+    color: "#f97316",
   },
   extern: {
     label: "Externos",
-    color: "#f97316",
+    color: "#3b82f6",
   },
 };
 
@@ -42,7 +42,7 @@ export const GapByOrigins = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-[2/1]">
+        <ChartContainer config={chartConfig} className="aspect-[2/0.8]">
           <BarChart accessibilityLayer data={chartData}>
             <XAxis
               dataKey="block"
@@ -50,14 +50,22 @@ export const GapByOrigins = () => {
               tickMargin={10}
               axisLine={false}
             />
+            <YAxis
+              tickLine={false}
+              label={{
+                value: "Porcentaje",
+                angle: -90,
+                position: "insideLeft",
+              }}
+            />
             <Bar
-              dataKey="intern"
+              dataKey="extern"
               stackId="a"
               fill="#3b82f6"
               radius={[0, 0, 4, 4]}
             />
             <Bar
-              dataKey="extern"
+              dataKey="intern"
               stackId="a"
               fill="#f97316"
               radius={[4, 4, 0, 0]}
