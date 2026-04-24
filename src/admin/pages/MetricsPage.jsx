@@ -27,7 +27,10 @@ export const MetricsPage = () => {
         topReactives={getAccertsQuery.data?.topReactives}
       />
       <div className="grid grid-cols-2 gap-4 px-20">
-        <PercentageByBlock />
+        <PercentageByBlock
+          results={getAccertsQuery.data?.results}
+          totals={getAccertsQuery.data?.totals}
+        />
         <GapByOrigins />
       </div>
       <QuestionsTable />

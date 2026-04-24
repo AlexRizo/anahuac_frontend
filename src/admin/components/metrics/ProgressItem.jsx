@@ -1,7 +1,13 @@
 import { Progress } from "@/components/ui";
 import PropTypes from "prop-types";
 
-export const ProgressItem = ({ block, reactives, percentage }) => {
+export const ProgressItem = ({
+  block,
+  reactives,
+  percentage,
+  interns,
+  externs,
+}) => {
   return (
     <article className="space-y-4">
       <div className="flex items-center justify-between">
@@ -21,11 +27,11 @@ export const ProgressItem = ({ block, reactives, percentage }) => {
       <div className="flex flex-row gap-4 mt-2">
         <p className="text-sm flex items-center">
           <span className="inline-flex size-4 rounded-full bg-orange-500 mr-1.5"></span>
-          Internos: 82.7%
+          Internos: {interns}%
         </p>
         <p className="text-sm flex items-center">
           <span className="inline-flex size-4 rounded-full bg-blue-500 mr-1.5"></span>
-          Externos: 65%
+          Externos: {externs}%
         </p>
       </div>
     </article>
@@ -33,7 +39,9 @@ export const ProgressItem = ({ block, reactives, percentage }) => {
 };
 
 ProgressItem.propTypes = {
-  block: PropTypes.string.isRequired,
-  reactives: PropTypes.number.isRequired,
-  percentage: PropTypes.number.isRequired,
+  block: PropTypes.string,
+  reactives: PropTypes.number,
+  percentage: PropTypes.number,
+  interns: PropTypes.number,
+  externs: PropTypes.number,
 };

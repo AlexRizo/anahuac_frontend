@@ -3,6 +3,7 @@ import { GeneralEvaluationCard } from "./GeneralEvaluationCard";
 
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { calculateGeneralPercentage } from "@/admin/helpers/metrics";
 
 export const GeneralEvaluations = ({
   data = [],
@@ -19,24 +20,8 @@ export const GeneralEvaluations = ({
   const [totalPercentage, setTotalPercentage] = useState(0);
 
   useEffect(() => {
-    calculateGeneralPercentage();
+    setTotalPercentage(calculateGeneralPercentage(data, totals));
   }, [data, totals, topReactives]);
-
-  const calculateGeneralPercentage = () => {
-    const totalQuestions =
-      totals.lectura + totals.matematicas + totals.pensamiento;
-
-    const sumPercentages = data.reduce((acc, aspirant) => {
-      const totalAciertos =
-        aspirant.lectura + aspirant.matematicas + aspirant.pensamiento;
-      const porcentajeAlumno = (totalAciertos / totalQuestions) * 100;
-      return acc + porcentajeAlumno;
-    }, 0);
-
-    const averagePercentage = sumPercentages / data.length;
-
-    setTotalPercentage(Number(averagePercentage.toFixed(2)) || 0);
-  };
 
   return (
     <div className="grid grid-cols-4 gap-4 px-20">
@@ -46,7 +31,7 @@ export const GeneralEvaluations = ({
         percentage={`${totalPercentage}%`}
         icon={FileChartColumn}
       />
-      <GeneralEvaluationCardg
+      <GeneralEvaluationCard
         title="Aspirantes Evaluados"
         description="Total de evaluados para el análisis"
         percentage={data?.length}
