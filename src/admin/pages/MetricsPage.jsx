@@ -31,7 +31,10 @@ export const MetricsPage = () => {
           results={getAccertsQuery.data?.results}
           totals={getAccertsQuery.data?.totals}
         />
-        <GapByOrigins />
+        <GapByOrigins
+          results={getAccertsQuery.data?.results}
+          totals={getAccertsQuery.data?.totals}
+        />
       </div>
       <QuestionsTable />
     </section>

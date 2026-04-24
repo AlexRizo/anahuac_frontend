@@ -19,7 +19,6 @@ export const PercentageByBlock = ({
     return calculatePercentageByBlock(results, totals);
   }, [results, totals]);
 
-
   return (
     <Card className="w-full">
       <CardHeader>

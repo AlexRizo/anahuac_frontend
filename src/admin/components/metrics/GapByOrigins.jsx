@@ -1,5 +1,5 @@
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
-
+import { Bar, BarChart, XAxis } from "recharts";
+import PropTypes from "prop-types";
 import {
   Card,
   CardContent,
@@ -13,26 +13,31 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { GapByOriginBlock } from "./GapByOriginBlock";
-
-const chartData = [
-  { block: "Comprensión Lectora", intern: 60, extern: 40 },
-  { block: "R. Lógico Matemático", intern: 80, extern: 20 },
-  { block: "Habilidades del Pensamiento", intern: 52, extern: 48 },
-  { block: "General", intern: 52, extern: 48 },
-];
+import { useMemo } from "react";
+import { calculatePercentageByBlock, getGap } from "@/admin/helpers/metrics";
 
 const chartConfig = {
   intern: {
-    label: "Internos",
+    label: "Internos %",
     color: "#f97316",
   },
   extern: {
-    label: "Externos",
+    label: "Externos %",
     color: "#3b82f6",
   },
 };
 
-export const GapByOrigins = () => {
+export const GapByOrigins = ({ results = [], totals = {} }) => {
+  const percentageByBlock = useMemo(() => {
+    if (!results.length || !totals) return;
+    return calculatePercentageByBlock(results, totals);
+  }, [results, totals]);
+
+  const gapByOrigin = useMemo(() => {
+    if (!results.length || !totals) return;
+    return getGap(results, totals);
+  }, [results, totals]);
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -43,20 +48,36 @@ export const GapByOrigins = () => {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="aspect-[2/0.8]">
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart
+            accessibilityLayer
+            data={[
+              {
+                block: "Comprensión Lectora",
+                intern: percentageByBlock?.lectura?.distribucionInternos,
+                extern: percentageByBlock?.lectura?.distribucionExternos,
+              },
+              {
+                block: "R. Lógico Matemático",
+                intern: percentageByBlock?.matematicas?.distribucionInternos,
+                extern: percentageByBlock?.matematicas?.distribucionExternos,
+              },
+              {
+                block: "Habilidades del Pensamiento",
+                intern: percentageByBlock?.pensamiento?.distribucionInternos,
+                extern: percentageByBlock?.pensamiento?.distribucionExternos,
+              },
+              {
+                block: "General",
+                intern: percentageByBlock?.global?.distribucionInternos,
+                extern: percentageByBlock?.global?.distribucionExternos,
+              },
+            ]}
+          >
             <XAxis
               dataKey="block"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-            />
-            <YAxis
-              tickLine={false}
-              label={{
-                value: "Porcentaje",
-                angle: -90,
-                position: "insideLeft",
-              }}
             />
             <Bar
               dataKey="extern"
@@ -88,12 +109,37 @@ export const GapByOrigins = () => {
           </p>
         </div>
         <div className="flex flex-col divide-y border-t pt-1 mt-4">
-          <GapByOriginBlock block="Comprensión Lectora" gap={16} />
-          <GapByOriginBlock block="Razonamiento Lógico-Matemático" gap={-4} />
-          <GapByOriginBlock block="Habilidades del Pensamiento" gap={35} />
-          <GapByOriginBlock block="General" gap={27} />
+          <GapByOriginBlock
+            block="Comprensión Lectora"
+            gap={gapByOrigin?.lectura}
+          />
+          <GapByOriginBlock
+            block="Razonamiento Lógico-Matemático"
+            gap={gapByOrigin?.matematicas}
+          />
+          <GapByOriginBlock
+            block="Habilidades del Pensamiento"
+            gap={gapByOrigin?.pensamiento}
+          />
+          <GapByOriginBlock block="General" gap={gapByOrigin?.general} />
         </div>
       </CardContent>
     </Card>
   );
+};
+
+GapByOrigins.propTypes = {
+  results: PropTypes.arrayOf(
+    PropTypes.shape({
+      origin: PropTypes.string,
+      lectura: PropTypes.number,
+      pensamiento: PropTypes.number,
+      matematicas: PropTypes.number,
+    }),
+  ),
+  totals: PropTypes.shape({
+    lectura: PropTypes.number,
+    matematicas: PropTypes.number,
+    pensamiento: PropTypes.number,
+  }),
 };
