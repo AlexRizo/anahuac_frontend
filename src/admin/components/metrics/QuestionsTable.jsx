@@ -13,8 +13,12 @@ import {
   TableRow,
 } from "@/components/ui";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import PropTypes from 'prop-types';
 
-export const QuestionsTable = () => {
+export const QuestionsTable = ({
+  questions = [],
+  totalEvaluations
+}) => {
   return (
     <div className="px-20">
       <Card className="w-full">
@@ -39,21 +43,25 @@ export const QuestionsTable = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>ES-BM-R30</TableCell>
-                  <TableCell className="text-muted-foreground">
-                    Razonamiento Lógico Matemático
-                  </TableCell>
-                  <TableCell className="text-center">200</TableCell>
-                  <TableCell className="text-center">160</TableCell>
-                  <TableCell className="text-end">
-                    <Badge variant="secondary" className="text-sm">
-                      80.0%
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-end">90.0%</TableCell>
-                  <TableCell className="text-end">70.0%</TableCell>
-                </TableRow>
+                {
+                  questions?.map((q) => (
+                    <TableRow key={q.id}>
+                      <TableCell>Reactivo {q.questionNumber}</TableCell>
+                      <TableCell className="text-muted-foreground capitalize">
+                        {q.block.toLowerCase()}
+                      </TableCell>
+                      <TableCell className="text-center">{totalEvaluations}</TableCell>
+                      <TableCell className="text-center">{q.totalAccerts}</TableCell>
+                      <TableCell className="text-end">
+                        <Badge variant="secondary" className="text-sm">
+                          {q.percentage}%
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-end">{q.internos}</TableCell>
+                      <TableCell className="text-end">{q.externos}</TableCell>
+                    </TableRow>
+                  ))
+                }
               </TableBody>
             </Table>
           </div>
@@ -88,4 +96,14 @@ export const QuestionsTable = () => {
       </Card>
     </div>
   );
+};
+
+QuestionsTable.propTypes = {
+  questions: PropTypes.arrayOf(PropTypes.shape({
+    totalAccerts: PropTypes.number,
+    questionNumber: PropTypes.number,
+    block: PropTypes.string,
+    percentage: PropTypes.number,
+  })),
+  totalEvaluations: PropTypes.number,
 };

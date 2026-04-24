@@ -36,7 +36,10 @@ export const MetricsPage = () => {
           totals={getAccertsQuery.data?.totals}
         />
       </div>
-      <QuestionsTable />
+      <QuestionsTable
+        questions={getAccertsQuery.data?.topReactives?.allQuestions}
+        totalEvaluations={getAccertsQuery.data?.results?.length || 0}
+      />
     </section>
   );
 };
