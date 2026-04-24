@@ -10,7 +10,7 @@ export const useMetrics = (examId = "", applicationId = undefined) => {
           `/metrics/${examId}${applicationId ? `?applicationId=${applicationId}` : ""}`,
         );
 
-        return data.results;
+        return data;
       } catch {
         return [];
       }

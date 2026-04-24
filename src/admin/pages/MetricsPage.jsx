@@ -14,7 +14,6 @@ export const MetricsPage = () => {
 
   const { getAccertsQuery } = useMetrics("6712e526aa2479c2a9e3d3b4");
 
-  console.log(getAccertsQuery.data);
   return (
     <section className="w-full h-screen overflow-y-auto space-y-10">
       <MetricsHeader />
@@ -22,7 +21,11 @@ export const MetricsPage = () => {
         <SelectLevel level={level} setLevel={setLevel} />
         <SelectApp selectedApp={appId} setSelectedApp={setAppId} />
       </div>
-      <GeneralEvaluations />
+      <GeneralEvaluations
+        data={getAccertsQuery.data?.results}
+        totals={getAccertsQuery.data?.totals}
+        topReactives={getAccertsQuery.data?.topReactives}
+      />
       <div className="grid grid-cols-2 gap-4 px-20">
         <PercentageByBlock />
         <GapByOrigins />
