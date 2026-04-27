@@ -18,7 +18,7 @@ export const SelectApp = ({ selectedApp, setSelectedApp }) => {
 
         // Si no se encuentra, limpia la selección
         if (!appId) {
-            setSelectedApp("");
+            setSelectedApp(null);
             return;
         }
 
