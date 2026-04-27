@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import PropTypes from 'prop-types';
 
 export const QuestionsTable = ({
@@ -38,8 +37,6 @@ export const QuestionsTable = ({
                   <TableHead className="text-center">Total</TableHead>
                   <TableHead className="text-center">Aciertos</TableHead>
                   <TableHead className="text-end">Porcentaje</TableHead>
-                  <TableHead className="text-end">Internos</TableHead>
-                  <TableHead className="text-end">Externos</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -57,15 +54,13 @@ export const QuestionsTable = ({
                           {q.percentage}%
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-end">{q.internos}</TableCell>
-                      <TableCell className="text-end">{q.externos}</TableCell>
                     </TableRow>
                   ))
                 }
               </TableBody>
             </Table>
           </div>
-          <div className="flex justify-between items-center mt-4 w-full">
+          {/* <div className="flex justify-between items-center mt-4 w-full">
             <p className="text-sm text-muted-foreground">Mostrando 1-10 de 60 resultados</p>
             <Pagination className="justify-end w-min m-0">
               <PaginationContent>
@@ -91,7 +86,7 @@ export const QuestionsTable = ({
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>
