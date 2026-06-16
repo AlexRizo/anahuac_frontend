@@ -28,8 +28,8 @@ export const ApplicationConfirm = () => {
                     <p className="w-full">{ app.name }</p>
                 </div>
                 <div className="flex border-b pb-4 pt-6">
-                    <p className="w-full">Fecha de aplicación</p>
-                    <p className="w-full">{ format(app.date, "dd 'de' MMMM 'del' yyyy", { locale: localCustom } ) }</p>
+                    <p className="w-full font-bold">Fecha de aplicación</p>
+                    <p className="w-full font-bold text-orange-600">{ format(app.date, "dd 'de' MMMM 'del' yyyy", { locale: localCustom } ) }</p>
                 </div>
                 <div className="flex border-b pb-4 pt-6">
                     <p className="w-full">Aplicador</p>

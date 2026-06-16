@@ -26,6 +26,7 @@ import {
     FormItem,
     FormLabel,
     FormControl,
+    FormDescription,
     FormMessage,
     Input,
     RadioGroup,
@@ -150,6 +151,9 @@ export const ApplicationForm = () => {
                                             </PopoverContent>
                                         </Popover>
                                     </FormControl>
+                                    <FormDescription>
+                                        Verifica que la fecha sea correcta. Las claves expirarán si la fecha no coincide con el día del examen.
+                                    </FormDescription>
                                     <FormMessage >
                                         { errors.date && errors.date.message }
                                     </FormMessage>
