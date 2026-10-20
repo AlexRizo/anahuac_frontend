@@ -10,3 +10,4 @@ export * from './useAdminsStore';
 export * from './useExamStore';
 export * from './useResultStore';
 export * from './useScreen';
+export * from './useAspirantProfile';
