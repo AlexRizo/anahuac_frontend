@@ -7,6 +7,11 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 export default [
   { ignores: ['dist'] },
   {
+    // Archivos de configuración y pruebas: se ejecutan en Node, no en el navegador
+    files: ['*.config.js', 'tests/**/*.js'],
+    languageOptions: { globals: { ...globals.node } },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
