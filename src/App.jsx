@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { AppRouter } from "./router/AppRouter"
 import { useAuthStore, useExamStore, useScreen, useUiStore } from "./hooks";
@@ -9,6 +9,12 @@ export const App = () => {
     const { exam_level } = useExamStore();
 
     const { width } = useScreen();
+
+    // ? Sin useMemo, cada evento resize volvía a crear el router y remontaba toda la página
+    const router = useMemo(
+        () => createBrowserRouter(AppRouter(status, user?.role, exam_level)),
+        [status, user?.role, exam_level]
+    );
 
     useEffect(() => {
         checkAuthToken();
@@ -25,5 +31,5 @@ export const App = () => {
         </div>
     );
     
-    return <RouterProvider router={ createBrowserRouter(AppRouter(status, user?.role, exam_level)) } />
+    return <RouterProvider router={ router } />
 }

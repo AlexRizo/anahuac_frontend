@@ -1,5 +1,5 @@
-import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label } from "@/components/ui"
-import { InfoIcon, LoaderCircle } from "lucide-react"
+import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/components/ui"
+import { LoaderCircle } from "lucide-react"
 import { useEffect, useState } from "react";
 import { Anahuac } from "../components";
 import { z } from "zod";
@@ -12,14 +12,12 @@ import { useAuthStore } from "@/hooks";
 export const ConfirmPassword = () => {
     const { token } = useParams();
 
-    if (!token) return <Navigate to="/admin" />;
-
     const { startResetPassword, checkResetToken, status } = useAuthStore();
     const [expiredMessage, setExpiredMessage] = useState(undefined);
 
     useEffect(() => {
-        checkResetToken(token);
-    }, []);
+        if (token) checkResetToken(token);
+    }, [token]);
 
     useEffect(() => {
         if (status === 'token-expired') {
@@ -45,6 +43,8 @@ export const ConfirmPassword = () => {
     const onSubmit = handleSubmit(async ({ password }) => {
         startResetPassword(token, password);
     });
+
+    if (!token) return <Navigate to="/admin" />;
     
     return (
         <main className="flex flex-col h-screen w-screen items-center justify-center">

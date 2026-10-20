@@ -1,21 +1,24 @@
 import { Label, Progress } from "@/components/ui"
 import { useEffect, useState } from "react"
+import { useExamStore } from "@/hooks"
 
-export const ActualProgress = ({ actual, block }) => {
+export const ActualProgress = ({ block }) => {
 
+    const { specials } = useExamStore();
     const [progress, setProgress] = useState(0);
-    
-    const blocks = [
-        { block: 1, id: '672279a3a3f880dfc5b70a8a' },
-        { block: 2, id: '67228afb1d0fcdd16996d872' },
-        { block: 3, id: '6722937322a8c5bd203084a4' },
-    ];
-    
+
+    // ? Avance por artículo (en el orden de los artículos): 1/3 de la barra para el primero, etc.
+    const steps = [0.5, 1.7, 3];
+
     useEffect(() => {
-        if (block === blocks[0].id) return setProgress((0.5* 100) / 3);
-        if (block === blocks[1].id) return setProgress((1.7 * 100) / 3);
-        if (block === blocks[2].id) return setProgress((3 * 100) / 3);
-    }, [block]);
+        const articleIndex = [...specials]
+            .sort((a, b) => a.number - b.number)
+            .findIndex((article) => article.id === block);
+
+        if (articleIndex >= 0 && steps[articleIndex] !== undefined) {
+            setProgress((steps[articleIndex] * 100) / 3);
+        }
+    }, [block, specials]);
 
     return (
         <>

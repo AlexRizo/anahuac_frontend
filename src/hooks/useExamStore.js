@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import anahuacApi from "@/api/api";
 import { useToast } from "./use-toast";
+import { groupQuestionsByArticle } from "@/helpers/lectura";
 
 export const useExamStore = () => {
   const {
@@ -78,26 +79,12 @@ export const useExamStore = () => {
       if (model === "lectura") {
         const { data } = await anahuacApi.get("/exam/lectura/questions");
 
-        const block1 = data.questions
-          .filter(
-            (question) => question.relation === "672279a3a3f880dfc5b70a8a"
-          )
-          .sort(() => Math.random() - 0.5);
-        const block2 = data.questions
-          .filter(
-            (question) => question.relation === "67228afb1d0fcdd16996d872"
-          )
-          .sort(() => Math.random() - 0.5);
-        const block3 = data.questions
-          .filter(
-            (question) => question.relation === "6722937322a8c5bd203084a4"
-          )
-          .sort(() => Math.random() - 0.5);
+        const articles = await startLoadingSpecials();
+        if (!articles) return;
 
-        const shuffleBlocks = [block1, block2, block3];
+        const shuffleBlocks = groupQuestionsByArticle(data.questions, articles);
 
         dispatch(onLoadQuestions(shuffleBlocks.flat()));
-        await startLoadingSpecials();
       } else if (model === "matematicas") {
         const { data } = await anahuacApi.get("/exam/matematicas/questions");
         dispatch(
@@ -107,17 +94,20 @@ export const useExamStore = () => {
         const { data } = await anahuacApi.get("/exam/pensamiento/questions");
 
         const questions = data.questions || [];
-        const blocks = [
-          questions[questions.length - 3].questionNumber,
-          questions[questions.length - 2].questionNumber,
-          questions[questions.length - 1].questionNumber,
-        ];
 
-        const questionsBlock = questions.filter((question) =>
-          blocks.includes(question.questionNumber)
-        );
+        // ? Las 3 últimas preguntas forman un bloque que se mantiene junto; con menos de 3 solo se mezcla
+        const blocks = questions
+          .slice(-3)
+          .map((question) => question.questionNumber);
+
+        const questionsBlock =
+          questions.length >= 3
+            ? questions.filter((question) =>
+                blocks.includes(question.questionNumber)
+              )
+            : [];
         const sortedQuestions = questions
-          .filter((question) => !blocks.includes(question.questionNumber))
+          .filter((question) => !questionsBlock.includes(question))
           .sort(() => Math.random() - 0.5);
 
         const randomIndex = Math.floor(
@@ -125,8 +115,6 @@ export const useExamStore = () => {
         );
 
         sortedQuestions.splice(randomIndex, 0, ...questionsBlock);
-
-        // console.log(finalQuestions, randomIndex);
 
         dispatch(onLoadQuestions(sortedQuestions));
       }
@@ -139,13 +127,16 @@ export const useExamStore = () => {
     }
   };
 
+  // ? Devuelve los artículos, o null si falló la carga
   const startLoadingSpecials = async () => {
     try {
       const { data } = await anahuacApi.get("/exam/getarticles");
       dispatch(onLoadSpecial(data.articles));
+      return data.articles;
     } catch (error) {
       startSetExceptionMessage(error);
       dispatch(setIsLoading("error"));
+      return null;
     }
   };
 
