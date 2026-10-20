@@ -92,7 +92,7 @@ export const ApplicationKeysPage = () => {
                                         <TableCell>{ capitalizeFirstLetter(activeApp.origin) }</TableCell>
                                         <TableCell>{ activeApp.name }</TableCell>
                                         <TableCell>{ customParseISO(activeApp.date) }</TableCell>
-                                        <TableCell>{ activeApp.admin.name }</TableCell>
+                                        <TableCell>{ [activeApp.admin?.first_name, activeApp.admin?.last_name].filter(Boolean).join(" ") }</TableCell>
                                         <TableCell>{ total }</TableCell>
                                     </TableRow>
                                 </TableBody>
