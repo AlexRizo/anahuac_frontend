@@ -117,6 +117,7 @@ export const MatematicasPage = () => {
     }, 15000);
   };
 
+  // ? Tras recargar la página la pregunta activa aún no existe; sin la guarda esto rompía la página al reanudar en este bloque
   const isEcuation = useMemo(
     () => activeQuestion?.question?.split(/(\[.*?\])/g) ?? [],
     [activeQuestion?.question]
