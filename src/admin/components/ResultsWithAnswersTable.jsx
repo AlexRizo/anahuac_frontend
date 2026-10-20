@@ -6,7 +6,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui";
-import { evaluate } from "mathjs";
+import { sumFourDigits } from "@/helpers/fourDigits";
 
 export const ResultsWithAnswersTable = ({
   children,
@@ -15,7 +15,15 @@ export const ResultsWithAnswersTable = ({
   isLoading = true,
 }) => {
   const resolveMagicTriangle = (jsonString) => {
-    const object = JSON.parse(jsonString);
+    let object;
+
+    try {
+      object = JSON.parse(jsonString);
+    } catch {
+      return "Respuesta no válida";
+    }
+
+    if (object === null || typeof object !== "object") return "Respuesta no válida";
 
     const { a1, a2, a3, b1, b2, b3, c1, c2, c3 } = Object.fromEntries(
       Object.entries(object).map(([key, value]) => [key, Number(value)])
@@ -31,14 +39,8 @@ export const ResultsWithAnswersTable = ({
   };
 
   const resolveFourDigits = (array = [""]) => {
-    array = [...array];
-
-    if (array[array.length - 1] === "+") {
-      array.pop();
-    }
-
-    const evaluation = evaluate(array.join(""));
-    return evaluation;
+    const evaluation = sumFourDigits(array);
+    return evaluation === null ? "Respuesta no válida" : evaluation;
   };
 
   return (

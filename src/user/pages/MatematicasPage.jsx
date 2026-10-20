@@ -12,6 +12,7 @@ import { Anahuac } from "@/auth/components";
 import { useExamStore } from "@/hooks";
 import "katex/dist/katex.min.css";
 import { InlineMath } from "react-katex";
+import { sanitizeHtml } from "@/helpers/sanitizeHtml";
 
 export const MatematicasPage = () => {
   const {
@@ -197,11 +198,7 @@ export const MatematicasPage = () => {
                 <p
                   className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
                   dangerouslySetInnerHTML={{
-                    __html:
-                      questions.indexOf(activeQuestion) +
-                      1 +
-                      ". " +
-                      isEcuation[0],
+                    __html: sanitizeHtml(questions.indexOf(activeQuestion) + 1 + ". " + isEcuation[0]),
                   }}
                 ></p>
                 <InlineMath math={isEcuation[1] + isEcuation[2]} />
@@ -210,11 +207,7 @@ export const MatematicasPage = () => {
               <p
                 className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
                 dangerouslySetInnerHTML={{
-                  __html:
-                    questions.indexOf(activeQuestion) +
-                    1 +
-                    ". " +
-                    activeQuestion.question,
+                  __html: sanitizeHtml(questions.indexOf(activeQuestion) + 1 + ". " + activeQuestion.question),
                 }}
               ></p>
             )}

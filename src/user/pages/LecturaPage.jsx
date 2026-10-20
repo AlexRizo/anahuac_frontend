@@ -21,6 +21,7 @@ import { Navigate } from "react-router-dom";
 import { LecturaAnticienciaPrepa } from "@/components/lecturas/LecturaAnticienciaPrepa";
 import { LecturaPrincipePrepa } from "@/components/lecturas/LecturaPrincipePrepa";
 import { LecturaProfesor } from "@/components/lecturas/LecturaProfesor";
+import { sanitizeHtml } from "@/helpers/sanitizeHtml";
 
 export const LecturaPage = () => {
   const {
@@ -223,11 +224,7 @@ export const LecturaPage = () => {
             <p
               className="text-base 2xl:text-lg font-medium mb-2 2xl:mb-4 font-roboto-serif"
               dangerouslySetInnerHTML={{
-                __html:
-                  questions.indexOf(activeQuestion) +
-                  1 +
-                  ". " +
-                  activeQuestion.question,
+                __html: sanitizeHtml(questions.indexOf(activeQuestion) + 1 + ". " + activeQuestion.question),
               }}
             ></p>
             {activeQuestion.type === "multiple" && (

@@ -1,5 +1,6 @@
 import { Label, RadioGroup, RadioGroupItem } from "@/components/ui";
 import { FourDigitsPrompt, MagicTriangle } from ".";
+import { sanitizeHtml } from "@/helpers/sanitizeHtml";
 
 export const ThinkAnswers = ({ answers, value, type, onChange }) => {
   const handleChange = (checkVal) => {
@@ -42,7 +43,7 @@ export const ThinkAnswers = ({ answers, value, type, onChange }) => {
             <label
               className="text-base 2xl:text-lg cursor-pointer font-roboto-serif"
               htmlFor={answer.opt}
-              dangerouslySetInnerHTML={{ __html: answer.answer }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(answer.answer) }}
             ></label>
           )}
         </div>

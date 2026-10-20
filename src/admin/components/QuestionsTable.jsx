@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { LecturaCard, SelectBlock, SelectLect } from '.';
 import { BookOpenCheck, Eye } from 'lucide-react';
+import { sanitizeHtml } from "@/helpers/sanitizeHtml";
 
 export const QuestionsTable = () => {
     const { currentExam, questions, specials, startLoadingSpecials } = useExamStore();
@@ -126,7 +127,7 @@ export const QuestionsTable = () => {
                                             q.attachment ? (
                                                 <HoverCard>
                                                     <HoverCardTrigger className='cursor-help font-semibold'>
-                                                        <span className='underline mr-1' dangerouslySetInnerHTML={{ __html: q.question }}></span>
+                                                        <span className='underline mr-1' dangerouslySetInnerHTML={{ __html: sanitizeHtml(q.question) }}></span>
                                                         &nbsp;
                                                         <span className='no-underline !text-gray-500 flex items-center gap-1 text-sm'>
                                                             <Eye size={ 18 } />
@@ -138,7 +139,7 @@ export const QuestionsTable = () => {
                                                     </HoverCardContent>
                                                 </HoverCard>
                                             ) : (
-                                                <p dangerouslySetInnerHTML={{ __html: q.question }}></p>
+                                                <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(q.question) }}></p>
                                             )
                                         }
 
@@ -165,7 +166,7 @@ export const QuestionsTable = () => {
                                                             q.type === 'single-image' ? (
                                                                 <img src={ o.answer } alt={ o.opt } className='w-10 h-10' />
                                                             ) : (
-                                                                <span dangerouslySetInnerHTML={{ __html: o.answer }}></span>
+                                                                <span dangerouslySetInnerHTML={{ __html: sanitizeHtml(o.answer) }}></span>
                                                             )
                                                         }
                                                     </li>

@@ -9,6 +9,7 @@ import { Button, Label } from "@/components/ui";
 import { Anahuac } from "@/auth/components";
 import { useExamStore } from "@/hooks";
 import { useEffect, useMemo, useState } from "react";
+import { sanitizeHtml } from "@/helpers/sanitizeHtml";
 
 export const PensamientoPage = () => {
   const {
@@ -163,11 +164,7 @@ export const PensamientoPage = () => {
             <p
               className="text-base 2xl:text-lg font-medium mb-4 font-roboto-serif"
               dangerouslySetInnerHTML={{
-                __html:
-                  questions.indexOf(activeQuestion) +
-                  1 +
-                  ". " +
-                  activeQuestion.question,
+                __html: sanitizeHtml(questions.indexOf(activeQuestion) + 1 + ". " + activeQuestion.question),
               }}
             ></p>
             <div>
