@@ -1,4 +1,4 @@
-import { Document, Font, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
+import { Document, Font, Page, StyleSheet, Text, View } from '@react-pdf/renderer'
 import { format } from 'date-fns'
 import { localCustom } from '../helpers'
 import { useEffect, useState } from 'react';

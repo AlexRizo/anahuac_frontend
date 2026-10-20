@@ -21,7 +21,7 @@ export const NewStaffPage = () => {
             </div>
             <div className="px-14 py-6 w-full h-[calc(100%-101px)] flex items-center justify-center animate__animated animate__zoomIn overflow-y-auto">
             {
-                    !!activeAdmin ? (
+                    activeAdmin ? (
                         <div>
                             <CustomAlert
                                 title="Nuevo staff creado"

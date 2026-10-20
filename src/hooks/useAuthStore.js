@@ -58,7 +58,7 @@ export const useAuthStore = () => {
                 }
             }));
         } catch (error) {
-            console.log({ error });            
+            console.error({ error });            
             startLogout();
         }
     };
@@ -89,7 +89,7 @@ export const useAuthStore = () => {
                 }
         }));
         } catch (error) {
-            console.log(error);
+            console.error(error);
             
             const errorMessage = error?.response?.data.message ||
                                  (error?.response?.data.errors && Object.values(error.response.data.errors).map((err) => err.msg).join(", ") ||
@@ -123,7 +123,7 @@ export const useAuthStore = () => {
                                  (error?.response?.data?.errors && Object.values(error.response.data.errors).map((err) => err.msg).join(", ")) ||
                                  "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
-            console.log(error);
+            console.error(error);
             dispatch(onLogout(errorMessage));
         }
     };
@@ -134,7 +134,6 @@ export const useAuthStore = () => {
         try {
             const { data } = await anahuacApi.patch('/auth/reset-password', { email });
             dispatch(onSetChecking(data.status || 'token-expired'));
-            console.log({ data });
         } catch (error) {
             console.error(error);
 
@@ -169,8 +168,7 @@ export const useAuthStore = () => {
         dispatch(onChecking());
 
         try {
-            const { data } = await anahuacApi.patch(`/auth/reset-password/${ token }`, { password });
-            console.log( data.message );
+            await anahuacApi.patch(`/auth/reset-password/${ token }`, { password });
             dispatch(onSetChecking('reset-success'));
         } catch (error) {
             console.error(error);

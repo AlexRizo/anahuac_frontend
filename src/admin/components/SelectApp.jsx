@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Popover, PopoverContent, PopoverTrigger, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui";
+import { Button, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
 import { useAppStore } from "@/hooks";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";

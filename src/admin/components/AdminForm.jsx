@@ -36,7 +36,7 @@ export const AdminForm = (
         }).refine(value => ['ADMIN_ROLE', 'MOD_ROLE', 'APPLICATOR_ROLE'].includes(value), { message: 'El perfil no es válido.' })
     });
     
-    const { control, handleSubmit, formState: { errors }, reset, ...form } = useForm({
+    const { control, handleSubmit, formState: { errors }, ...form } = useForm({
         defaultValues,
         resolver: zodResolver(zodSchema)
     });

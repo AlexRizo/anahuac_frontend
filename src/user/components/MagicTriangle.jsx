@@ -16,7 +16,6 @@ export const MagicTriangle = ({ response, setResponse }) => {
     const handleChange = (e, origin) => {
         if (e.target.value > 9) return;
         setResponse([{ ...response[0], [origin]: e.target.value }]);
-        console.log(response);
     };
 
     return (

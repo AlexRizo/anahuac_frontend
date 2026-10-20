@@ -15,11 +15,10 @@ export const useResultStore = () => {
             
             const allAnswers = [...lecturaAnswers, ...matematicasAnswers, ...pensamientoAnswers].sort((a, b) => a.questionNumber - b.questionNumber);
 
-            console.log({ allAnswers});
             
             dispatch(onLoadingResult({ aspirant: data.results.aspirant, allAnswers: allAnswers }));
         } catch (error) {
-            console.log(error);
+            console.error(error);
             dispatch(onLoading('loaded'));
         }
     }

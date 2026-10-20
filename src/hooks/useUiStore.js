@@ -14,7 +14,7 @@ export const useUiStore = () => {
             alert(`Se ha actualizado el estado del sistema. El acceso para los alumnos queda ${ value ? "habilitado" : "inhabilitado" }.`);
             return value;
         } catch (error) {
-            console.log({ error });
+            console.error({ error });
             alert('No se ha podido actualizar el estado del sistema. Error: ' + error.response.data.message);
             return !value;
         }
@@ -28,7 +28,7 @@ export const useUiStore = () => {
             }
         } catch (error) {
             console.warn('No se ha podido comunicar con el servicio. Error: 500');
-            console.log({error});
+            console.error({error});
         }
     };
 

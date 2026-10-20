@@ -1,4 +1,4 @@
-import { Activity, CalendarPlus, CirclePlus, ClipboardList, FileBadge, Users } from "lucide-react"
+import { CalendarPlus, CirclePlus, ClipboardList, FileBadge, Users } from "lucide-react"
 import { CardOption } from "../components"
 
 const dashboardOptions = [

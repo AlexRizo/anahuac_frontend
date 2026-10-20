@@ -21,7 +21,7 @@ export const NewApplicationPage = () => {
             </div>
             <div className="px-14 py-6 w-full h-[calc(100%-101px)] flex items-center justify-center animate__animated animate__zoomIn">
                 {
-                    !!activeApplication ? (
+                    activeApplication ? (
                         <div>
                             <CustomAlert
                                 title="Nueva aplicación creada"

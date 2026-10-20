@@ -14,7 +14,7 @@ export const useKeysStore = () => {
             (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
             "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
-        console.log(message);
+        console.error(message);
         dispatch(setMessage(errorMessage));
 
         if (useToast) {

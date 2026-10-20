@@ -23,7 +23,7 @@ export const useAppStore = () => {
                              (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
                              "Ha ocurrido un error inesperado. Inténtalo de nuevo o más tarde. Si el error persiste comunícate con el administrador. (ERROR: 500)";
 
-        console.log(message);
+        console.error(message);
         dispatch(setMessage(errorMessage));
         if (setToast) {
             toast({
@@ -65,7 +65,6 @@ export const useAppStore = () => {
 
         try {
             const { data } = await anahuacApi.get('/application/getappsbydate', { params: { page, from, to, app } });
-            console.log({data});
             dispatch(onLoadApplications(data.applications));
             return data.pages; // ? return the number of pages;
         } catch (error) {

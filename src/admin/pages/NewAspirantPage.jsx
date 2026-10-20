@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { AspirantAdd, AspirantConfirm } from '../views'
 import { CustomAlert } from '../components'
 import { useAspirantsStore } from '@/hooks';
@@ -21,7 +21,7 @@ export const NewAspirantPage = () => {
             </div>
             <div className="px-14 py-6 w-full h-[calc(100%-101px)] flex items-center justify-center animate__animated animate__zoomIn overflow-y-auto">
             {
-                    !!activeAspirant ? (
+                    activeAspirant ? (
                         <div>
                             <CustomAlert
                                 title="Nuevo aspirante creado"

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const FourDigitsPrompt = ({ response = [], setResponse }) => {
     const [used, setUsed] = useState([]);

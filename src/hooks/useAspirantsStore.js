@@ -9,7 +9,7 @@ export const useAspirantsStore = () => {
     const { activeAspirant, aspirants, loading, message, ok } = useSelector((state) => state.aspirant);
 
     const onSetMessage = (message, setToast = true) => {
-        console.log(message);
+        console.error(message);
         
         const errorMessage = message?.response?.data.message ||
             (message?.response?.data?.errors && Object.values(message.response.data.errors).map((err) => err.msg).join(", ")) ||
