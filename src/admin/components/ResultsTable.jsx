@@ -37,14 +37,17 @@ import debounce from "lodash.debounce";
 import { pdf } from "@react-pdf/renderer";
 import { useResultStore } from "@/hooks";
 import { PDFSecundaria } from "./PDFSecundaria";
-import { PDFSecundariaRejected } from "./PDFSecundariaRejected";
 import { Docx } from "./docs/Docx";
 import {
   getTotalScore,
   isAdmitted,
   PREPARATORIA_CUTOFFS,
-  SECUNDARIA_CUTOFFS,
 } from "@/helpers/admission";
+import {
+  getSecundariaPlan,
+  MissingGradeError,
+} from "@/helpers/secundariaLetters";
+import { notifyMissingGrade } from "@/admin/helpers";
 
 export const ResultsTable = () => {
   const { aspirants, startLoadingAspirants, loading, startClearState } =
@@ -147,13 +150,19 @@ export const ResultsTable = () => {
         <PDFPrepaRejected {...docData} />
       );
     } else {
-      isAccepted = totalScore >= SECUNDARIA_CUTOFFS.satisfactorio;
+      // ! Mismos documentos que el Word: sin grado (desde 500 puntos) no se genera y se avisa
+      let plan;
+      try {
+        plan = getSecundariaPlan({ totalScore, grade: aspirant.grade });
+      } catch (error) {
+        if (error instanceof MissingGradeError) {
+          notifyMissingGrade();
+          return;
+        }
+        throw error;
+      }
 
-      document = isAccepted ? (
-        <PDFSecundaria {...docData} />
-      ) : (
-        <PDFSecundariaRejected {...docData} />
-      );
+      document = <PDFSecundaria {...docData} plan={plan} />;
     }
 
     const blob = await pdf(document).toBlob();

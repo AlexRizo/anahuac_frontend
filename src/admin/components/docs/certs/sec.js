@@ -8,17 +8,13 @@ import {
   TextRun,
 } from "docx";
 import { baseStyles, paragraphSpacing } from "../styles/doc.styles";
-import { localCustom } from "@/admin/helpers";
-import { format } from "date-fns";
+import { longDate } from "@/admin/helpers";
 import {
   getSecundariaPlan,
   parseMarkup,
 } from "@/helpers/secundariaLetters";
 import signatureImage from "../assets/firma-secundaria.jpg";
 import checkImage from "../assets/check.png";
-
-const longDate = (date) =>
-  format(date, "dd 'de' MMMM 'de' y", { locale: localCustom }).toLocaleLowerCase();
 
 const runs = (text, values) =>
   parseMarkup(text, values).map(

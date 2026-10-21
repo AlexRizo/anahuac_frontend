@@ -11,7 +11,7 @@ import {
   getTotalScore,
 } from "@/helpers/admission";
 import { MissingGradeError } from "@/helpers/secundariaLetters";
-import { toast } from "@/hooks/use-toast";
+import { notifyMissingGrade } from "@/admin/helpers";
 
 export const Docx = ({
   aspirant,
@@ -61,12 +61,7 @@ export const Docx = ({
       }
     } catch (error) {
       if (error instanceof MissingGradeError) {
-        toast({
-          title: "Falta el grado del aspirante",
-          description:
-            "La carta depende del grado (1°, 2° o 3°) al que solicita ingreso. Captúralo en la edición del aspirante y vuelve a generar el documento.",
-          variant: "destructive",
-        });
+        notifyMissingGrade();
         return;
       }
       throw error;

@@ -9,11 +9,49 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
-import localCustom from "../helpers/localCustom";
-import { useEffect, useState } from "react";
-import { format } from "date-fns";
+import { longDate } from "../helpers/longDate";
+import { getSecundariaResult, getTotalScore } from "@/helpers/admission";
+import { parseMarkup } from "@/helpers/secundariaLetters";
 
-import { getSecundariaResult } from "@/helpers/admission";
+// ? Mismo contenido que la carta Word (certs/sec.js): los textos salen de getSecundariaPlan, que el llamador calcula
+// ? (lanza MissingGradeError si falta el grado) y pasa en `plan`.
+
+const rowStyle = {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 4,
+};
+
+const Bullet = ({ level = 0, children }) => (
+  <View style={{ ...rowStyle, paddingLeft: level ? 15 : 0 }}>
+    <Svg viewBox="0 0 20 20" width={5} height={5}>
+      <Circle cx="10" cy="10" r="9" fill="black" />
+    </Svg>
+    <Text>{children}</Text>
+  </View>
+);
+
+const Check = ({ children }) => (
+  <View style={rowStyle}>
+    <Text>{children}</Text>
+    <Image src={"/img/pdf/check.png"} style={{ width: 14, height: "auto" }} />
+  </View>
+);
+
+const Rich = ({ text, values }) => (
+  <>
+    {parseMarkup(text, values).map(({ text: part, bold }, i) =>
+      bold ? (
+        <Text key={i} style={{ fontWeight: 600 }}>
+          {part}
+        </Text>
+      ) : (
+        part
+      )
+    )}
+  </>
+);
 
 export const PDFSecundaria = ({
   aspirant = "",
@@ -22,14 +60,14 @@ export const PDFSecundaria = ({
   pensamientoScore = 0,
   date,
   sex,
+  plan,
 }) => {
-  const [totalScore, setTotalScore] = useState(
-    lecturaScore + matematicasScore + pensamientoScore
+  const totalScore = getTotalScore(
+    lecturaScore,
+    matematicasScore,
+    pensamientoScore
   );
-
-  useEffect(() => {
-    setTotalScore(lecturaScore + matematicasScore + pensamientoScore);
-  }, [lecturaScore, matematicasScore, pensamientoScore]);
+  const isMale = sex === "MASCULINO";
 
   Font.register({
     family: "Inter",
@@ -54,149 +92,81 @@ export const PDFSecundaria = ({
     gloablFont: {
       fontFamily: "Inter",
     },
-    header: {
-      display: "flex",
-      flexDirection: "column",
-      position: "relative",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    headerImages: {
-      position: "relative",
-      marginTop: 15,
-      width: "100%",
-      zIndex: 1,
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      paddingHorizontal: 65,
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 700,
-      marginTop: 30,
-    },
-    subTitle: {
-      fontSize: 30,
-      fontWeight: 900,
-    },
-    textWrap: {
-      display: "flex",
-      flexWrap: "wrap",
-      flexGrow: 1,
-      flexBasis: 0,
-      padding: 2,
-    },
   });
 
-  const validateScoreByExam = () => getSecundariaResult(totalScore);
+  const values = {
+    fecha: longDate(date),
+    resultado: getSecundariaResult(totalScore),
+    candidato: isMale ? "candidato" : "candidata",
+  };
+
+  const { steps } = plan;
 
   return (
     <Document style={styles.gloablFont}>
-      <Page size="LETTER">
-        <View
-          style={{
-            marginTop: 180,
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-            paddingLeft: 65,
-            paddingRight: 65,
-            textAlign: "justify",
-            fontSize: 10,
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <Text>
-            {sex === "MASCULINO" ? "Estimado" : "Estimada"}:{" "}
-            <Text style={{ textTransform: "uppercase", fontWeight: 600 }}>
-              {aspirant}
-            </Text>
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>
-            A través de estas líneas quiero reconocer tu esfuerzo y compartirte
-            que el resultado en el examen de admisión que presentaste el&nbsp;
-            <Text style={{ fontWeight: 600 }}>
-              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase()}
-              &nbsp;
-            </Text>
-            es&nbsp;
-            <Text style={{ fontWeight: 600 }}>{validateScoreByExam()}</Text>, lo
-            cual te hace {sex === "MASCULINO" ? "candidato " : "candidata "}a
-            ser parte de la{" "}
-            <Text style={{ fontWeight: 600 }}>Secundaria Anáhuac.&nbsp;</Text>
-            Estamos conscientes que las habilidades que demostraste son producto
-            de tu esfuerzo y la dedicación de tus padres.
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>
-            Estás por concluir la&nbsp;
-            <Text style={{ fontWeight: 600 }}>Primaria</Text>, una etapa de
-            muchos aprendizajes y logros que te permitirá iniciar la{" "}
-            <Text style={{ fontWeight: 600 }}>Secundaria</Text>, un periodo de
-            gran trascendencia para tu futuro personal y profesional.
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>
-            En&nbsp;
-            <Text style={{ fontWeight: 600 }}>Secundaria Anáhuac,&nbsp;</Text>
-            estamos muy contentos que formes parte de nuestra familia Anáhuac,
-            trabajando juntos podemos ayudarte a adquirir las herramientas que
-            te permitirán tener una mejor y más amplia visión del mundo que te
-            rodea, además acceder a un futuro con mejores oportunidades.
-          </Text>
-
-          <Text style={{ marginTop: 8 }}>¡Nos vemos pronto!</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 15,
-            fontSize: 10,
-            marginTop: 60,
-            // position: "absolute",
-            // bottom: 110,
-            // left: "50%",
-            // transform: "translateX(-100%)",
-          }}
-        >
+      {plan.letter && (
+        <Page size="LETTER" style={{ fontSize: 10 }}>
           <View
             style={{
+              marginTop: 180,
               display: "flex",
               flexDirection: "column",
-              gap: 4,
-              alignItems: "center",
+              gap: 10,
+              paddingLeft: 65,
+              paddingRight: 65,
+              textAlign: "justify",
+              position: "relative",
+              zIndex: 1,
             }}
           >
             <Text>
-              Colima, Col. a{" "}
-              <Text style={{ fontWeight: 600 }}>
-                {format(new Date(), "dd 'de' MMMM 'del' y", {
-                  locale: localCustom,
-                }).toLocaleLowerCase()}
+              {isMale ? "Estimado" : "Estimada"}{" "}
+              <Text style={{ textTransform: "uppercase", fontWeight: 600 }}>
+                {aspirant}
               </Text>
             </Text>
-            <Text>Atentamente</Text>
+
+            {plan.letter.map((text, i) => (
+              <Text key={i} style={{ marginTop: 8 }}>
+                <Rich text={text} values={values} />
+              </Text>
+            ))}
           </View>
-          <Image src="/img/pdf/firma-secundaria.jpg" style={{ width: 200 }} />
           <View
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 4,
               alignItems: "center",
+              gap: 12,
+              marginTop: 30,
             }}
           >
-            <Text>Rosalba Rodríguez Barragán</Text>
-            <Text>Directora Académica</Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+                alignItems: "center",
+              }}
+            >
+              <Text>Colima, Col. a {longDate(new Date())}</Text>
+              <Text>Atentamente</Text>
+            </View>
+            <Image src="/img/pdf/firma-secundaria.jpg" style={{ height: 55 }} />
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+                alignItems: "center",
+              }}
+            >
+              <Text>Rosalba Rodríguez Barragán</Text>
+              <Text>Directora Académica</Text>
+            </View>
           </View>
-        </View>
-      </Page>
+        </Page>
+      )}
 
       <Page style={{ fontSize: 10 }} size="LETTER">
         <View style={{ paddingHorizontal: 40, marginTop: 140 }}>
@@ -207,17 +177,15 @@ export const PDFSecundaria = ({
               marginBottom: 20,
             }}
           >
-            RESULTADOS DE EXAMEN DE ADMISIÓN
+            RESULTADOS DEL EXAMEN DE ADMISIÓN
           </Text>
           <Text>
-            Nombre {sex === "MASCULINO" ? "del alumno" : "de la alumna"}:{" "}
+            Nombre {isMale ? "del alumno" : "de la alumna"}:{" "}
             <Text style={{ fontWeight: 700 }}>{aspirant}</Text>
           </Text>
           <Text>
             Fecha de aplicación:{" "}
-            <Text style={{ fontWeight: 700 }}>
-              {format(date, "dd 'de' MMMM 'del' y", { locale: localCustom }).toLocaleLowerCase()}
-            </Text>
+            <Text style={{ fontWeight: 700 }}>{longDate(date)}</Text>
           </Text>
           <View
             style={{
@@ -269,210 +237,38 @@ export const PDFSecundaria = ({
             </View>
           </View>
         </View>
-        <View style={{ paddingHorizontal: 40 }}>
-          <Text style={{ marginBottom: 20 }}>
-            Ya llevas 2 de los 3 pasos para ser parte de la&nbsp;
-            <Text style={{ fontWeight: 700 }}>Secundaria Anáhuac</Text>:
-          </Text>
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Text>Examen de Admisión</Text>
-            <Image
-              src={"/img/pdf/check.png"}
-              style={{ width: 14, height: "auto" }}
-            />
-          </View>
-
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Text>Entrega de Resultados</Text>
-            <Image
-              src={"/img/pdf/check.png"}
-              style={{ width: 14, height: "auto" }}
-            />
-          </View>
-
-          <Text style={{ marginBottom: 20 }}>Inscripción (previa cita)</Text>
-
-          <Text>Para la inscripción necesitamos:</Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>Llenado de ficha de inscripción</Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>Recoger fichas del banco y realizar pago</Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>Entregar documentación (original y dos copias):</Text>
-          </View>
-
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              paddingLeft: 15,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>Certificado de Primaria</Text>
-          </View>
-
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              paddingLeft: 15,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>
-              Carta de buena conducta (No aplica para Colegio Anáhuac)
+        {/* ? Con menos de 500 solo va la hoja de resultados, sin pasos */}
+        {steps && (
+          <View style={{ paddingHorizontal: 40 }}>
+            <Text style={{ marginBottom: 20 }}>
+              Ya llevas 2 de los {steps.total} pasos para ser parte de la{" "}
+              <Text style={{ fontWeight: 700 }}>Secundaria Anáhuac:</Text>
             </Text>
-          </View>
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              paddingLeft: 15,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>Acta de Nacimiento</Text>
-          </View>
+            <Check>Examen de admisión</Check>
+            <Check>Entrega de resultados</Check>
+            {steps.pending.map((text) => (
+              <Text key={text}>{text}</Text>
+            ))}
 
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              paddingLeft: 15,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>CURP</Text>
-          </View>
-
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              paddingLeft: 15,
-            }}
-          >
-            <Svg viewBox="0 0 20 20" width={5} height={5}>
-              <Circle cx="10" cy="10" r="9" fill="black" />
-            </Svg>
-            <Text>4 fotografías tamaño infantil</Text>
-          </View>
-
-          <Text>
-            Posteriormente se realizará el Examen de Ubicación de Idiomas y la
-            Sesión de Inducción
-          </Text>
-        </View>
-        {/* <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 15,
-            position: "absolute",
-            bottom: 110,
-            left: "50%",
-            transform: "translateX(-100%)",
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-              alignItems: "center",
-            }}
-          >
-            <Text>
-              Colima, Col. a{" "}
-              <Text style={{ fontWeight: 600 }}>
-                {format(new Date(), "dd 'de' MMMM 'del' y", {
-                  locale: localCustom,
-                })}
-              </Text>
+            <Text style={{ marginBottom: 20 }}>
+              Inscripción (previa cita en control escolar)
             </Text>
-            <Text>Atentamente</Text>
+
+            <Text>Para la inscripción necesitamos:</Text>
+            <Bullet>Llenado de ficha de inscripción.</Bullet>
+            <Bullet>Recoger fichas del banco y realizar el pago.</Bullet>
+            <Bullet>Entregar documentación (dos copias):</Bullet>
+            {steps.enrollmentDocuments.map((text) => (
+              <Bullet key={text} level={1}>
+                {text}
+              </Bullet>
+            ))}
+
+            <Text style={{ marginTop: 10 }}>{steps.closing}</Text>
           </View>
-          <Image src="/img/pdf/firma-secundaria.jpg" style={{ height: 45 }} />
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-              alignItems: "center",
-            }}
-          >
-            <Text>Rosalba Rodríguez Barragán</Text>
-            <Text>Directora Académica</Text>
-          </View>
-        </View> */}
+        )}
       </Page>
     </Document>
   );
