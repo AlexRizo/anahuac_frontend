@@ -13,6 +13,8 @@ import localCustom from "../helpers/localCustom";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
+import { getSecundariaResult } from "@/helpers/admission";
+
 export const PDFSecundaria = ({
   aspirant = "",
   lecturaScore = 0,
@@ -88,15 +90,7 @@ export const PDFSecundaria = ({
     },
   });
 
-  const validateScoreByExam = () => {
-    return totalScore >= 800
-      ? "sobresaliente"
-      : totalScore <= 799 && totalScore >= 600
-      ? "satisfactorio"
-      : totalScore <= 599 && totalScore >= 500
-      ? "aún no satisfactorio"
-      : "insuficiente";
-  };
+  const validateScoreByExam = () => getSecundariaResult(totalScore);
 
   return (
     <Document style={styles.gloablFont}>

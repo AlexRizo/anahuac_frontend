@@ -10,6 +10,7 @@ import {
 import { baseStyles, paragraphSpacing } from "../styles/doc.styles";
 import { localCustom } from "@/admin/helpers";
 import { format } from "date-fns";
+import { PREPARATORIA_CUTOFFS } from "@/helpers/admission";
 import signatureImage from "../assets/firma-prepa.png";
 import checkImage from "../assets/check.png";
 
@@ -163,11 +164,11 @@ export const getPrepaCert = async (
 
   const sections = [];
 
-  if (totalScore >= 780) {
+  if (totalScore >= PREPARATORIA_CUTOFFS.muySatisfactorio) {
     sections.push(CongratsFile);
   }
 
-  if (totalScore >= 650) {
+  if (totalScore >= PREPARATORIA_CUTOFFS.satisfactorio) {
     sections.push({
       properties: {},
       children: [

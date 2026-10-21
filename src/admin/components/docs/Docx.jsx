@@ -5,6 +5,13 @@ import { FileText } from "lucide-react";
 import PropTypes from "prop-types";
 import { getPrepaCert } from "./certs/prepa";
 import { getSecundariaCert } from "./certs/sec";
+import {
+  getPrepaResult,
+  getSecundariaResult,
+  getTotalScore,
+} from "@/helpers/admission";
+import { MissingGradeError } from "@/helpers/secundariaLetters";
+import { toast } from "@/hooks/use-toast";
 
 export const Docx = ({
   aspirant,
@@ -12,6 +19,7 @@ export const Docx = ({
   matematicasScore,
   pensamientoScore,
   level,
+  grade,
   date,
   sex,
 }) => {
@@ -20,54 +28,52 @@ export const Docx = ({
 
     const isMale = sex === "MASCULINO";
 
-    const totalScore =
-      (lecturaScore || 0) + (matematicasScore || 0) + (pensamientoScore || 0);
+    const totalScore = getTotalScore(
+      lecturaScore,
+      matematicasScore,
+      pensamientoScore
+    );
 
-    let examIs = "";
-
-    if (level === "PREPARATORIA") {
-      examIs =
-        totalScore >= 1000
-          ? "sobresaliente"
-          : totalScore <= 999 && totalScore >= 780
-          ? "muy satisfactorio"
-          : totalScore <= 779 && totalScore >= 650
-          ? "satisfactorio"
-          : "aún no satisfactorio";
-
-      doc = await getPrepaCert(
-        aspirant,
-        lecturaScore,
-        matematicasScore,
-        pensamientoScore,
-        totalScore,
-        isMale,
-        date,
-        examIs
-      );
-    } else if (level === "SECUNDARIA") {
-      examIs =
-        totalScore >= 800
-          ? "sobresaliente"
-          : totalScore <= 799 && totalScore >= 600
-          ? "satisfactorio"
-          : totalScore <= 599 && totalScore >= 500
-          ? "aún no satisfactorio"
-          : "insuficiente";
-      doc = await getSecundariaCert(
-        aspirant,
-        lecturaScore,
-        matematicasScore,
-        pensamientoScore,
-        totalScore,
-        isMale,
-        date,
-        examIs
-      );
+    try {
+      if (level === "PREPARATORIA") {
+        doc = await getPrepaCert(
+          aspirant,
+          lecturaScore,
+          matematicasScore,
+          pensamientoScore,
+          totalScore,
+          isMale,
+          date,
+          getPrepaResult(totalScore)
+        );
+      } else if (level === "SECUNDARIA") {
+        doc = await getSecundariaCert({
+          aspirant,
+          lecturaScore,
+          matematicasScore,
+          pensamientoScore,
+          totalScore,
+          grade,
+          isMale,
+          date,
+          examIs: getSecundariaResult(totalScore),
+        });
+      }
+    } catch (error) {
+      if (error instanceof MissingGradeError) {
+        toast({
+          title: "Falta el grado del aspirante",
+          description:
+            "La carta depende del grado (1°, 2° o 3°) al que solicita ingreso. Captúralo en la edición del aspirante y vuelve a generar el documento.",
+          variant: "destructive",
+        });
+        return;
+      }
+      throw error;
     }
 
     const blob = await Packer.toBlob(doc);
-    saveAs(blob, `${aspirant.trim().replace(" ", "_")}.docx`);
+    saveAs(blob, `${aspirant.trim().replaceAll(" ", "_")}.docx`);
   };
 
   return (
@@ -90,4 +96,5 @@ Docx.propTypes = {
   date: PropTypes.string,
   sex: PropTypes.oneOf(["MASCULINO", "FEMENINO"]),
   level: PropTypes.oneOf(["PREPARATORIA", "SECUNDARIA"]),
+  grade: PropTypes.number,
 };

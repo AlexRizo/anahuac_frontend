@@ -13,6 +13,8 @@ import localCustom from "../helpers/localCustom";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
+import { getPrepaResult } from "@/helpers/admission";
+
 export const PDFPrepa = ({
   aspirant = "",
   lecturaScore = 0,
@@ -88,16 +90,7 @@ export const PDFPrepa = ({
     },
   });
 
-  const validateScoreByExam = () => {
-    return totalScore >= 1000
-      ? "sobresaliente"
-      : totalScore <= 999 && totalScore >= 780
-      ? "muy satisfactorio"
-      : totalScore <= 779 && totalScore >= 650
-      ? "satisfactorio"
-      : "aún no satisfactorio";
-    // return totalScore >= 800 ? 'sobresaliente' : totalScore <= 799 && totalScore >= 600 ? 'satisfactorio' : 'insuficiente';
-  };
+  const validateScoreByExam = () => getPrepaResult(totalScore);
 
   return (
     <Document style={styles.gloablFont}>

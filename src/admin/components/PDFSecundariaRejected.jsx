@@ -13,6 +13,8 @@ import localCustom from "../helpers/localCustom";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
+import { SECUNDARIA_CUTOFFS } from "@/helpers/admission";
+
 export const PDFSecundariaRejected = ({
   aspirant = "",
   lecturaScore = 0,
@@ -90,7 +92,7 @@ export const PDFSecundariaRejected = ({
 
   return (
     <Document style={styles.gloablFont}>
-      {totalScore >= 500 && (
+      {totalScore >= SECUNDARIA_CUTOFFS.aunNoSatisfactorio && (
         <Page size="LETTER" style={{ fontSize: 10 }}>
           <View
             style={{
@@ -282,7 +284,7 @@ export const PDFSecundariaRejected = ({
             </View>
           </View>
         </View>
-        {totalScore >= 500 && (
+        {totalScore >= SECUNDARIA_CUTOFFS.aunNoSatisfactorio && (
           <>
             <View style={{ paddingHorizontal: 40 }}>
               <Text style={{ marginBottom: 20 }}>

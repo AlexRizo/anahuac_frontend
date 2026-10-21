@@ -39,6 +39,12 @@ import { useResultStore } from "@/hooks";
 import { PDFSecundaria } from "./PDFSecundaria";
 import { PDFSecundariaRejected } from "./PDFSecundariaRejected";
 import { Docx } from "./docs/Docx";
+import {
+  getTotalScore,
+  isAdmitted,
+  PREPARATORIA_CUTOFFS,
+  SECUNDARIA_CUTOFFS,
+} from "@/helpers/admission";
 
 export const ResultsTable = () => {
   const { aspirants, startLoadingAspirants, loading, startClearState } =
@@ -126,12 +132,14 @@ export const ResultsTable = () => {
       date: aspirant.application.date,
     };
 
+    const totalScore = getTotalScore(
+      aspirant?.examResult?.lecturaScore,
+      aspirant?.examResult?.matematicasScore,
+      aspirant?.examResult?.pensamientoScore
+    );
+
     if (aspirant.app_origin === "PREPARATORIA") {
-      isAccepted =
-        (aspirant?.examResult?.lecturaScore || 0) +
-          (aspirant?.examResult?.matematicasScore || 0) +
-          (aspirant?.examResult?.pensamientoScore || 0) >=
-        650;
+      isAccepted = totalScore >= PREPARATORIA_CUTOFFS.satisfactorio;
 
       document = isAccepted ? (
         <PDFPrepa {...docData} />
@@ -139,11 +147,7 @@ export const ResultsTable = () => {
         <PDFPrepaRejected {...docData} />
       );
     } else {
-      isAccepted =
-        (aspirant?.examResult?.lecturaScore || 0) +
-          (aspirant?.examResult?.matematicasScore || 0) +
-          (aspirant?.examResult?.pensamientoScore || 0) >=
-        600;
+      isAccepted = totalScore >= SECUNDARIA_CUTOFFS.satisfactorio;
 
       document = isAccepted ? (
         <PDFSecundaria {...docData} />
@@ -172,23 +176,15 @@ export const ResultsTable = () => {
     resultsMenuRef.current.click();
   };
 
-  const validateAppOrigin = (aspirant) => {
-    if (aspirant.app_origin === "PREPARATORIA") {
-      return (
-        (aspirant.examResult?.lecturaScore || 0) +
-          (aspirant.examResult?.matematicasScore || 0) +
-          (aspirant.examResult?.pensamientoScore || 0) >=
-        650
-      );
-    } else {
-      return (
-        (aspirant.examResult?.lecturaScore || 0) +
-          (aspirant.examResult?.matematicasScore || 0) +
-          (aspirant.examResult?.pensamientoScore || 0) >=
-        500
-      );
-    }
-  };
+  const validateAppOrigin = (aspirant) =>
+    isAdmitted(
+      aspirant.app_origin,
+      getTotalScore(
+        aspirant.examResult?.lecturaScore,
+        aspirant.examResult?.matematicasScore,
+        aspirant.examResult?.pensamientoScore
+      )
+    );
 
   useEffect(() => {
     if (result) {
@@ -329,6 +325,7 @@ export const ResultsTable = () => {
                     date={aspirant?.application?.date}
                     sex={aspirant?.sex}
                     level={aspirant?.app_origin}
+                    grade={aspirant?.grade}
                   />
                 </TableCell>
               </TableRow>
