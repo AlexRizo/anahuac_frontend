@@ -49,7 +49,14 @@ export const AspirantAdd = () => {
             invalid_type_error: '* Introduce una fecha válida.' ,
         })
         .min(new Date("1900-01-01"), '* Introduce una fecha válida.'),
-        old_school: z.string().min(1, '* Introduce tu escuela de procedencia.')
+        old_school: z.string().min(1, '* Introduce tu escuela de procedencia.'),
+        grade: z.enum(['1', '2', '3', '']).optional(),
+    }).superRefine((data, ctx) => {
+        // ? El grado es obligatorio solo si la aplicación elegida es de secundaria
+        const app = applications.find((app) => app.id === data.key);
+        if (app?.origin === 'SECUNDARIA' && !data.grade) {
+            ctx.addIssue({ code: 'custom', path: ['grade'], message: '* Selecciona el grado al que solicita ingreso.' });
+        }
     });
     
     const { control, formState: { errors }, handleSubmit, ...form } = useForm({
@@ -60,7 +67,8 @@ export const AspirantAdd = () => {
             sex: 'MASCULINO',
             key: '',
             birthdate: undefined,
-            old_school: ''
+            old_school: '',
+            grade: ''
         },
         resolver: zodResolver(zodSchema)
     });
@@ -69,8 +77,11 @@ export const AspirantAdd = () => {
         startLoadingAllApps(true /* activeApps */);
     }, []);
 
+    const isSecundaria = applications.find((app) => app.id === form.watch('key'))?.origin === 'SECUNDARIA';
+
     const onSubmit = handleSubmit((data) => {
-        startManualSavingAspirant(data);
+        const { grade, ...rest } = data;
+        startManualSavingAspirant({ ...rest, ...(isSecundaria && grade ? { grade: Number(grade) } : {}) });
     });
 
     const parseDate = (value) => {
@@ -236,6 +247,42 @@ export const AspirantAdd = () => {
                                     </FormItem>
                                 )}
                         />
+                        {
+                            isSecundaria && (
+                                <FormField
+                                    name="grade"
+                                    control={ control }
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Grado al que solicita ingreso:</FormLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    onValueChange={ field.onChange }
+                                                    value={ field.value }
+                                                    className="flex gap-10"
+                                                >
+                                                    {
+                                                        ['1', '2', '3'].map((grade) => (
+                                                            <FormItem key={ grade } className="flex items-center space-x-3 space-y-0">
+                                                                <FormControl>
+                                                                    <RadioGroupItem value={ grade } />
+                                                                </FormControl>
+                                                                <FormLabel className="font-normal">
+                                                                    { grade }°
+                                                                </FormLabel>
+                                                            </FormItem>
+                                                        ))
+                                                    }
+                                                </RadioGroup>
+                                            </FormControl>
+                                            <FormMessage>
+                                                { errors.grade && errors.grade.message }
+                                            </FormMessage>
+                                        </FormItem>
+                                    )}
+                                />
+                            )
+                        }
                         {
                             message && (
                                 <CustomAlert variant='destructive' title="Ha ocurrido un error." message={ message } />
