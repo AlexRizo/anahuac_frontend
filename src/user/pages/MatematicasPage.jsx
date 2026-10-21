@@ -117,11 +117,11 @@ export const MatematicasPage = () => {
   };
 
   const isEcuation = useMemo(
-    () => activeQuestion.question.split(/(\[.*?\])/g),
-    [activeQuestion.question]
+    () => activeQuestion?.question?.split(/(\[.*?\])/g) ?? [],
+    [activeQuestion?.question]
   );
 
-  if (isLoadingData) {
+  if (isLoadingData || !activeQuestion) {
     return <LoadingQuestionPage />;
   }
 
