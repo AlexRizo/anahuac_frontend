@@ -93,7 +93,7 @@ export const PensamientoPage = () => {
     }, 15000);
   };
 
-  if (isLoadingData) {
+  if (isLoadingData || !activeQuestion) {
     return <LoadingQuestionPage />;
   }
 
