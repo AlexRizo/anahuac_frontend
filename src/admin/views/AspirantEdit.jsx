@@ -25,6 +25,8 @@ import {
 import { useAspirantsStore } from "@/hooks";
 import { parseDateForInput } from "../helpers";
 import { CustomAlert } from "../components";
+import { SchoolOriginField } from "@/components";
+import { buildSchoolPayload, getSchoolFormValues, validateSchoolFields } from "@/helpers/schools";
 import { useParams } from "react-router-dom";
 
 export const AspirantEdit = () => {
@@ -45,9 +47,9 @@ export const AspirantEdit = () => {
             invalid_type_error: '* Introduce una fecha válida.' ,
         })
         .min(new Date("1900-01-01"), '* Introduce una fecha válida.'),
-        old_school: z.string().min(1, '* Introduce tu escuela de procedencia.'),
-        grade: z.enum(['1', '2', '3', '']).optional(),
-    });
+        school_option: z.string().optional(),
+        old_school: z.string(),
+    }).superRefine((data, ctx) => validateSchoolFields(data, ctx, aspirant?.app_origin === 'SECUNDARIA'));
     
     const { control, formState: { errors }, handleSubmit, reset, ...form } = useForm({
         defaultValues: {
@@ -57,8 +59,7 @@ export const AspirantEdit = () => {
             sex: aspirant?.sex || '',
             key: aspirant?.aspirant_id || '',
             birthdate: undefined,
-            old_school: aspirant?.origin || '',
-            grade: aspirant?.grade ? String(aspirant.grade) : ''
+            ...getSchoolFormValues(aspirant)
         },
         resolver: zodResolver(zodSchema)
     });
@@ -76,16 +77,15 @@ export const AspirantEdit = () => {
                 sex: aspirant.sex,
                 key: aspirant.aspirant_id,
                 birthdate: parseDateForInput(new Date(aspirant.birthdate)),
-                old_school: aspirant.origin,
-                grade: aspirant.grade ? String(aspirant.grade) : ''
+                ...getSchoolFormValues(aspirant)
             });
         }
     }, [aspirant]);
 
-    const onSubmit = handleSubmit((data) => {
-        const { grade, ...rest } = data;
-        // ? El grado solo existe en secundaria; vacío = no se cambia
-        startUpdateAspirant({ id: aspirantId, ...rest, ...(grade ? { grade: Number(grade) } : {}) });
+    const isSecundaria = aspirant?.app_origin === 'SECUNDARIA';
+
+    const onSubmit = handleSubmit(({ school_option, old_school, ...rest }) => {
+        startUpdateAspirant({ id: aspirantId, ...rest, ...buildSchoolPayload({ school_option, old_school }, isSecundaria) });
     });
 
     const parseDate = (value) => {
@@ -232,58 +232,12 @@ export const AspirantEdit = () => {
                                 </FormMessage>
                             </div>
                         </div>
-                        <FormField
-                                control={ control }
-                                name="old_school"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Escuela de Procedencia</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Escuela de procedencia" { ...field } type="text" className="transition" />
-                                        </FormControl>
-                                        <FormMessage >
-                                            { errors.old_school && errors.old_school.message }
-                                        </FormMessage>
-                                    </FormItem>
-                                )}
+                        <SchoolOriginField
+                            control={ control }
+                            errors={ errors }
+                            isSecundaria={ isSecundaria }
+                            schoolOption={ form.watch('school_option') }
                         />
-                        {
-                            aspirant.app_origin === 'SECUNDARIA' && (
-                                <FormField
-                                    name="grade"
-                                    control={ control }
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Grado al que solicita ingreso:</FormLabel>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    onValueChange={ field.onChange }
-                                                    value={ field.value }
-                                                    className="flex gap-10"
-                                                >
-                                                    {
-                                                        ['1', '2', '3'].map((grade) => (
-                                                            <FormItem key={ grade } className="flex items-center space-x-3 space-y-0">
-                                                                <FormControl>
-                                                                    <RadioGroupItem value={ grade } />
-                                                                </FormControl>
-                                                                <FormLabel className="font-normal">
-                                                                    { grade }°
-                                                                </FormLabel>
-                                                            </FormItem>
-                                                        ))
-                                                    }
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormDescription className="text-xs">
-                                                Define qué carta de resultados se genera. Si el aspirante aún no lo elige, aparece vacío.
-                                            </FormDescription>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            )
-                        }
                         {
                             message && (
                                 <CustomAlert variant='destructive' title="Ha ocurrido un error." message={ message } />

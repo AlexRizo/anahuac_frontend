@@ -5,13 +5,7 @@ import { FileText } from "lucide-react";
 import PropTypes from "prop-types";
 import { getPrepaCert } from "./certs/prepa";
 import { getSecundariaCert } from "./certs/sec";
-import {
-  getPrepaResult,
-  getSecundariaResult,
-  getTotalScore,
-} from "@/helpers/admission";
-import { MissingGradeError } from "@/helpers/secundariaLetters";
-import { notifyMissingGrade } from "@/admin/helpers";
+import { getPrepaResult, getTotalScore } from "@/helpers/admission";
 
 export const Docx = ({
   aspirant,
@@ -19,7 +13,7 @@ export const Docx = ({
   matematicasScore,
   pensamientoScore,
   level,
-  grade,
+  originType,
   date,
   sex,
 }) => {
@@ -34,37 +28,28 @@ export const Docx = ({
       pensamientoScore
     );
 
-    try {
-      if (level === "PREPARATORIA") {
-        doc = await getPrepaCert(
-          aspirant,
-          lecturaScore,
-          matematicasScore,
-          pensamientoScore,
-          totalScore,
-          isMale,
-          date,
-          getPrepaResult(totalScore)
-        );
-      } else if (level === "SECUNDARIA") {
-        doc = await getSecundariaCert({
-          aspirant,
-          lecturaScore,
-          matematicasScore,
-          pensamientoScore,
-          totalScore,
-          grade,
-          isMale,
-          date,
-          examIs: getSecundariaResult(totalScore),
-        });
-      }
-    } catch (error) {
-      if (error instanceof MissingGradeError) {
-        notifyMissingGrade();
-        return;
-      }
-      throw error;
+    if (level === "PREPARATORIA") {
+      doc = await getPrepaCert(
+        aspirant,
+        lecturaScore,
+        matematicasScore,
+        pensamientoScore,
+        totalScore,
+        isMale,
+        date,
+        getPrepaResult(totalScore)
+      );
+    } else if (level === "SECUNDARIA") {
+      doc = await getSecundariaCert({
+        aspirant,
+        lecturaScore,
+        matematicasScore,
+        pensamientoScore,
+        totalScore,
+        originType,
+        isMale,
+        date,
+      });
     }
 
     const blob = await Packer.toBlob(doc);
@@ -91,5 +76,5 @@ Docx.propTypes = {
   date: PropTypes.string,
   sex: PropTypes.oneOf(["MASCULINO", "FEMENINO"]),
   level: PropTypes.oneOf(["PREPARATORIA", "SECUNDARIA"]),
-  grade: PropTypes.number,
+  originType: PropTypes.oneOf(["ANAHUAC", "EXTERNO"]),
 };

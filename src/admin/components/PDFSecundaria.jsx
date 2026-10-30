@@ -10,11 +10,11 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { longDate } from "../helpers/longDate";
-import { getSecundariaResult, getTotalScore } from "@/helpers/admission";
+import { getTotalScore } from "@/helpers/admission";
 import { parseMarkup } from "@/helpers/secundariaLetters";
 
 // ? Mismo contenido que la carta Word (certs/sec.js): los textos salen de getSecundariaPlan, que el llamador calcula
-// ? (lanza MissingGradeError si falta el grado) y pasa en `plan`.
+// ? (según puntaje y procedencia Anáhuac/externo) y pasa en `plan`.
 
 const rowStyle = {
   display: "flex",
@@ -39,7 +39,7 @@ const Check = ({ children }) => (
   </View>
 );
 
-const Rich = ({ text, values }) => (
+const Rich = ({ text, values = {} }) => (
   <>
     {parseMarkup(text, values).map(({ text: part, bold }, i) =>
       bold ? (
@@ -96,11 +96,12 @@ export const PDFSecundaria = ({
 
   const values = {
     fecha: longDate(date),
-    resultado: getSecundariaResult(totalScore),
+    resultado: plan.result,
     candidato: isMale ? "candidato" : "candidata",
   };
 
   const { steps } = plan;
+  const label = (i) => (steps?.numbered ? `${i + 1}. ` : "");
 
   return (
     <Document style={styles.gloablFont}>
@@ -238,7 +239,17 @@ export const PDFSecundaria = ({
           </View>
         </View>
 
-        {/* ? Con menos de 500 solo va la hoja de resultados, sin pasos */}
+        {/* ? Insuficiente (< 500): solo la hoja de resultados con el texto formato, sin pasos */}
+        {!steps && (
+          <View style={{ paddingHorizontal: 40, display: "flex", flexDirection: "column", gap: 10, textAlign: "justify" }}>
+            {plan.insufficientText.map((text, i) => (
+              <Text key={i}>
+                <Rich text={text} />
+              </Text>
+            ))}
+          </View>
+        )}
+
         {steps && (
           <View style={{ paddingHorizontal: 40 }}>
             <Text style={{ marginBottom: 20 }}>
@@ -246,27 +257,34 @@ export const PDFSecundaria = ({
               <Text style={{ fontWeight: 700 }}>Secundaria Anáhuac:</Text>
             </Text>
 
-            <Check>Examen de admisión</Check>
-            <Check>Entrega de resultados</Check>
-            {steps.pending.map((text) => (
-              <Text key={text}>{text}</Text>
+            {steps.done.map((text, i) => (
+              <Check key={text}>{`${label(i)}${text}`}</Check>
+            ))}
+            {steps.pending.map((text, i) => (
+              <Text key={text}>
+                {label(steps.done.length + i)}
+                <Rich text={text} />
+              </Text>
             ))}
 
-            <Text style={{ marginBottom: 20 }}>
-              Inscripción (previa cita en control escolar)
-            </Text>
-
-            <Text>Para la inscripción necesitamos:</Text>
-            <Bullet>Llenado de ficha de inscripción.</Bullet>
-            <Bullet>Recoger fichas del banco y realizar el pago.</Bullet>
-            <Bullet>Entregar documentación (dos copias):</Bullet>
+            <Text style={{ marginTop: 20 }}>Para la inscripción necesitamos:</Text>
+            {steps.enrollmentRequirements.map((text) => (
+              <Bullet key={text}>{text}</Bullet>
+            ))}
+            <Bullet>Entregar documentación (dos copias, al concluir el ciclo escolar):</Bullet>
             {steps.enrollmentDocuments.map((text) => (
               <Bullet key={text} level={1}>
-                {text}
+                <Rich text={text} />
               </Bullet>
             ))}
 
             <Text style={{ marginTop: 10 }}>{steps.closing}</Text>
+
+            {steps.notice && (
+              <Text style={{ marginTop: 16 }}>
+                <Rich text={steps.notice} />
+              </Text>
+            )}
           </View>
         )}
       </Page>

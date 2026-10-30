@@ -7,13 +7,17 @@ import { Label } from "@radix-ui/react-label"
 import { toZonedTime } from "date-fns-tz"
 import { useMemo } from "react"
 import { LoaderCircle } from "lucide-react"
+import { SchoolOriginField } from "@/components"
+import { buildSchoolPayload, validateSchoolFields } from "@/helpers/schools"
 
 export const RegisterUser = () => {
-    const { key } = useKeysStore();
+    const { key, keyOrigin } = useKeysStore();
     const { startSavingAspirant, status } = useAuthStore();
     const { comingSoon } = useUiStore();
 
     const isValidatingKey = useMemo(() => status === 'checking', [status]);
+    // ? Secundaria elige su escuela de una lista cerrada; preparatoria sigue con texto libre
+    const isSecundaria = keyOrigin === 'SECUNDARIA';
 
     const zodSchema = z.object({
         first_name: z.string().min(1, '* Introduce tu nombre.'),
@@ -26,8 +30,9 @@ export const RegisterUser = () => {
             invalid_type_error: '* Introduce una fecha válida.' ,
         })
         .min(new Date("1900-01-01"), '* Introduce una fecha válida.'),
-        old_school: z.string().min(1, '* Introduce tu escuela de procedencia.')
-    });
+        school_option: z.string().optional(),
+        old_school: z.string()
+    }).superRefine((data, ctx) => validateSchoolFields(data, ctx, isSecundaria));
     
     const { control, formState: { errors }, handleSubmit, ...form } = useForm({
         defaultValues: {
@@ -37,13 +42,14 @@ export const RegisterUser = () => {
             sex: 'MASCULINO',
             key,
             birthdate: undefined,
+            school_option: '',
             old_school: ''
         },
         resolver: zodResolver(zodSchema)
     });
 
-    const onSubmit = handleSubmit((data) => {
-        startSavingAspirant(data);
+    const onSubmit = handleSubmit(({ school_option, old_school, ...rest }) => {
+        startSavingAspirant({ ...rest, ...buildSchoolPayload({ school_option, old_school }, isSecundaria) });
     });
 
     const parseDate = (value) => {
@@ -184,20 +190,12 @@ export const RegisterUser = () => {
                                     </FormMessage>
                                 </div>
                             </div>
-                            <FormField
-                                    control={ control }
-                                    name="old_school"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Escuela de Procedencia</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Escuela de procedencia" { ...field } type="text" className="transition" />
-                                            </FormControl>
-                                            <FormMessage className="text-xs 2xl:text-sm" >
-                                                { errors.old_school && errors.old_school.message }
-                                            </FormMessage>
-                                        </FormItem>
-                                    )}
+                            <SchoolOriginField
+                                control={ control }
+                                errors={ errors }
+                                isSecundaria={ isSecundaria }
+                                schoolOption={ form.watch('school_option') }
+                                messageClassName="text-xs 2xl:text-sm"
                             />
                             <Button type="submit" disabled={ isValidatingKey }>
                                 { isValidatingKey ? (

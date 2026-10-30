@@ -30,6 +30,8 @@ import {
 import { useAppStore, useAspirantsStore } from "@/hooks";
 import { capitalizeFirstLetter, customParseISO } from "../helpers";
 import { CustomAlert } from "../components";
+import { SchoolOriginField } from "@/components";
+import { buildSchoolPayload, validateSchoolFields } from "@/helpers/schools";
 
 export const AspirantAdd = () => {
 
@@ -49,14 +51,12 @@ export const AspirantAdd = () => {
             invalid_type_error: '* Introduce una fecha válida.' ,
         })
         .min(new Date("1900-01-01"), '* Introduce una fecha válida.'),
-        old_school: z.string().min(1, '* Introduce tu escuela de procedencia.'),
-        grade: z.enum(['1', '2', '3', '']).optional(),
+        school_option: z.string().optional(),
+        old_school: z.string(),
     }).superRefine((data, ctx) => {
-        // ? El grado es obligatorio solo si la aplicación elegida es de secundaria
+        // ? Secundaria: escuela de la lista cerrada (o "OTRO" con nombre); preparatoria: texto libre
         const app = applications.find((app) => app.id === data.key);
-        if (app?.origin === 'SECUNDARIA' && !data.grade) {
-            ctx.addIssue({ code: 'custom', path: ['grade'], message: '* Selecciona el grado al que solicita ingreso.' });
-        }
+        validateSchoolFields(data, ctx, app?.origin === 'SECUNDARIA');
     });
     
     const { control, formState: { errors }, handleSubmit, ...form } = useForm({
@@ -67,8 +67,8 @@ export const AspirantAdd = () => {
             sex: 'MASCULINO',
             key: '',
             birthdate: undefined,
-            old_school: '',
-            grade: ''
+            school_option: '',
+            old_school: ''
         },
         resolver: zodResolver(zodSchema)
     });
@@ -79,9 +79,8 @@ export const AspirantAdd = () => {
 
     const isSecundaria = applications.find((app) => app.id === form.watch('key'))?.origin === 'SECUNDARIA';
 
-    const onSubmit = handleSubmit((data) => {
-        const { grade, ...rest } = data;
-        startManualSavingAspirant({ ...rest, ...(isSecundaria && grade ? { grade: Number(grade) } : {}) });
+    const onSubmit = handleSubmit(({ school_option, old_school, ...rest }) => {
+        startManualSavingAspirant({ ...rest, ...buildSchoolPayload({ school_option, old_school }, isSecundaria) });
     });
 
     const parseDate = (value) => {
@@ -232,57 +231,12 @@ export const AspirantAdd = () => {
                                 </FormMessage>
                             </div>
                         </div>
-                        <FormField
-                                control={ control }
-                                name="old_school"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Escuela de Procedencia</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Escuela de procedencia" { ...field } type="text" className="transition" />
-                                        </FormControl>
-                                        <FormMessage >
-                                            { errors.old_school && errors.old_school.message }
-                                        </FormMessage>
-                                    </FormItem>
-                                )}
+                        <SchoolOriginField
+                            control={ control }
+                            errors={ errors }
+                            isSecundaria={ isSecundaria }
+                            schoolOption={ form.watch('school_option') }
                         />
-                        {
-                            isSecundaria && (
-                                <FormField
-                                    name="grade"
-                                    control={ control }
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Grado al que solicita ingreso:</FormLabel>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    onValueChange={ field.onChange }
-                                                    value={ field.value }
-                                                    className="flex gap-10"
-                                                >
-                                                    {
-                                                        ['1', '2', '3'].map((grade) => (
-                                                            <FormItem key={ grade } className="flex items-center space-x-3 space-y-0">
-                                                                <FormControl>
-                                                                    <RadioGroupItem value={ grade } />
-                                                                </FormControl>
-                                                                <FormLabel className="font-normal">
-                                                                    { grade }°
-                                                                </FormLabel>
-                                                            </FormItem>
-                                                        ))
-                                                    }
-                                                </RadioGroup>
-                                            </FormControl>
-                                            <FormMessage>
-                                                { errors.grade && errors.grade.message }
-                                            </FormMessage>
-                                        </FormItem>
-                                    )}
-                                />
-                            )
-                        }
                         {
                             message && (
                                 <CustomAlert variant='destructive' title="Ha ocurrido un error." message={ message } />

@@ -43,11 +43,8 @@ import {
   isAdmitted,
   PREPARATORIA_CUTOFFS,
 } from "@/helpers/admission";
-import {
-  getSecundariaPlan,
-  MissingGradeError,
-} from "@/helpers/secundariaLetters";
-import { notifyMissingGrade } from "@/admin/helpers";
+import { getSecundariaPlan } from "@/helpers/secundariaLetters";
+import { getOriginType } from "@/helpers/schools";
 
 export const ResultsTable = () => {
   const { aspirants, startLoadingAspirants, loading, startClearState } =
@@ -150,17 +147,11 @@ export const ResultsTable = () => {
         <PDFPrepaRejected {...docData} />
       );
     } else {
-      // ! Mismos documentos que el Word: sin grado (desde 500 puntos) no se genera y se avisa
-      let plan;
-      try {
-        plan = getSecundariaPlan({ totalScore, grade: aspirant.grade });
-      } catch (error) {
-        if (error instanceof MissingGradeError) {
-          notifyMissingGrade();
-          return;
-        }
-        throw error;
-      }
+      // ? Mismos documentos que el Word: según puntaje y procedencia (Anáhuac o externo)
+      const plan = getSecundariaPlan({
+        totalScore,
+        originType: getOriginType(aspirant),
+      });
 
       document = <PDFSecundaria {...docData} plan={plan} />;
     }
@@ -334,7 +325,7 @@ export const ResultsTable = () => {
                     date={aspirant?.application?.date}
                     sex={aspirant?.sex}
                     level={aspirant?.app_origin}
-                    grade={aspirant?.grade}
+                    originType={getOriginType(aspirant)}
                   />
                 </TableCell>
               </TableRow>

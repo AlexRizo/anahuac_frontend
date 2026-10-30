@@ -6,7 +6,7 @@ import { useToast } from "./use-toast";
 export const useKeysStore = () => {
     const dispatch = useDispatch();
     const { keys, total, isLoading } = useSelector( state => state.key );
-    const { key, status:validateKeyStatus, errorMessage } = useSelector( state => state.keyValidation );
+    const { key, origin:keyOrigin, status:validateKeyStatus, errorMessage } = useSelector( state => state.keyValidation );
     const { toast } = useToast();
 
     const onSetMessage = (message, useToast = false) => {
@@ -82,6 +82,7 @@ export const useKeysStore = () => {
 
         // * keyValidationSlice
         key,
+        keyOrigin,
         validateKeyStatus,
         errorMessage,
 

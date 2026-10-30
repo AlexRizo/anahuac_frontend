@@ -16,7 +16,7 @@ import {
 import signatureImage from "../assets/firma-secundaria.jpg";
 import checkImage from "../assets/check.png";
 
-const runs = (text, values) =>
+const runs = (text, values = {}) =>
   parseMarkup(text, values).map(
     ({ text, bold }) => new TextRun({ text, bold })
   );
@@ -95,10 +95,10 @@ const scoresTable = ({ lecturaScore, matematicasScore, pensamientoScore, totalSc
     ],
   });
 
-const letterSection = ({ plan, aspirant, isMale, date, examIs, signatureBuffer }) => {
+const letterSection = ({ plan, aspirant, isMale, date, signatureBuffer }) => {
   const values = {
     fecha: longDate(date),
-    resultado: examIs,
+    resultado: plan.result,
     candidato: isMale ? "candidato" : "candidata",
   };
 
@@ -164,10 +164,38 @@ const resultsSection = ({ plan, aspirant, isMale, date, scores, checkBuffer }) =
     scoresTable(scores),
   ];
 
-  // ? Con menos de 500 no hay pasos de admisión: solo la hoja de resultados
-  if (!plan.steps) return { properties: {}, children: header };
+  // ? Insuficiente (< 500): solo la hoja de resultados con el texto formato, sin pasos
+  if (!plan.steps) {
+    return {
+      properties: {},
+      children: [
+        ...header,
+        ...plan.insufficientText.map(
+          (text) =>
+            new Paragraph({ spacing: { before: 400 }, children: runs(text) })
+        ),
+      ],
+    };
+  }
 
   const { steps } = plan;
+  const label = (i) => (steps.numbered ? `${i + 1}. ` : "");
+  const doneSteps = steps.done.map(
+    (text, i) =>
+      new Paragraph({
+        children: [new TextRun({ text: `${label(i)}${text} ` }), check()],
+      })
+  );
+  const pendingSteps = steps.pending.map(
+    (text, i) =>
+      new Paragraph({
+        children: [
+          new TextRun({ text: label(steps.done.length + i) }),
+          ...runs(text),
+        ],
+      })
+  );
+
   return {
     properties: {},
     children: [
@@ -179,27 +207,23 @@ const resultsSection = ({ plan, aspirant, isMale, date, scores, checkBuffer }) =
           new TextRun({ text: "Secundaria Anáhuac:", bold: true }),
         ],
       }),
-      new Paragraph({ children: [new TextRun({ text: "Examen de admisión " }), check()] }),
-      new Paragraph({ children: [new TextRun({ text: "Entrega de resultados " }), check()] }),
-      ...steps.pending.map((text) => new Paragraph({ text })),
-      new Paragraph({
-        spacing: { after: 400 },
-        text: "Inscripción (previa cita en control escolar)",
-      }),
-      new Paragraph({ text: "Para la inscripción necesitamos:" }),
-      new Paragraph({ bullet: { level: 0 }, text: "Llenado de ficha de inscripción." }),
+      ...doneSteps,
+      ...pendingSteps,
+      new Paragraph({ spacing: { before: 400 }, text: "Para la inscripción necesitamos:" }),
+      ...steps.enrollmentRequirements.map(
+        (text) => new Paragraph({ bullet: { level: 0 }, text })
+      ),
       new Paragraph({
         bullet: { level: 0 },
-        text: "Recoger fichas del banco y realizar el pago.",
-      }),
-      new Paragraph({
-        bullet: { level: 0 },
-        text: "Entregar documentación (dos copias):",
+        text: "Entregar documentación (dos copias, al concluir el ciclo escolar):",
       }),
       ...steps.enrollmentDocuments.map(
-        (text) => new Paragraph({ bullet: { level: 1 }, text })
+        (text) => new Paragraph({ bullet: { level: 1 }, children: runs(text) })
       ),
       new Paragraph({ spacing: { before: 200 }, text: steps.closing }),
+      ...(steps.notice
+        ? [new Paragraph({ spacing: { before: 400 }, children: runs(steps.notice) })]
+        : []),
     ],
   };
 };
@@ -210,13 +234,12 @@ export const getSecundariaCert = async ({
   matematicasScore = 0,
   pensamientoScore = 0,
   totalScore = 0,
-  grade,
+  originType,
   isMale = true,
   date = "",
-  examIs = "",
 }) => {
-  // ! Lanza MissingGradeError si hace falta el grado y no existe; antes de cargar imágenes
-  const plan = getSecundariaPlan({ totalScore, grade });
+  // ! Lanza si la procedencia no es válida; antes de cargar imágenes
+  const plan = getSecundariaPlan({ totalScore, originType });
 
   const response = await fetch(signatureImage);
   const checkResponse = await fetch(checkImage);
@@ -230,7 +253,7 @@ export const getSecundariaCert = async ({
 
   if (plan.letter) {
     sections.push(
-      letterSection({ plan, aspirant, isMale, date, examIs, signatureBuffer })
+      letterSection({ plan, aspirant, isMale, date, signatureBuffer })
     );
   }
 
